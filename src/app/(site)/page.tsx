@@ -30,7 +30,7 @@ export default function HomePage() {
     <>
       <section className="flex h-[80vh] w-full items-center justify-center bg-gray-100 text-center">
         <div className="space-y-6">
-          <h1 className="text-5xl font-bold">Viagens, Restaurantes e Compras</h1>
+          <h1 className="text-5xl font-bold">Transforma a tua opinião em rendimento</h1>
           <p className="mx-auto max-w-xl text-lg text-gray-700">
             Seja pago para experimentar serviços e produtos. Descubra oportunidades como cliente mistério.
           </p>
