@@ -28,7 +28,7 @@ export default function HomePage() {
 
   return (
     <>
-      <section className="flex h-[80vh] w-full items-center justify-center bg-gray-100 text-center">
+      <section className="flex h-[60vh] w-full items-center justify-center bg-gray-100 text-center">
         <div className="space-y-6">
           <h1 className="text-5xl font-bold">Transforma a tua opinião em rendimento</h1>
           <p className="mx-auto max-w-xl text-lg text-gray-700">

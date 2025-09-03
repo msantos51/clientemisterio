@@ -17,6 +17,11 @@ export default function LoginPage() {
   // Função chamada ao submeter o formulário
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    // Garante que os campos foram preenchidos
+    if (!email || !password) {
+      setError('Preencha todos os campos');
+      return;
+    }
     // Verifica se as credenciais são válidas
     const success = loginUser({ email, password });
     if (success) {
