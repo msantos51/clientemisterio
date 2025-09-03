@@ -9,12 +9,13 @@ html, body {
   /* Remove margens e preenchimentos padrão */
   margin: 0;
   padding: 0;
-  /* Faz o corpo ocupar toda a altura da janela */
-  height: 100vh;
+  /* Garante altura mínima sem bloquear a rolagem */
+  min-height: 100vh;
   /* Aplica o gradiente pastel de fundo */
   background: linear-gradient(135deg, #ffe8f3, #d9f3ff);
-  /* Impede rolagem além do fundo animado */
-  overflow: hidden;
+  /* Impede rolagem horizontal mantendo a vertical */
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* Contêiner responsável pelo fundo animado */
@@ -22,8 +23,10 @@ html, body {
   position: relative;
   z-index: 0; /* Cria contexto de empilhamento para o fundo animado */
   width: 100%;
-  height: 100%;
-  overflow: hidden;
+  min-height: 100%;
+  /* Oculta transbordo lateral e permite rolagem vertical */
+  overflow-x: hidden;
+  overflow-y: auto;
   /* Gradiente radial suave sobreposto ao fundo */
   background: radial-gradient(circle, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.1));
 }
