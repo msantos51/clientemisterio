@@ -83,7 +83,41 @@ export default function MysteryClientCoursePage() {
   return (
     <Container>
       <div className="flex flex-col gap-8 md:flex-row">
-        {/* Área principal do conteúdo do curso */}
+        {/* Barra lateral com progresso dos módulos posicionada à esquerda */}
+        <aside className="md:w-1/4">
+          {/* Título da secção de progresso */}
+          <h3 className="text-lg font-semibold">Progresso</h3>
+          <ul className="mt-2 space-y-4">
+            {modules.map((mod, idx) => {
+              // Total de perguntas do módulo
+              const total = mod.quiz.length;
+              // Quantas perguntas foram respondidas corretamente
+              const completed = progress[idx];
+              // Percentagem de progresso do módulo
+              const percent = Math.round((completed / total) * 100);
+              return (
+                <li
+                  key={idx}
+                  className={idx === moduleIndex ? 'font-bold' : ''}
+                >
+                  {/* Nome do módulo */}
+                  <p>{mod.title}</p>
+                  {/* Barra de progresso visual */}
+                  <div className="mt-1 w-full rounded-full bg-gray-200">
+                    <div
+                      className="h-2 rounded-full bg-blue-500"
+                      style={{ width: `${percent}%` }}
+                    ></div>
+                  </div>
+                  {/* Percentagem mostrada numericamente */}
+                  <p className="mt-1 text-sm">{percent}%</p>
+                </li>
+              );
+            })}
+          </ul>
+        </aside>
+
+        {/* Área principal do conteúdo do curso colocada ao centro */}
         <div className="md:w-3/4">
           <section className="py-8">
             <SectionTitle title={`Módulo ${moduleIndex + 1} - ${currentModule.title}`} />
@@ -148,23 +182,6 @@ export default function MysteryClientCoursePage() {
             )}
           </section>
         </div>
-
-        {/* Barra lateral com progresso dos módulos */}
-        <aside className="md:w-1/4">
-          <h3 className="text-lg font-semibold">Progresso</h3>
-          <ul className="mt-2 space-y-2">
-            {modules.map((mod, idx) => {
-              const total = mod.quiz.length;
-              const completed = progress[idx];
-              const percent = Math.round((completed / total) * 100);
-              return (
-                <li key={idx} className={idx === moduleIndex ? 'font-bold' : ''}>
-                  {mod.title} - {percent}%
-                </li>
-              );
-            })}
-          </ul>
-        </aside>
       </div>
     </Container>
   );
