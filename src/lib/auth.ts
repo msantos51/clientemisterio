@@ -8,10 +8,17 @@ export type AuthUser = {
 };
 
 // Regista um novo utilizador armazenando os dados no localStorage
-export function registerUser(user: AuthUser): void {
+// Retorna true se o registo for bem-sucedido e false se o email já existir
+export function registerUser(user: AuthUser): boolean {
   const users: AuthUser[] = JSON.parse(localStorage.getItem('users') || '[]');
+  // Verifica se já existe um utilizador com o mesmo email
+  if (users.some((stored) => stored.email === user.email)) {
+    return false;
+  }
+  // Adiciona o novo utilizador e guarda no localStorage
   users.push(user);
   localStorage.setItem('users', JSON.stringify(users));
+  return true;
 }
 
 // Verifica se as credenciais correspondem a algum utilizador registado

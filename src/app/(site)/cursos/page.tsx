@@ -17,11 +17,14 @@ interface Course {
   slug?: string; // Identificador opcional para ligar à página do curso
 }
 
-// Lista estática de cursos apresentados
+// Lista de cursos apenas com a formação completa disponível
 const courses: Course[] = [
-  { title: 'Curso Básico', description: 'Introdução ao cliente mistério.', price: '€49' },
-  { title: 'Curso Avançado', description: 'Técnicas profissionais.', price: '€99' },
-  { title: 'Cliente Mistério Completo', description: 'Curso gratuito com módulos e questionários.', price: 'Grátis', slug: 'cliente-misterio' },
+  {
+    title: 'Cliente Mistério Completo',
+    description: 'Curso gratuito com módulos e questionários.',
+    price: 'Grátis',
+    slug: 'cliente-misterio',
+  },
 ];
 
 // Página de cursos que fornece dados aos cards
