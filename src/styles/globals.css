@@ -23,10 +23,10 @@ html, body {
   position: relative;
   z-index: 0; /* Cria contexto de empilhamento para o fundo animado */
   width: 100%;
-  min-height: 100%;
-  /* Oculta transbordo lateral e permite rolagem vertical */
+  min-height: 100vh; /* Preenche a altura da janela para evitar segunda barra de rolagem */
+  /* Oculta transbordo lateral enquanto o corpo controla a rolagem vertical */
   overflow-x: hidden;
-  overflow-y: auto;
+  /* overflow-y: auto; */ /* Removido para evitar duas barras de rolagem */
   /* Gradiente radial suave sobreposto ao fundo */
   background: radial-gradient(circle, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.1));
 }
