@@ -4,12 +4,15 @@ import { useState } from 'react';
 import Button from '../../../components/Button';
 import { getPaymentUrl } from '../../../lib/payments';
 
+// Tipo que representa cada curso recebido
 interface Course {
   title: string;
   description: string;
   price: string;
+  slug?: string; // Se definido, gera link para a página do curso
 }
 
+// Propriedades do componente que lista os cursos
 interface CoursesListProps {
   courses: Course[];
 }
@@ -32,7 +35,13 @@ export default function CoursesList({ courses }: CoursesListProps) {
             <h3 className="mb-2 text-xl font-semibold">{course.title}</h3>
             <p className="mb-4 text-gray-700">{course.description}</p>
             <p className="mb-4 font-bold">{course.price}</p>
-            <Button onClick={handleBuy}>Comprar/Inscrever</Button>
+            {course.slug ? (
+              <a href={`/cursos/${course.slug}`}>
+                <Button>Ver Curso</Button>
+              </a>
+            ) : (
+              <Button onClick={handleBuy}>Comprar/Inscrever</Button>
+            )}
           </div>
         ))}
       </div>
