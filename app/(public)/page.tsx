@@ -14,7 +14,7 @@ export default function HomePage() {
           </p>
           <div className="mt-8">
             <Link
-              href="/comprar"
+              href="/inscrever-se"
               className="rounded bg-yellow-400 px-6 py-3 font-semibold text-purple-900"
             >
               Adere já
