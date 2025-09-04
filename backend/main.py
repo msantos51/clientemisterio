@@ -4,7 +4,6 @@ from .database import Base, engine
 from .auth import router as auth_router
 
 """Ponto de entrada principal da API Cliente Mistério."""
-
 # Cria todas as tabelas na base de dados
 Base.metadata.create_all(bind=engine)
 
