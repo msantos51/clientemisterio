@@ -12,11 +12,13 @@ html, body {
   /* Garante altura mínima sem bloquear a rolagem */
   min-height: 100vh;
 
-  /* Aplica o gradiente vertical azul como fundo estático */
+  /* Aplica o novo gradiente pastel como fundo estático */
+  background: hsla(313, 39%, 93%, 1); /* cor de fallback para navegadores antigos */
+  background: linear-gradient(360deg, hsla(313, 39%, 93%, 1) 0%, hsla(320, 78%, 79%, 1) 50%, hsla(193, 81%, 84%, 1) 100%); /* padrão moderno */
+  background: -moz-linear-gradient(360deg, hsla(313, 39%, 93%, 1) 0%, hsla(320, 78%, 79%, 1) 50%, hsla(193, 81%, 84%, 1) 100%); /* suporte para Firefox */
+  background: -webkit-linear-gradient(360deg, hsla(313, 39%, 93%, 1) 0%, hsla(320, 78%, 79%, 1) 50%, hsla(193, 81%, 84%, 1) 100%); /* suporte para Chrome 10-25 e Safari 5.1-6 */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#F4E6F1", endColorstr="#F3A0D7", GradientType=1); /* suporte para Internet Explorer antigo */
 
-  background: #7F7FD5; /* cor de fallback para navegadores antigos */
-  background: -webkit-linear-gradient(to bottom, #91EAE4, #86A8E7, #7F7FD5); /* suporte para Chrome 10-25 e Safari 5.1-6 */
-  background: linear-gradient(to bottom, #91EAE4, #86A8E7, #7F7FD5); /* padrão moderno (W3C, IE 10+, Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+) */
   /* Impede rolagem horizontal mantendo a vertical */
   overflow-x: hidden;
   overflow-y: auto;
