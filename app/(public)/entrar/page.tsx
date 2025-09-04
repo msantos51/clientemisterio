@@ -2,10 +2,12 @@
 // Página de login para utilizadores
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+
 import { zodResolver } from '../../../lib/zodResolver'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { loginSchema, type LoginInput } from '../../../lib/validators'
+
 import { AuthCard } from '../../../components/AuthCard'
 import { Input } from '../../../components/Input'
 import { Button } from '../../../components/Button'

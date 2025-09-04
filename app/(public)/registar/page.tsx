@@ -2,9 +2,11 @@
 // Página de registo de novos utilizadores
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+
 import { zodResolver } from '../../../lib/zodResolver'
 import { useRouter } from 'next/navigation'
 import { registerSchema, type RegisterInput } from '../../../lib/validators'
+
 import { AuthCard } from '../../../components/AuthCard'
 import { Input } from '../../../components/Input'
 import { Button } from '../../../components/Button'

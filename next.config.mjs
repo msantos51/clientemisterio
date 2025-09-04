@@ -1,3 +1,4 @@
+
 /** Configuração do Next.js com headers de segurança e modo estrito */
 const csp = "default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none';"
 
