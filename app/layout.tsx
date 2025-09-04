@@ -1,8 +1,7 @@
-import '../../styles/globals.css'; // Importa os estilos globais
-import { Inter } from 'next/font/google'; // Importa a fonte Inter
-import Header from '../../components/Header'; // Importa o componente de cabeçalho
-import Footer from '../../components/Footer'; // Importa o componente de rodapé
-import CookieBar from '../../components/CookieBar'; // Importa a barra de cookies
++ import '../styles/globals.css'
++ import Header from '../components/Header'
++ import Footer from '../components/Footer'
++ import CookieBar from '../components/CookieBar
 
 // Fonte principal do site
 const inter = Inter({ subsets: ['latin'] });
