@@ -1,6 +1,8 @@
 # models.py
 from sqlalchemy import Column, Integer, String
-from database import Base
+
+from .database import Base
+
 
 # Modelo que representa a tabela de utilizadores
 class User(Base):
