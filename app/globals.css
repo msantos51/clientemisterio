@@ -3,3 +3,11 @@
 @tailwind utilities;
 
 /* Estilos globais adicionais podem ser colocados aqui */
+
+/* Aplica um gradiente pastel ao fundo de toda a aplicação */
+html, body {
+  /* Garante altura mínima da viewport */
+  min-height: 100vh;
+  /* Gradiente suave de cima para baixo */
+  background: linear-gradient(180deg, #f4e6f1 0%, #f3a0d7 50%, #d9f3ff 100%);
+}

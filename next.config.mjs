@@ -1,7 +1,7 @@
 
 /** Configuração do Next.js com headers de segurança e modo estrito */
 // Política de Content Security Policy permitindo incorporar Genially
-const csp = "default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; frame-src https://view.genial.ly; frame-ancestors 'none';"
+const csp = "default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; frame-src https://view.genially.com; frame-ancestors 'none';"
 
 const nextConfig = {
   reactStrictMode: true,
