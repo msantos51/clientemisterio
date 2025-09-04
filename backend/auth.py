@@ -6,9 +6,11 @@ from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 from jose import jwt
 
+
 from .database import SessionLocal
 from .models import User
 from .schemas import UserCreate, UserRead, UserLogin
+
 
 # Router que agrupa as rotas de autenticação
 router = APIRouter(prefix="/auth", tags=["auth"])
