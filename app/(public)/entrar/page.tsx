@@ -30,8 +30,11 @@ export default function LoginPage() {
 
     try {
       const data = await loginUser({ email, password })
-      // Guarda a sessão com o token
-      localStorage.setItem('cm_session', JSON.stringify({ token: data.access_token }))
+      // Guarda a sessão com o token e marca o utilizador como autenticado
+      localStorage.setItem(
+        'cm_session',
+        JSON.stringify({ token: data.access_token, loggedIn: true })
+      )
       // Redireciona para a área do aluno
       router.push('/aluno')
     } catch (err: any) {
