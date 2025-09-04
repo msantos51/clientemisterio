@@ -3,6 +3,7 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
+
 """Conexão e ferramentas de sessão para a base de dados PostgreSQL."""
 
 # URL de ligação à base de dados; por omissão, utiliza uma instância local
@@ -18,4 +19,5 @@ engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # Base para definição dos modelos ORM
+
 Base = declarative_base()
