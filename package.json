@@ -5,14 +5,27 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start -p $PORT"
+    "start": "next start",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:prod": "prisma migrate deploy",
+    "test": "vitest",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
+    "@prisma/client": "^5.10.2",
+    "@vercel/og": "^0.5.16",
+    "bcrypt": "^5.1.1",
+    "lru-cache": "^10.1.0",
     "next": "14.1.0",
+    "next-auth": "^4.24.4",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.46.2",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "20.11.19",
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
@@ -20,7 +33,9 @@
     "eslint": "8.56.0",
     "eslint-config-next": "14.1.0",
     "postcss": "8.4.31",
+    "prisma": "^5.10.2",
     "tailwindcss": "3.4.1",
-    "typescript": "5.3.3"
+    "typescript": "5.3.3",
+    "vitest": "^1.2.0"
   }
 }
