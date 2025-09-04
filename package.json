@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
@@ -12,7 +12,9 @@
     "test": "vitest",
     "test:e2e": "playwright test"
   },
+  "engines": { "node": ">=18 <=22" },
   "dependencies": {
+    "@hookform/resolvers": "^3.9.0",
     "@prisma/client": "^5.10.2",
     "@vercel/og": "^0.5.16",
     "bcrypt": "^5.1.1",
