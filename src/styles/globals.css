@@ -11,77 +11,11 @@ html, body {
   padding: 0;
   /* Garante altura mínima sem bloquear a rolagem */
   min-height: 100vh;
-  /* Aplica o gradiente pastel de fundo */
-  background: linear-gradient(135deg, #ffe8f3, #d9f3ff);
+  /* Aplica o gradiente vertical azul como fundo estático */
+  background: #7F7FD5; /* cor de fallback para navegadores antigos */
+  background: -webkit-linear-gradient(to bottom, #91EAE4, #86A8E7, #7F7FD5); /* suporte para Chrome 10-25 e Safari 5.1-6 */
+  background: linear-gradient(to bottom, #91EAE4, #86A8E7, #7F7FD5); /* padrão moderno (W3C, IE 10+, Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+) */
   /* Impede rolagem horizontal mantendo a vertical */
   overflow-x: hidden;
   overflow-y: auto;
-}
-
-/* Contêiner responsável pelo fundo animado */
-.animated-background {
-  position: relative;
-  z-index: 0; /* Cria contexto de empilhamento para o fundo animado */
-  width: 100%;
-  min-height: 100vh; /* Preenche a altura da janela para evitar segunda barra de rolagem */
-  /* Bloqueia transbordo lateral e vertical das camadas animadas */
-  overflow: hidden;
-  /* Gradiente radial suave sobreposto ao fundo */
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.1));
-}
-
-/* Camadas giratórias para criar o efeito de brilho */
-.animated-background::before,
-.animated-background::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 200%;
-  height: 200%;
-  background: conic-gradient(
-    from 0deg,
-    #ff9aa2,
-    #ffb7b2,
-    #ffdac1,
-    #e2f0cb,
-    #a2e4ff,
-    #c9afff,
-    #ffb7b2,
-    #ff9aa2
-  );
-  transform: translate(-50%, -50%);
-  animation: rotate 8s linear infinite;
-  filter: blur(50px);
-  opacity: 0.8;
-  z-index: -1; /* Posiciona o brilho atrás do conteúdo */
-  pointer-events: none; /* Permite interação com os elementos acima */
-}
-
-/* Segunda camada giratória para maior profundidade */
-.animated-background::after {
-  width: 180%;
-  height: 180%;
-  animation: rotate-reverse 10s linear infinite;
-  opacity: 0.6;
-}
-
-/* Animação de rotação no sentido horário */
-@keyframes rotate {
-  0% {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
-
-/* Animação de rotação no sentido anti-horário */
-@keyframes rotate-reverse {
-  0% {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(-360deg);
-  }
 }
