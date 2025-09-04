@@ -1,24 +1,20 @@
-# Cliente Mistério
+# Sunny Sales
 
-Projeto Next.js 14 (App Router) com TypeScript e Tailwind CSS.
+Aplicação Next.js 14 com autenticação via NextAuth e base de dados PostgreSQL.
 
-## Como correr localmente
+## Configuração local
+1. Copiar `.env.example` para `.env` e preencher as variáveis.
+2. Instalar as dependências: `npm install`.
+3. Gerar o cliente Prisma: `npm run prisma:generate`.
+4. Executar as migrações: `npm run prisma:migrate`.
+5. Iniciar o servidor de desenvolvimento: `npm run dev`.
 
-```bash
-npm install
-npm run dev
-```
+## Deploy no Render
+1. Definir as variáveis de ambiente `DATABASE_URL` e `NEXTAUTH_SECRET`.
+2. Comando de build: `npm ci && npm run build`.
+3. Comando de start: `npm start`.
+4. Certificar que a base de dados está acessível e que as migrações foram aplicadas.
 
-## Publicar no Vercel
-
-1. Cria uma conta no [Vercel](https://vercel.com) e importa este repositório.
-2. O deploy ocorre automaticamente após cada push.
-
-## Publicar no GitHub Pages
-
-```bash
-npm run build
-npx next export
-```
-
-Os ficheiros gerados ficarão na pasta `out/`. Rotas dinâmicas do App Router exigem configurações adicionais para funcionarem no GitHub Pages.
+## Testes
+- Testes unitários: `npm test`.
+- Testes end-to-end (Playwright): `npm run test:e2e`.
