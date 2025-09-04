@@ -11,7 +11,8 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt">
-      <body className="min-h-screen bg-gray-50">
+      {/* Corpo principal, o fundo em gradiente é aplicado via CSS global */}
+      <body className="min-h-screen">
         {/* Cabeçalho presente em todas as páginas */}
         <Header />
         {/* Conteúdo específico de cada rota */}

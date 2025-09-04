@@ -36,7 +36,9 @@ export default function LoginPage() {
 
   return (
     <section className="mx-auto max-w-md">
-      <h2 className="mb-4 text-center text-2xl font-bold">Entrar</h2>
+      <h2 className="mb-2 text-center text-2xl font-bold">Entrar</h2>
+      {/* Frase de orientação para o utilizador */}
+      <p className="mb-6 text-center text-gray-600">Aceda ao curso inserindo os seus dados.</p>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="flex flex-col space-y-1">
           <label className="text-sm font-medium">Email</label>
