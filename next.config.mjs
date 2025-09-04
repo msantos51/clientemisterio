@@ -1,3 +1,23 @@
-/** Configuração do Next.js com modo estrito */
-const nextConfig = { reactStrictMode: true };
-export default nextConfig;
+
+/** Configuração do Next.js com headers de segurança e modo estrito */
+const csp = "default-src 'self'; img-src 'self' data:; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none';"
+
+const nextConfig = {
+  reactStrictMode: true,
+  async headers() {
+    // Define cabeçalhos de segurança para todas as rotas
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          { key: 'Content-Security-Policy', value: csp },
+          { key: 'X-Frame-Options', value: 'DENY' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'same-origin' },
+        ],
+      },
+    ]
+  },
+}
+
+export default nextConfig
