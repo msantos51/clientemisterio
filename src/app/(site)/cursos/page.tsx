@@ -21,7 +21,7 @@ interface Course {
 const courses: Course[] = [
   {
     title: 'Cliente Mistério Completo',
-    description: 'Curso gratuito com módulos e questionários.',
+    description: 'Curso interativo disponibilizado via Genially.',
     price: 'Grátis',
     slug: 'cliente-misterio',
   },
