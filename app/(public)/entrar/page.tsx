@@ -1,53 +1,69 @@
 'use client'
-// Página de login para utilizadores
+
+// Página de login simples para alunos
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-
-import { zodResolver } from '../../../lib/zodResolver'
-import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { loginSchema, type LoginInput } from '../../../lib/validators'
-
-import { AuthCard } from '../../../components/AuthCard'
-import { Input } from '../../../components/Input'
-import { Button } from '../../../components/Button'
 
 export default function LoginPage() {
-  const router = useRouter()
+  // Estados que guardam os valores dos campos
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<LoginInput>({ resolver: zodResolver(loginSchema) })
+  const router = useRouter()
 
-  const onSubmit = async (data: LoginInput) => {
+  // Função chamada ao submeter o formulário
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
     setError('')
-    const res = await signIn('credentials', { ...data, redirect: false })
-    if (res?.error) setError('Credenciais inválidas.')
-    else router.push('/dashboard')
+
+    // Validação mínima dos campos
+    if (!email || !password) {
+      setError('Preencha todos os campos.')
+      return
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      setError('Email inválido.')
+      return
+    }
+
+    // Guarda a sessão no localStorage
+    localStorage.setItem('cm_session', JSON.stringify({ email, loggedIn: true }))
+
+    // Redireciona para a área do aluno
+    router.push('/aluno')
   }
 
   return (
-    <AuthCard title="Entrar">
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <Input
-          label="Email"
-          type="email"
-          error={errors.email?.message}
-          {...register('email')}
-        />
-        <Input
-          label="Palavra-passe"
-          type="password"
-          error={errors.password?.message}
-          {...register('password')}
-        />
+    <section className="mx-auto max-w-md">
+      <h2 className="mb-4 text-center text-2xl font-bold">Entrar</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium">Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="rounded border px-3 py-2"
+          />
+        </div>
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium">Palavra-passe</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="rounded border px-3 py-2"
+          />
+        </div>
         {error && <p className="text-sm text-red-600">{error}</p>}
-        <Button type="submit" disabled={isSubmitting}>
+        <button
+          type="submit"
+          className="w-full rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+        >
           Entrar
-        </Button>
+        </button>
       </form>
-    </AuthCard>
+    </section>
   )
 }

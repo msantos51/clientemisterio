@@ -1,21 +1,20 @@
 // Layout raiz da aplicação
 import './globals.css'
 import { ReactNode } from 'react'
-import { Navbar } from '../components/Navbar'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '../lib/auth'
+import { Header } from '../components/Header'
 
 export const metadata = {
-  title: 'Sunny Sales',
-  description: 'Vendedores de praia em tempo real',
+  title: 'Cliente Mistério',
+  description: 'Curso online de Cliente Mistério',
 }
 
-export default async function RootLayout({ children }: { children: ReactNode }) {
-  const session = await getServerSession(authOptions)
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt">
       <body className="min-h-screen bg-gray-50">
-        <Navbar session={session} />
+        {/* Cabeçalho presente em todas as páginas */}
+        <Header />
+        {/* Conteúdo específico de cada rota */}
         <main className="container mx-auto p-4">{children}</main>
       </body>
     </html>
