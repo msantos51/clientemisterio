@@ -42,7 +42,6 @@ export function Header() {
         <div className="hidden space-x-6 md:flex">
           <Link href="/">Início</Link>
           <Link href="/sobre">Sobre</Link>
-          <Link href="/blog">Blog</Link>
           <Link href="/contacto">Contacto</Link>
         </div>
         {/* Ações à direita */}

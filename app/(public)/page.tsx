@@ -1,15 +1,14 @@
 // Página inicial com layout inspirado em plataforma de cursos
-import Image from 'next/image'
 import Link from 'next/link'
 
 export default function HomePage() {
   return (
     <>
       {/* Secção hero com título, descrição e chamada para ação */}
-      <section className="flex flex-col items-center justify-between gap-10 py-20 md:flex-row md:text-left">
+      <section className="flex flex-col items-center justify-center gap-10 py-20 text-center">
         {/* Bloco de texto principal */}
-        <div className="max-w-xl text-center md:text-left">
-          <h1 className="text-5xl font-bold text-white">Plataforma de aprendizagem online</h1>
+        <div className="max-w-xl text-center">
+          <h1 className="text-5xl font-bold text-white">Curso Completo de Cliente Mistério</h1>
           <p className="mt-4 text-lg text-gray-200">
             Desenvolve competências com cursos e certificados de especialistas.
           </p>
@@ -18,13 +17,9 @@ export default function HomePage() {
               href="/comprar"
               className="rounded bg-yellow-400 px-6 py-3 font-semibold text-purple-900"
             >
-              Inscreve-te grátis
+              Adere já
             </Link>
           </div>
-        </div>
-        {/* Ilustração do lado direito */}
-        <div className="max-w-sm">
-          <Image src="/logo.svg" alt="Ilustração do curso" width={400} height={300} />
         </div>
       </section>
       {/* Secção com características do curso */}
