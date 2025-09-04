@@ -3,6 +3,7 @@
 // Página de login simples para alunos
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { loginUser } from '@/lib/api'
 
 export default function LoginPage() {
   // Estados que guardam os valores dos campos
@@ -12,7 +13,7 @@ export default function LoginPage() {
   const router = useRouter()
 
   // Função chamada ao submeter o formulário
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
 
@@ -27,11 +28,15 @@ export default function LoginPage() {
       return
     }
 
-    // Guarda a sessão no localStorage
-    localStorage.setItem('cm_session', JSON.stringify({ email, loggedIn: true }))
-
-    // Redireciona para a área do aluno
-    router.push('/aluno')
+    try {
+      const data = await loginUser({ email, password })
+      // Guarda a sessão com o token
+      localStorage.setItem('cm_session', JSON.stringify({ token: data.access_token }))
+      // Redireciona para a área do aluno
+      router.push('/aluno')
+    } catch (err: any) {
+      setError(err.message)
+    }
   }
 
   return (
