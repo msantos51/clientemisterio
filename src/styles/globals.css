@@ -11,7 +11,9 @@ html, body {
   padding: 0;
   /* Garante altura mínima sem bloquear a rolagem */
   min-height: 100vh;
+
   /* Aplica o gradiente vertical azul como fundo estático */
+
   background: #7F7FD5; /* cor de fallback para navegadores antigos */
   background: -webkit-linear-gradient(to bottom, #91EAE4, #86A8E7, #7F7FD5); /* suporte para Chrome 10-25 e Safari 5.1-6 */
   background: linear-gradient(to bottom, #91EAE4, #86A8E7, #7F7FD5); /* padrão moderno (W3C, IE 10+, Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+) */
