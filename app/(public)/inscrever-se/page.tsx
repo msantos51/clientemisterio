@@ -2,22 +2,28 @@
 
 // Página com formulário de registo para o curso
 import { FormEvent, useState } from 'react'
+import { registerUser } from '@/lib/api'
 
 export default function RegisterPage() {
   // Estado local para armazenar os dados do formulário
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
 
   // Função chamada ao submeter o formulário
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault()
-    // Aqui poderiam ser enviados os dados para a API
-    alert(`Registo enviado para ${name} (${email})`)
-    // Limpa os campos após envio
-    setName('')
-    setEmail('')
-    setPassword('')
+    setError('')
+    try {
+      await registerUser({ name, email, password })
+      alert(`Conta criada para ${name} (${email})`)
+      setName('')
+      setEmail('')
+      setPassword('')
+    } catch (err: any) {
+      setError(err.message)
+    }
   }
 
   return (
@@ -56,6 +62,7 @@ export default function RegisterPage() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+        {error && <p className="text-sm text-red-600">{error}</p>}
         {/* Botão de envio */}
         <button
           type="submit"

@@ -1,0 +1,8 @@
+fastapi  # framework web para APIs
+uvicorn[standard]  # servidor ASGI
+sqlalchemy  # ORM para base de dados
+passlib[bcrypt]  # hashing de palavras-passe
+python-jose[cryptography]  # tokens JWT
+psycopg2-binary  # driver PostgreSQL
+pydantic[email]==2.11.7  # validação de dados com suporte a email
+python-multipart>=0.0.9  # suporte a dados multipart/form-data
