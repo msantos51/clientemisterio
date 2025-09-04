@@ -40,3 +40,24 @@ html, body {
   top: 50%;
   left: 50%;
   width: 200%;
+  height: 200%;
+  /* Gradiente circular translúcido */
+  background: radial-gradient(circle, rgba(255,255,255,0.15), transparent);
+  transform: translate(-50%, -50%) rotate(0deg);
+  animation: rotate 20s linear infinite;
+}
+
+/* Direção inversa para a segunda camada */
+.animated-background::after {
+  animation-direction: reverse;
+}
+
+/* Animação de rotação */
+@keyframes rotate {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
