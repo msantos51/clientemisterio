@@ -6,12 +6,12 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 export function Header() {
-  // Estado para verificar se o utilizador está autenticado
+  // Estado para indicar se o utilizador está autenticado
   const [isLogged, setIsLogged] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
-    // Lê a sessão guardada no localStorage
+    // Verifica a sessão armazenada no localStorage
     const session = localStorage.getItem('cm_session')
     if (session) {
       try {
@@ -23,7 +23,7 @@ export function Header() {
     }
   }, [])
 
-  // Remove a sessão e volta à página inicial
+  // Termina a sessão e redireciona para a página inicial
   const handleSignOut = () => {
     localStorage.removeItem('cm_session')
     setIsLogged(false)
@@ -31,28 +31,36 @@ export function Header() {
   }
 
   return (
-    // Cabeçalho transparente sem barra branca
     <header className="bg-transparent">
-      {/* Navegação principal com texto branco */}
-      <nav className="container mx-auto flex items-center justify-between p-4 text-white">
-        {/* Título e pequena descrição do curso */}
-        <div className="flex flex-col">
-          <Link href="/" className="font-bold">
-            Cliente Mistério
-          </Link>
-          <span className="text-sm">Curso online de avaliação de serviços</span>
-        </div>
-        {/* Ligações de navegação para páginas principais */}
-        <div className="space-x-4">
+      {/* Barra de navegação principal */}
+      <nav className="container mx-auto flex items-center justify-between p-6 text-white">
+        {/* Logótipo ou nome do curso */}
+        <Link href="/" className="text-2xl font-bold">
+          Cliente Mistério
+        </Link>
+        {/* Ligações de navegação */}
+        <div className="hidden space-x-6 md:flex">
           <Link href="/">Início</Link>
-          <Link href="/aluno">Conteúdo do Curso</Link>
-          <Link href="/comprar">Comprar</Link>
+          <Link href="/sobre">Sobre</Link>
+          <Link href="/blog">Blog</Link>
+          <Link href="/contacto">Contacto</Link>
+        </div>
+        {/* Ações à direita */}
+        <div className="space-x-4">
+          <Link
+            href="/comprar"
+            className="rounded bg-yellow-400 px-4 py-2 font-semibold text-purple-900"
+          >
+            Inscrever-se
+          </Link>
           {isLogged ? (
-            // Botão de saída quando o utilizador está autenticado
-            <button onClick={handleSignOut}>Sair</button>
+            <button onClick={handleSignOut} className="px-4 py-2">
+              Sair
+            </button>
           ) : (
-            // Link para a página de entrada quando não autenticado
-            <Link href="/entrar">Entrar</Link>
+            <Link href="/entrar" className="px-4 py-2">
+              Entrar
+            </Link>
           )}
         </div>
       </nav>
