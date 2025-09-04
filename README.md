@@ -11,7 +11,9 @@ Aplicação Next.js 14 com autenticação via NextAuth e base de dados PostgreSQ
 
 ## Deploy no Render
 1. Definir as variáveis de ambiente `DATABASE_URL` e `NEXTAUTH_SECRET`.
-2. Comando de build: `npm run build && npm run prisma:prod`.
+
+2. Comando de build: `npm ci && npm run build`.
+
 3. Comando de start: `npm start`.
 4. Certificar que a base de dados está acessível e que as migrações foram aplicadas.
 
