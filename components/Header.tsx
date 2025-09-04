@@ -41,13 +41,13 @@ export function Header() {
         {/* Ligações de navegação */}
         <div className="hidden space-x-6 md:flex">
           <Link href="/">Início</Link>
-          <Link href="/sobre">Sobre</Link>
+          <Link href="/curso">Curso</Link>
           <Link href="/contacto">Contacto</Link>
         </div>
         {/* Ações à direita */}
         <div className="space-x-4">
           <Link
-            href="/comprar"
+            href="/inscrever-se"
             className="rounded bg-yellow-400 px-4 py-2 font-semibold text-purple-900"
           >
             Inscrever-se
