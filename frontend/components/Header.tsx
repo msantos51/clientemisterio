@@ -65,12 +65,15 @@ export function Header() {
   // Estado para controlar a abertura do menu mobile
   const [menuOpen, setMenuOpen] = useState(false)
 
+  // Alterna a visibilidade do menu mobile
+  const toggleMenu = () => setMenuOpen((open) => !open)
+
   // Função para fechar o menu após navegar para uma página
   const closeMenu = () => setMenuOpen(false)
 
   return (
     // Cabeçalho fixo com z-index elevado para manter o menu sobre o conteúdo
-    <header className="fixed left-0 right-0 top-0 z-50">
+    <header className="fixed left-0 right-0 top-0 z-50 bg-[#fb4444]">
       {/* Barra de navegação com logótipo, menus e ícones */}
       <nav className="mx-auto flex max-w-6xl items-center justify-between p-4 text-white text-lg font-bold md:p-6">
         {/* Texto do logótipo no canto superior esquerdo */}
@@ -104,18 +107,18 @@ export function Header() {
         </div>
 
         {/* Botão hamburger para abrir o menu em mobile */}
-        <button
-          type="button"
-          className="inline-flex md:hidden"
-          aria-label="Abrir menu"
-          aria-expanded={menuOpen}
-          aria-controls="mobile-menu"
-          onClick={() => setMenuOpen((open) => !open)}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
+          <button
+            type="button"
+            className="inline-flex md:hidden"
+            aria-label="Abrir menu"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            onClick={toggleMenu}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
             stroke="currentColor"
             strokeWidth="2"
             className="h-6 w-6"
@@ -129,7 +132,8 @@ export function Header() {
       {menuOpen && (
         <div
           id="mobile-menu"
-          className="absolute left-0 right-0 top-full flex flex-col items-center space-y-4 bg-white/10 p-4 text-lg font-bold text-white md:hidden">
+          className="absolute left-0 right-0 top-full flex flex-col items-center space-y-4 bg-[#fb4444] p-4 text-lg font-bold text-white md:hidden"
+        >
           {mainLinks.map((link) => (
             <Link key={link.href} href={link.href} onClick={closeMenu}>
               {link.label}
