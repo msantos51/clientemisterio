@@ -7,7 +7,7 @@ export default function HomePage() {
   return (
     <main>
       {/* Secção inicial com título e botão de adesão */}
-      <section className="flex min-h-[calc(100vh-5rem)] flex-col items-center justify-center gap-8 text-center md:flex-row md:gap-16 md:text-left">
+      <section className="flex min-h-screen flex-col items-center justify-center gap-8 text-center md:flex-row md:gap-16 md:text-left">
         {/* Bloco esquerdo com o título principal e botão de adesão */}
         <div className="flex flex-col items-center justify-center space-y-8 md:items-start">
           <h1 className="text-4xl font-bold leading-none md:text-8xl">
