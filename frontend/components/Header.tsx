@@ -57,50 +57,54 @@ const iconLinks = [
   },
 ]
 
+// Logótipo reutilizável
+const logo = (
+  <Link href="/" aria-label="Página inicial">
+    <span className="text-2xl font-bold">Cliente Mistério</span>
+  </Link>
+)
+
 // Cabeçalho com navegação principal
 export function Header() {
   return (
-    // Cabeçalho fixo com fundo vermelho
-    <header className="fixed left-0 right-0 top-0 z-50 bg-[#fb4444]">
-      {/* Barra de navegação principal */}
-      <nav className="mx-auto flex max-w-6xl items-center justify-between p-4 text-lg font-bold text-white md:p-6">
-        {/* Logótipo no canto superior esquerdo */}
-        <div className="flex flex-1 justify-start">
-          <Link href="/" aria-label="Página inicial">
-            <span className="text-2xl font-bold">Cliente Mistério</span>
-          </Link>
-        </div>
+    // Cabeçalho aderente ao topo com fundo vermelho
+    <header className="sticky top-0 z-50 bg-[#fb4444]">
+      {/* Contêiner centralizado para o conteúdo do cabeçalho */}
+      <div className="mx-auto max-w-6xl p-4 text-lg font-bold text-white md:p-6">
+        {/* Navegação completa para ecrãs médios ou maiores */}
+        <nav className="hidden items-center justify-between md:flex">
+          {/* Logótipo no canto superior esquerdo */}
+          <div className="flex flex-1 justify-start">{logo}</div>
+          {/* Menu central */}
+          <div className="flex flex-1 justify-center space-x-6">
+            {mainLinks.map((link) => (
+              <Link key={link.href} href={link.href}>
+                {link.label}
+              </Link>
+            ))}
+          </div>
+          {/* Ícones à direita */}
+          <div className="flex flex-1 items-center justify-end space-x-4">
+            {iconLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                aria-label={link.label}
+                className="inline-flex"
+              >
+                {link.icon}
+              </Link>
+            ))}
+          </div>
+        </nav>
 
-        {/* Menu central visível apenas em ecrãs médios para cima */}
-        <div className="hidden flex-1 justify-center space-x-6 md:flex">
-          {mainLinks.map((link) => (
-            <Link key={link.href} href={link.href}>
-              {link.label}
-            </Link>
-          ))}
-        </div>
 
-        {/* Ícones à direita visíveis apenas em ecrãs médios para cima */}
-        <div className="hidden flex-1 items-center justify-end space-x-4 md:flex">
-          {iconLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              aria-label={link.label}
-              className="inline-flex"
-            >
-              {link.icon}
-            </Link>
-          ))}
-        </div>
-
-        {/* Menu mobile utilizando <details> para dispensar JavaScript */}
+        {/* Navegação mobile com menu expansível */}
         <details className="md:hidden">
-          {/* Botão que abre ou fecha o menu */}
-          <summary
-            aria-label="Abrir menu"
-            className="cursor-pointer list-none marker:content-none"
-          >
+          {/* Linha superior com logótipo e botão hambúrguer */}
+          <summary className="flex cursor-pointer items-center justify-between list-none marker:content-none">
+            {logo}
+
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -116,8 +120,10 @@ export function Header() {
               />
             </svg>
           </summary>
-          {/* Conteúdo do menu apresentado quando aberto */}
-          <div className="absolute left-0 right-0 top-full flex w-full flex-col items-center space-y-4 bg-[#fb4444] p-4 text-lg font-bold text-white">
+
+          {/* Lista de ligações apresentada quando o menu está aberto */}
+          <div className="mt-4 flex flex-col items-center space-y-4">
+
             {mainLinks.map((link) => (
               <Link key={link.href} href={link.href}>
                 {link.label}
@@ -137,7 +143,7 @@ export function Header() {
             </div>
           </div>
         </details>
-      </nav>
+      </div>
     </header>
   )
 }
