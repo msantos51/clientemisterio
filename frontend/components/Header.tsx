@@ -75,8 +75,10 @@ export function Header() {
           className="inline-flex md:hidden"
           aria-label="Abrir menu"
           aria-expanded={menuOpen}
+
           aria-controls="mobile-menu"
           onClick={() => setMenuOpen((open) => !open)}
+
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -92,10 +94,11 @@ export function Header() {
       </nav>
       {/* Menu mobile mostrado abaixo do cabeçalho quando o botão é clicado */}
       {menuOpen && (
+
         <div
           id="mobile-menu"
           className="absolute left-0 right-0 top-full flex flex-col items-center space-y-4 bg-white/10 p-4 text-lg font-bold text-white md:hidden"
-        >
+        
           <Link href="/" onClick={closeMenu}>Início</Link>
           <Link href="/curso" onClick={closeMenu}>Curso</Link>
           <Link href="/contacto" onClick={closeMenu}>Contacto</Link>
