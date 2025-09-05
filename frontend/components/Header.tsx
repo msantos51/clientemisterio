@@ -98,11 +98,13 @@ export function Header() {
           </div>
         </nav>
 
+
         {/* Navegação mobile com menu expansível */}
         <details className="md:hidden">
           {/* Linha superior com logótipo e botão hambúrguer */}
           <summary className="flex cursor-pointer items-center justify-between list-none marker:content-none">
             {logo}
+
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -118,8 +120,10 @@ export function Header() {
               />
             </svg>
           </summary>
+
           {/* Lista de ligações apresentada quando o menu está aberto */}
           <div className="mt-4 flex flex-col items-center space-y-4">
+
             {mainLinks.map((link) => (
               <Link key={link.href} href={link.href}>
                 {link.label}

@@ -23,7 +23,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Estrutura principal com fundo gradiente e texto branco */}
         <div className="min-h-screen text-white">
           <Header /> {/* Cabeçalho exibido no topo */}
+
           <main className="mx-4 mb-8 mt-8 md:mx-8">{children}</main> {/* Conteúdo principal com margens */}
+ main
           <CookieBar /> {/* Aviso de cookies obrigatório */}
         </div>
       </body>
