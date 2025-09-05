@@ -12,8 +12,8 @@ export function Header() {
   const closeMenu = () => setMenuOpen(false)
 
   return (
-    // Cabeçalho fixo com elementos distribuídos em três colunas
-    <header className="fixed left-0 right-0 top-0">
+    // Cabeçalho fixo com z-index elevado para manter o menu sobre o conteúdo
+    <header className="fixed left-0 right-0 top-0 z-50">
       {/* Barra de navegação com logótipo, menus e ícones */}
       <nav className="mx-auto flex max-w-6xl items-center justify-between p-4 text-white text-lg font-bold md:p-6">
         {/* Texto do logótipo no canto superior esquerdo */}
@@ -71,10 +71,14 @@ export function Header() {
         </div>
         {/* Botão hamburger para abrir o menu em mobile */}
         <button
+          type="button"
           className="inline-flex md:hidden"
           aria-label="Abrir menu"
           aria-expanded={menuOpen}
-          onClick={() => setMenuOpen(!menuOpen)}
+
+          aria-controls="mobile-menu"
+          onClick={() => setMenuOpen((open) => !open)}
+
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -88,9 +92,13 @@ export function Header() {
           </svg>
         </button>
       </nav>
-      {/* Menu mobile mostrado quando o botão é clicado */}
+      {/* Menu mobile mostrado abaixo do cabeçalho quando o botão é clicado */}
       {menuOpen && (
-        <div className="flex flex-col items-center space-y-4 bg-white/10 p-4 text-lg font-bold text-white md:hidden">
+
+        <div
+          id="mobile-menu"
+          className="absolute left-0 right-0 top-full flex flex-col items-center space-y-4 bg-white/10 p-4 text-lg font-bold text-white md:hidden"
+        
           <Link href="/" onClick={closeMenu}>Início</Link>
           <Link href="/curso" onClick={closeMenu}>Curso</Link>
           <Link href="/contacto" onClick={closeMenu}>Contacto</Link>
