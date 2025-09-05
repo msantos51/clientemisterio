@@ -2,7 +2,7 @@
 services:
   # Serviço backend com FastAPI
   - type: web
-    name: sunnysales-backend
+    name: clientemisterio-backend
     env: python
     plan: free
     rootDir: backend
@@ -11,7 +11,7 @@ services:
 
   # Serviço frontend com Next.js
   - type: web
-    name: sunnysales-frontend
+    name: clientemisterio-frontend
     env: node
     plan: free
     rootDir: frontend
