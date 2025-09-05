@@ -35,10 +35,12 @@ export default function LoginPage() {
         'cm_session',
         JSON.stringify({ token: data.access_token, loggedIn: true })
       )
-      // Redireciona para a área do aluno
-      router.push('/aluno')
-    } catch (err: any) {
-      setError(err.message)
+      // Redireciona para o dashboard do aluno
+      router.push('/dashboard')
+    } catch (err: unknown) {
+      // Apresenta mensagem de erro devolvida pela API
+      if (err instanceof Error) setError(err.message)
+      else setError('Erro inesperado ao iniciar sessão.')
     }
   }
 

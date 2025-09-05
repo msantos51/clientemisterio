@@ -22,8 +22,10 @@ export default function RegisterPage() {
       setName('')
       setEmail('')
       setPassword('')
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      // Guarda a mensagem detalhada devolvida pelo backend
+      if (err instanceof Error) setError(err.message)
+      else setError('Erro inesperado ao registar.')
     }
   }
 
