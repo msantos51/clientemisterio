@@ -9,8 +9,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt">
       <body>
-        {/* Estrutura principal com fundo vermelho e texto branco */}
-        <div className="min-h-screen bg-[#b82c3c] text-white">
+        {/* Estrutura principal com fundo gradiente roxo e texto branco */}
+        <div className="min-h-screen text-white">
           <Header /> {/* Cabeçalho exibido no topo */}
           <main className="pt-20">{children}</main> {/* Conteúdo variável com espaçamento superior */}
           <Footer /> {/* Rodapé com informações adicionais */}
