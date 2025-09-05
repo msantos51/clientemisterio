@@ -1,5 +1,6 @@
 // Página inicial com layout inspirado em plataforma de cursos
 import Link from 'next/link'
+import { Faq } from '@/components/Faq'
 
 export default function HomePage() {
   return (
@@ -79,6 +80,8 @@ export default function HomePage() {
           <h3 className="mt-4 text-lg font-semibold text-white">Acesso vitalício</h3>
         </div>
       </section>
+      {/* Secção de perguntas frequentes */}
+      <Faq />
     </>
   )
 }
