@@ -1,9 +1,6 @@
-'use client'
-
-import { useState } from 'react'
 import Link from 'next/link'
 
-// Ligações principais para o menu
+// Lista de ligações principais para o menu
 const mainLinks = [
   { href: '/', label: 'Início' },
   { href: '/curso', label: 'Curso' },
@@ -11,7 +8,7 @@ const mainLinks = [
   { href: '/enterprise', label: 'Enterprise' },
 ]
 
-// Ligações com ícones para ações rápidas
+// Lista de ligações com ícones para ações rápidas
 const iconLinks = [
   {
     href: '/entrar',
@@ -62,28 +59,19 @@ const iconLinks = [
 
 // Cabeçalho com navegação principal
 export function Header() {
-  // Estado para controlar a abertura do menu mobile
-  const [menuOpen, setMenuOpen] = useState(false)
-
-  // Alterna a visibilidade do menu mobile
-  const toggleMenu = () => setMenuOpen((open) => !open)
-
-  // Função para fechar o menu após navegar para uma página
-  const closeMenu = () => setMenuOpen(false)
-
   return (
-    // Cabeçalho fixo com z-index elevado para manter o menu sobre o conteúdo
+    // Cabeçalho fixo com fundo vermelho
     <header className="fixed left-0 right-0 top-0 z-50 bg-[#fb4444]">
-      {/* Barra de navegação com logótipo, menus e ícones */}
-      <nav className="mx-auto flex max-w-6xl items-center justify-between p-4 text-white text-lg font-bold md:p-6">
-        {/* Texto do logótipo no canto superior esquerdo */}
+      {/* Barra de navegação principal */}
+      <nav className="mx-auto flex max-w-6xl items-center justify-between p-4 text-lg font-bold text-white md:p-6">
+        {/* Logótipo no canto superior esquerdo */}
         <div className="flex flex-1 justify-start">
           <Link href="/" aria-label="Página inicial">
             <span className="text-2xl font-bold">Cliente Mistério</span>
           </Link>
         </div>
 
-        {/* Menus visíveis apenas em ecrãs médios para cima */}
+        {/* Menu central visível apenas em ecrãs médios para cima */}
         <div className="hidden flex-1 justify-center space-x-6 md:flex">
           {mainLinks.map((link) => (
             <Link key={link.href} href={link.href}>
@@ -106,54 +94,50 @@ export function Header() {
           ))}
         </div>
 
-        {/* Botão hamburger para abrir o menu em mobile */}
-          <button
-            type="button"
-            className="inline-flex md:hidden"
+        {/* Menu mobile utilizando <details> para dispensar JavaScript */}
+        <details className="relative md:hidden">
+          {/* Botão que abre ou fecha o menu */}
+          <summary
             aria-label="Abrir menu"
-            aria-expanded={menuOpen}
-            aria-controls="mobile-menu"
-            onClick={toggleMenu}
+            className="cursor-pointer list-none marker:content-none"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="2"
-            className="h-6 w-6"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-      </nav>
-
-      {/* Menu mobile mostrado abaixo do cabeçalho quando o botão é clicado */}
-      {menuOpen && (
-        <div
-          id="mobile-menu"
-          className="absolute left-0 right-0 top-full flex flex-col items-center space-y-4 bg-[#fb4444] p-4 text-lg font-bold text-white md:hidden"
-        >
-          {mainLinks.map((link) => (
-            <Link key={link.href} href={link.href} onClick={closeMenu}>
-              {link.label}
-            </Link>
-          ))}
-          <div className="flex space-x-4">
-            {iconLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                aria-label={link.label}
-                className="inline-flex"
-                onClick={closeMenu}
-              >
-                {link.icon}
+              stroke="currentColor"
+              strokeWidth="2"
+              className="h-6 w-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </summary>
+          {/* Conteúdo do menu apresentado quando aberto */}
+          <div className="absolute left-0 right-0 top-full flex flex-col items-center space-y-4 bg-[#fb4444] p-4 text-lg font-bold text-white">
+            {mainLinks.map((link) => (
+              <Link key={link.href} href={link.href}>
+                {link.label}
               </Link>
             ))}
+            <div className="flex space-x-4">
+              {iconLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  aria-label={link.label}
+                  className="inline-flex"
+                >
+                  {link.icon}
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        </details>
+      </nav>
     </header>
   )
 }
