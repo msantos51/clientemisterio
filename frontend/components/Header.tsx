@@ -13,7 +13,7 @@ export function Header() {
         {/* Ligações de navegação para as páginas principais */}
         <div className="space-x-6">
           <Link href="/">Início</Link>
-          <Link href="/sobre">Sobre</Link>
+          <Link href="/curso">Curso</Link>
           <Link href="/contacto">Contacto</Link>
           <Link href="/enterprise">Enterprise</Link>
         </div>
@@ -21,3 +21,4 @@ export function Header() {
     </header>
   )
 }
+
