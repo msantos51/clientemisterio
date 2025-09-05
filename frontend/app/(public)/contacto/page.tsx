@@ -32,7 +32,7 @@ export default function ContactPage() {
             name="name"
             value={form.name}
             onChange={handleChange}
-            className="w-full rounded p-2 text-black"
+            className="w-full rounded border border-white bg-transparent p-2 text-white"
             required
           />
         </div>
@@ -43,7 +43,7 @@ export default function ContactPage() {
             name="email"
             value={form.email}
             onChange={handleChange}
-            className="w-full rounded p-2 text-black"
+            className="w-full rounded border border-white bg-transparent p-2 text-white"
             required
           />
         </div>
@@ -53,14 +53,14 @@ export default function ContactPage() {
             name="message"
             value={form.message}
             onChange={handleChange}
-            className="w-full rounded p-2 text-black"
+            className="w-full rounded border border-white bg-transparent p-2 text-white"
             rows={5}
             required
           />
         </div>
         <button
           type="submit"
-          className="rounded bg-yellow-400 px-6 py-2 font-semibold text-purple-900"
+          className="rounded border border-white px-6 py-2 font-semibold text-white hover:bg-white/20"
         >
           Enviar
         </button>
