@@ -1,6 +1,6 @@
 'use client'
 
-// Página de contacto com formulário básico
+// Página de contacto com formulário formatado como os restantes
 import { useState } from 'react'
 
 export default function ContactPage() {
@@ -22,49 +22,58 @@ export default function ContactPage() {
   }
 
   return (
-    <section className="mx-auto max-w-xl py-20">
-      {/* Formulário de contacto */}
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-white">Nome</label>
+    // Centraliza o formulário no ecrã
+    <section className="flex min-h-screen items-center justify-center">
+      {/* Formulário com mesma formatação que login e registo */}
+      <form onSubmit={handleSubmit} className="form-control">
+        {/* Título do formulário */}
+        <p className="title">Contacto</p>
+
+        {/* Campo do nome */}
+        <div className="input-field">
           <input
             type="text"
             name="name"
+            className="input"
             value={form.name}
             onChange={handleChange}
-            className="w-full rounded border border-white bg-transparent p-2 text-white"
             required
           />
+          <label className="label">Nome</label>
         </div>
-        <div>
-          <label className="block text-white">Email</label>
+
+        {/* Campo do email */}
+        <div className="input-field">
           <input
             type="email"
             name="email"
+            className="input"
             value={form.email}
             onChange={handleChange}
-            className="w-full rounded border border-white bg-transparent p-2 text-white"
             required
           />
+          <label className="label">Email</label>
         </div>
-        <div>
-          <label className="block text-white">Mensagem</label>
+
+        {/* Campo da mensagem */}
+        <div className="input-field">
           <textarea
             name="message"
+            className="input"
             value={form.message}
             onChange={handleChange}
-            className="w-full rounded border border-white bg-transparent p-2 text-white"
             rows={5}
             required
           />
+          <label className="label">Mensagem</label>
         </div>
-        <button
-          type="submit"
-          className="rounded border border-white px-6 py-2 font-bold text-white hover:bg-white/20"
-        >
+
+        {/* Botão de submissão */}
+        <button type="submit" className="submit-btn">
           Enviar
         </button>
       </form>
     </section>
   )
 }
+
