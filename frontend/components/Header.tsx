@@ -8,6 +8,9 @@ export function Header() {
   // Estado para controlar a abertura do menu mobile
   const [menuOpen, setMenuOpen] = useState(false)
 
+  // Função para fechar o menu após navegar para uma página
+  const closeMenu = () => setMenuOpen(false)
+
   return (
     // Cabeçalho fixo com elementos distribuídos em três colunas
     <header className="fixed left-0 right-0 top-0">
@@ -70,6 +73,7 @@ export function Header() {
         <button
           className="inline-flex md:hidden"
           aria-label="Abrir menu"
+          aria-expanded={menuOpen}
           onClick={() => setMenuOpen(!menuOpen)}
         >
           <svg
@@ -87,12 +91,12 @@ export function Header() {
       {/* Menu mobile mostrado quando o botão é clicado */}
       {menuOpen && (
         <div className="flex flex-col items-center space-y-4 bg-white/10 p-4 text-lg font-bold text-white md:hidden">
-          <Link href="/">Início</Link>
-          <Link href="/curso">Curso</Link>
-          <Link href="/contacto">Contacto</Link>
-          <Link href="/enterprise">Enterprise</Link>
+          <Link href="/" onClick={closeMenu}>Início</Link>
+          <Link href="/curso" onClick={closeMenu}>Curso</Link>
+          <Link href="/contacto" onClick={closeMenu}>Contacto</Link>
+          <Link href="/enterprise" onClick={closeMenu}>Enterprise</Link>
           <div className="flex space-x-4">
-            <Link href="/entrar" aria-label="Fazer login" className="inline-flex">
+            <Link href="/entrar" aria-label="Fazer login" className="inline-flex" onClick={closeMenu}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -109,7 +113,7 @@ export function Header() {
                 />
               </svg>
             </Link>
-            <Link href="#" aria-label="Pesquisar" className="inline-flex">
+            <Link href="#" aria-label="Pesquisar" className="inline-flex" onClick={closeMenu}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
