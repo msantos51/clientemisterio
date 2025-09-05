@@ -3,21 +3,19 @@ import Link from 'next/link'
 // Cabeçalho com navegação principal
 export function Header() {
   return (
-    <header className="bg-gray-100">
+    <header className="fixed left-0 right-0 top-0 bg-[#b82c3c]">
       {/* Barra de navegação principal */}
-      <nav className="container mx-auto flex items-center justify-between p-6 text-gray-800">
-        {/* Logótipo ou nome do site */}
-        <Link href="/" className="text-3xl font-bold text-red-700">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between p-6 text-white">
+        {/* Nome do site no canto superior esquerdo */}
+        <Link href="/" className="text-2xl font-bold">
           Cliente Mistério
         </Link>
-        {/* Ligações de navegação */}
-        <div className="hidden space-x-8 md:flex">
-          <Link href="/">Home</Link>
-          <Link href="#about">About</Link>
-          <Link href="#philosophy">Philosophy</Link>
-          <Link href="#development">Development</Link>
-          <Link href="#career">Career</Link>
-          <Link href="/contacto">Contact</Link>
+        {/* Ligações de navegação para as páginas principais */}
+        <div className="space-x-6">
+          <Link href="/">Início</Link>
+          <Link href="/sobre">Sobre</Link>
+          <Link href="/contacto">Contacto</Link>
+          <Link href="/enterprise">Enterprise</Link>
         </div>
       </nav>
     </header>

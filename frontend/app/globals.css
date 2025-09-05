@@ -2,47 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Estilos globais base (editáveis) */
+/* Estilos globais base */
 html, body {
-  /* Define a cor de texto padrão */
-  @apply text-gray-900;
+  /* Define texto branco em todo o site */
+  @apply text-white;
   /* Remove margens e preenchimentos padrão */
   margin: 0;
   padding: 0;
   /* Garante altura mínima sem bloquear a rolagem */
   min-height: 100vh;
-  /* Define fundo cinzento claro para todo o site */
-  background: #f3f4f6;
+  /* Define fundo vermelho para todo o site */
+  background: #b82c3c;
   /* Impede rolagem horizontal mantendo a vertical */
   overflow-x: hidden;
   overflow-y: auto;
-}
-
-/* Estilo da secção hero com cruz vermelha de fundo */
-.hero-cross {
-  position: relative; /* Permite posicionar elementos filhos de forma absoluta */
-  overflow: hidden; /* Evita que a cruz ultrapasse os limites da secção */
-}
-
-.hero-cross::before,
-.hero-cross::after {
-  content: ""; /* Cria pseudo-elementos vazios */
-  position: absolute;
-  background: #7f1d1d; /* Tom de vermelho semelhante ao do exemplo */
-  opacity: 0.9;
-  z-index: -1; /* Coloca a cruz atrás do conteúdo */
-}
-
-.hero-cross::before {
-  width: 30%; /* Barra vertical da cruz */
-  height: 150%;
-  top: -25%;
-  left: 35%;
-}
-
-.hero-cross::after {
-  width: 150%; /* Barra horizontal da cruz */
-  height: 30%;
-  left: -25%;
-  top: 35%;
 }
