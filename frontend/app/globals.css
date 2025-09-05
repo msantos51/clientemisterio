@@ -15,8 +15,8 @@ html, body {
   padding: 0;
   /* Garante altura mínima sem bloquear a rolagem */
   min-height: 100vh;
-  /* Define fundo gradiente roxo semelhante ao design fornecido */
-  background: linear-gradient(135deg, #b53de6 0%, #a534de 100%);
+  /* Define fundo gradiente em tons de lilás e roxo */
+  background: linear-gradient(115deg, #e2b0ff, #9f44d3);
   /* Impede rolagem horizontal mantendo a vertical */
   overflow-x: hidden;
   overflow-y: auto;
