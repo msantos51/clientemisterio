@@ -30,49 +30,53 @@ export default function RegisterPage() {
   }
 
   return (
-    <section className="mx-auto max-w-md">
-      <h2 className="mb-2 text-center text-2xl font-bold">Inscrever-se</h2>
-      {/* Frase de orientação para o utilizador */}
-      <p className="mb-6 text-center text-gray-600">
-        Crie a sua conta para aceder ao curso.
-      </p>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="flex flex-col space-y-1">
-          <label className="text-sm font-medium">Nome completo</label>
+    // Centraliza o formulário na página
+    <section className="flex justify-center">
+      <form onSubmit={handleSubmit} className="form-control">
+        {/* Título do formulário */}
+        <p className="title">Inscrever-se</p>
+
+        {/* Campo do nome completo */}
+        <div className="input-field">
           <input
             type="text"
+            className="input"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="rounded border px-3 py-2"
             required
           />
+          <label className="label">Nome completo</label>
         </div>
-        <div className="flex flex-col space-y-1">
-          <label className="text-sm font-medium">Email</label>
+
+        {/* Campo do email */}
+        <div className="input-field">
           <input
             type="email"
+            className="input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="rounded border px-3 py-2"
             required
           />
+          <label className="label">Email</label>
         </div>
-        <div className="flex flex-col space-y-1">
-          <label className="text-sm font-medium">Palavra-passe</label>
+
+        {/* Campo da palavra-passe */}
+        <div className="input-field">
           <input
             type="password"
+            className="input"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="rounded border px-3 py-2"
             required
           />
+          <label className="label">Palavra-passe</label>
         </div>
+
+        {/* Mensagem de erro, se existir */}
         {error && <p className="text-sm text-red-600">{error}</p>}
-        {/* Botão de envio */}
-        <button
-          type="submit"
-          className="w-full rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
-        >
+
+        {/* Botão de submissão */}
+        <button type="submit" className="submit-btn">
           Registar
         </button>
       </form>
