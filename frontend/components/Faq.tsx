@@ -1,3 +1,5 @@
+'use client'
+
 // Secção de perguntas frequentes com respostas mostradas ao clicar
 
 // Dados das perguntas e respostas
