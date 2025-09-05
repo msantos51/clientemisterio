@@ -1,66 +1,23 @@
-'use client'
+import Link from 'next/link'
 
 // Cabeçalho com navegação principal
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-
 export function Header() {
-  // Estado para indicar se o utilizador está autenticado
-  const [isLogged, setIsLogged] = useState(false)
-  const router = useRouter()
-
-  useEffect(() => {
-    // Verifica a sessão armazenada no localStorage
-    const session = localStorage.getItem('cm_session')
-    if (session) {
-      try {
-        const parsed = JSON.parse(session)
-        setIsLogged(parsed.loggedIn === true)
-      } catch {
-        setIsLogged(false)
-      }
-    }
-  }, [])
-
-  // Termina a sessão e redireciona para a página inicial
-  const handleSignOut = () => {
-    localStorage.removeItem('cm_session')
-    setIsLogged(false)
-    router.push('/')
-  }
-
   return (
-    <header className="bg-transparent">
+    <header className="bg-gray-100">
       {/* Barra de navegação principal */}
-      <nav className="container mx-auto flex items-center justify-between p-6 text-white">
-        {/* Logótipo ou nome do curso */}
-        <Link href="/" className="text-2xl font-bold">
+      <nav className="container mx-auto flex items-center justify-between p-6 text-gray-800">
+        {/* Logótipo ou nome do site */}
+        <Link href="/" className="text-3xl font-bold text-red-700">
           Cliente Mistério
         </Link>
         {/* Ligações de navegação */}
-        <div className="hidden space-x-6 md:flex">
-          <Link href="/">Início</Link>
-          <Link href="/curso">Curso</Link>
-          <Link href="/contacto">Contacto</Link>
-        </div>
-        {/* Ações à direita */}
-        <div className="space-x-4">
-          <Link
-            href="/inscrever-se"
-            className="rounded bg-yellow-400 px-4 py-2 font-semibold text-purple-900"
-          >
-            Inscrever-se
-          </Link>
-          {isLogged ? (
-            <button onClick={handleSignOut} className="px-4 py-2">
-              Sair
-            </button>
-          ) : (
-            <Link href="/entrar" className="px-4 py-2">
-              Entrar
-            </Link>
-          )}
+        <div className="hidden space-x-8 md:flex">
+          <Link href="/">Home</Link>
+          <Link href="#about">About</Link>
+          <Link href="#philosophy">Philosophy</Link>
+          <Link href="#development">Development</Link>
+          <Link href="#career">Career</Link>
+          <Link href="/contacto">Contact</Link>
         </div>
       </nav>
     </header>

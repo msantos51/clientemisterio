@@ -11,54 +11,38 @@ html, body {
   padding: 0;
   /* Garante altura mínima sem bloquear a rolagem */
   min-height: 100vh;
-  /* Aplica o gradiente vertical azul como fundo */
-  background: #7F7FD5; /* cor de fallback para navegadores antigos */
-  background: -webkit-linear-gradient(to bottom, #91EAE4, #86A8E7, #7F7FD5); /* suporte para Chrome 10-25 e Safari 5.1-6 */
-  background: linear-gradient(to bottom, #91EAE4, #86A8E7, #7F7FD5); /* padrão moderno (W3C, IE 10+, Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+) */
+  /* Define fundo cinzento claro para todo o site */
+  background: #f3f4f6;
   /* Impede rolagem horizontal mantendo a vertical */
   overflow-x: hidden;
   overflow-y: auto;
 }
 
-/* Contêiner responsável pelo fundo animado */
-.animated-background {
-  position: relative;
-  z-index: 0; /* Cria contexto de empilhamento para o fundo animado */
-  width: 100%;
-  min-height: 100vh; /* Preenche a altura da janela para evitar segunda barra de rolagem */
-  /* Bloqueia transbordo lateral e vertical das camadas animadas */
-  overflow: hidden;
-  /* Gradiente radial suave sobreposto ao fundo */
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.1));
+/* Estilo da secção hero com cruz vermelha de fundo */
+.hero-cross {
+  position: relative; /* Permite posicionar elementos filhos de forma absoluta */
+  overflow: hidden; /* Evita que a cruz ultrapasse os limites da secção */
 }
 
-/* Camadas giratórias para criar o efeito de brilho */
-.animated-background::before,
-.animated-background::after {
-  content: "";
+.hero-cross::before,
+.hero-cross::after {
+  content: ""; /* Cria pseudo-elementos vazios */
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 200%;
-  height: 200%;
-  /* Gradiente circular translúcido */
-  background: radial-gradient(circle, rgba(255,255,255,0.15), transparent);
-  transform: translate(-50%, -50%) rotate(0deg);
-  animation: rotate 20s linear infinite;
-  pointer-events: none; /* Garante que não bloqueia cliques */
+  background: #7f1d1d; /* Tom de vermelho semelhante ao do exemplo */
+  opacity: 0.9;
+  z-index: -1; /* Coloca a cruz atrás do conteúdo */
 }
 
-/* Direção inversa para a segunda camada */
-.animated-background::after {
-  animation-direction: reverse;
+.hero-cross::before {
+  width: 30%; /* Barra vertical da cruz */
+  height: 150%;
+  top: -25%;
+  left: 35%;
 }
 
-/* Animação de rotação */
-@keyframes rotate {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
+.hero-cross::after {
+  width: 150%; /* Barra horizontal da cruz */
+  height: 30%;
+  left: -25%;
+  top: 35%;
 }
