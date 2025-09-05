@@ -45,8 +45,8 @@ export default function LoginPage() {
   }
 
   return (
-    // Centraliza o formulário na página
-    <section className="flex justify-center">
+    // Centraliza o formulário no ecrã e posiciona-o mais abaixo
+    <section className="flex min-h-screen items-center justify-center">
       <form onSubmit={handleSubmit} className="form-control">
         {/* Título do formulário */}
         <p className="title">Entrar</p>

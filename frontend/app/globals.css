@@ -22,6 +22,11 @@ html, body {
   overflow-y: auto;
 }
 
+/* Torna o texto de todos os botões em negrito */
+button {
+  font-weight: 700;
+}
+
 /* Contêiner principal do formulário */
 .form-control {
   margin: 20px;
