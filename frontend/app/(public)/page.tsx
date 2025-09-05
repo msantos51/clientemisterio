@@ -41,7 +41,6 @@ export default function HomePage() {
             </svg>
           </div>
           <h3 className="mt-4 text-lg font-semibold text-white">Curso completo</h3>
-          <p className="mt-2 text-gray-200">Mais de 60 aulas práticas.</p>
         </div>
         {/* Segunda característica */}
         <div className="rounded-lg bg-white/20 p-6 backdrop-blur">
@@ -59,8 +58,7 @@ export default function HomePage() {
               <path d="M5.5 21c1.5-4 5-4 6.5-4s5 0 6.5 4" />
             </svg>
           </div>
-          <h3 className="mt-4 text-lg font-semibold text-white">Instrutores experientes</h3>
-          <p className="mt-2 text-gray-200">Profissionais reconhecidos.</p>
+          <h3 className="mt-4 text-lg font-semibold text-white">Equipa experiente</h3>
         </div>
         {/* Terceira característica */}
         <div className="rounded-lg bg-white/20 p-6 backdrop-blur">
@@ -79,7 +77,6 @@ export default function HomePage() {
             </svg>
           </div>
           <h3 className="mt-4 text-lg font-semibold text-white">Acesso vitalício</h3>
-          <p className="mt-2 text-gray-200">Estuda ao teu ritmo.</p>
         </div>
       </section>
     </>
