@@ -95,7 +95,7 @@ export function Header() {
         </div>
 
         {/* Menu mobile utilizando <details> para dispensar JavaScript */}
-        <details className="relative md:hidden">
+        <details className="md:hidden">
           {/* Botão que abre ou fecha o menu */}
           <summary
             aria-label="Abrir menu"
@@ -117,7 +117,7 @@ export function Header() {
             </svg>
           </summary>
           {/* Conteúdo do menu apresentado quando aberto */}
-          <div className="absolute left-0 right-0 top-full flex flex-col items-center space-y-4 bg-[#fb4444] p-4 text-lg font-bold text-white">
+          <div className="absolute left-0 right-0 top-full flex w-full flex-col items-center space-y-4 bg-[#fb4444] p-4 text-lg font-bold text-white">
             {mainLinks.map((link) => (
               <Link key={link.href} href={link.href}>
                 {link.label}
