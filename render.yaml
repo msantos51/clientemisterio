@@ -1,0 +1,16 @@
+# Configuração de serviços para deployment no Render
+services:
+  # Serviço backend com FastAPI
+  - type: web
+    name: sunnysales-backend
+    env: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+  # Serviço frontend com Next.js
+  - type: web
+    name: sunnysales-frontend
+    env: node
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
