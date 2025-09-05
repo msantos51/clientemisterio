@@ -35,10 +35,10 @@ export default function HomePage() {
   return (
     <main>
       {/* Secção inicial com título e frases rotativas */}
-      <section className="flex min-h-[calc(100vh-5rem)] items-center justify-center gap-16">
+      <section className="flex min-h-[calc(100vh-5rem)] flex-col items-center justify-center gap-8 text-center md:flex-row md:gap-16 md:text-left">
         {/* Bloco esquerdo com o título principal e botão de adesão */}
-        <div className="flex flex-col items-start justify-center space-y-8">
-          <h1 className="text-8xl font-bold leading-none">
+        <div className="flex flex-col items-center justify-center space-y-8 md:items-start">
+          <h1 className="text-4xl font-bold leading-none md:text-8xl">
             <span className="block">CURSO</span>
             <span className="block">COMPLETO</span>
           </h1>
@@ -50,8 +50,8 @@ export default function HomePage() {
           </Link>
         </div>
         {/* Bloco direito com caixa que exibe frases rotativas */}
-        <div className="flex justify-center">
-          <div className="flex h-80 w-80 items-center justify-center border-2 border-white p-4 text-center">
+        <div className="mt-8 flex justify-center md:mt-0">
+          <div className="flex h-64 w-64 items-center justify-center border-2 border-white p-4 text-center md:h-80 md:w-80">
             <p>{phrases[index]}</p>
           </div>
         </div>

@@ -3,6 +3,18 @@ import React from 'react'
 import { Header } from '../components/Header'
 import { CookieBar } from '../components/CookieBar'
 
+// Metadados básicos da aplicação
+export const metadata = {
+  title: 'Cliente Mistério',
+  description: 'Plataforma de curso para clientes mistério',
+}
+
+// Meta tag de viewport para adaptação mobile
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+}
+
 // Layout raiz com cabeçalho e estilos globais
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
