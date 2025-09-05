@@ -15,6 +15,7 @@ export default function RegisterPage() {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault()
     setError('')
+
     try {
       await registerUser({ name, email, password })
       alert(`Conta criada para ${name} (${email})`)
@@ -27,46 +28,48 @@ export default function RegisterPage() {
   }
 
   return (
-    <section className="flex min-h-screen items-center justify-center bg-gray-100 p-6">
-      {/* Contentor do formulário */}
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-md space-y-4 rounded bg-white p-8 shadow"
-      >
-        {/* Título do formulário */}
-        <h2 className="text-center text-2xl font-bold">Registar no curso</h2>
-        {/* Campo para o nome completo */}
-        <input
-          type="text"
-          placeholder="Nome completo"
-          className="w-full rounded border p-2"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        {/* Campo para o e-mail */}
-        <input
-          type="email"
-          placeholder="E-mail"
-          className="w-full rounded border p-2"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        {/* Campo para a palavra-passe */}
-        <input
-          type="password"
-          placeholder="Palavra-passe"
-          className="w-full rounded border p-2"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+    <section className="mx-auto max-w-md">
+      <h2 className="mb-2 text-center text-2xl font-bold">Inscrever-se</h2>
+      {/* Frase de orientação para o utilizador */}
+      <p className="mb-6 text-center text-gray-600">
+        Crie a sua conta para aceder ao curso.
+      </p>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium">Nome completo</label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="rounded border px-3 py-2"
+            required
+          />
+        </div>
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium">Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="rounded border px-3 py-2"
+            required
+          />
+        </div>
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-medium">Palavra-passe</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="rounded border px-3 py-2"
+            required
+          />
+        </div>
         {error && <p className="text-sm text-red-600">{error}</p>}
         {/* Botão de envio */}
         <button
           type="submit"
-          className="w-full rounded bg-green-600 p-2 font-semibold text-white"
+          className="w-full rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
         >
           Registar
         </button>
@@ -74,3 +77,4 @@ export default function RegisterPage() {
     </section>
   )
 }
+
