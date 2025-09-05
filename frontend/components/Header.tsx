@@ -3,6 +3,63 @@
 import { useState } from 'react'
 import Link from 'next/link'
 
+// Ligações principais para o menu
+const mainLinks = [
+  { href: '/', label: 'Início' },
+  { href: '/curso', label: 'Curso' },
+  { href: '/contacto', label: 'Contacto' },
+  { href: '/enterprise', label: 'Enterprise' },
+]
+
+// Ligações com ícones para ações rápidas
+const iconLinks = [
+  {
+    href: '/entrar',
+    label: 'Fazer login',
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth="2"
+        className="h-6 w-6"
+      >
+        <circle cx="12" cy="8" r="4" />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M4 20c0-4 4-6 8-6s8 2 8 6"
+        />
+      </svg>
+    ),
+  },
+  {
+    href: '#',
+    label: 'Pesquisar',
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth="2"
+        className="h-6 w-6"
+      >
+        <circle cx="11" cy="11" r="8" />
+        <line
+          x1="21"
+          y1="21"
+          x2="16.65"
+          y2="16.65"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    ),
+  },
+]
+
 // Cabeçalho com navegação principal
 export function Header() {
   // Estado para controlar a abertura do menu mobile
@@ -22,63 +79,38 @@ export function Header() {
             <span className="text-2xl font-bold">Cliente Mistério</span>
           </Link>
         </div>
+
         {/* Menus visíveis apenas em ecrãs médios para cima */}
         <div className="hidden flex-1 justify-center space-x-6 md:flex">
-          <Link href="/">Início</Link>
-          <Link href="/curso">Curso</Link>
-          <Link href="/contacto">Contacto</Link>
-          <Link href="/enterprise">Enterprise</Link>
+          {mainLinks.map((link) => (
+            <Link key={link.href} href={link.href}>
+              {link.label}
+            </Link>
+          ))}
         </div>
+
         {/* Ícones à direita visíveis apenas em ecrãs médios para cima */}
         <div className="hidden flex-1 items-center justify-end space-x-4 md:flex">
-          <Link href="/entrar" aria-label="Fazer login" className="inline-flex">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="2"
-              className="h-6 w-6"
+          {iconLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              aria-label={link.label}
+              className="inline-flex"
             >
-              <circle cx="12" cy="8" r="4" />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 20c0-4 4-6 8-6s8 2 8 6"
-              />
-            </svg>
-          </Link>
-          <Link href="#" aria-label="Pesquisar" className="inline-flex">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="2"
-              className="h-6 w-6"
-            >
-              <circle cx="11" cy="11" r="8" />
-              <line
-                x1="21"
-                y1="21"
-                x2="16.65"
-                y2="16.65"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </Link>
+              {link.icon}
+            </Link>
+          ))}
         </div>
+
         {/* Botão hamburger para abrir o menu em mobile */}
         <button
           type="button"
           className="inline-flex md:hidden"
           aria-label="Abrir menu"
           aria-expanded={menuOpen}
-
           aria-controls="mobile-menu"
           onClick={() => setMenuOpen((open) => !open)}
-
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -92,55 +124,29 @@ export function Header() {
           </svg>
         </button>
       </nav>
+
       {/* Menu mobile mostrado abaixo do cabeçalho quando o botão é clicado */}
       {menuOpen && (
-
         <div
           id="mobile-menu"
-          className="absolute left-0 right-0 top-full flex flex-col items-center space-y-4 bg-white/10 p-4 text-lg font-bold text-white md:hidden"
-        
-          <Link href="/" onClick={closeMenu}>Início</Link>
-          <Link href="/curso" onClick={closeMenu}>Curso</Link>
-          <Link href="/contacto" onClick={closeMenu}>Contacto</Link>
-          <Link href="/enterprise" onClick={closeMenu}>Enterprise</Link>
+          className="absolute left-0 right-0 top-full flex flex-col items-center space-y-4 bg-white/10 p-4 text-lg font-bold text-white md:hidden">
+          {mainLinks.map((link) => (
+            <Link key={link.href} href={link.href} onClick={closeMenu}>
+              {link.label}
+            </Link>
+          ))}
           <div className="flex space-x-4">
-            <Link href="/entrar" aria-label="Fazer login" className="inline-flex" onClick={closeMenu}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-                className="h-6 w-6"
+            {iconLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                aria-label={link.label}
+                className="inline-flex"
+                onClick={closeMenu}
               >
-                <circle cx="12" cy="8" r="4" />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M4 20c0-4 4-6 8-6s8 2 8 6"
-                />
-              </svg>
-            </Link>
-            <Link href="#" aria-label="Pesquisar" className="inline-flex" onClick={closeMenu}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-                className="h-6 w-6"
-              >
-                <circle cx="11" cy="11" r="8" />
-                <line
-                  x1="21"
-                  y1="21"
-                  x2="16.65"
-                  y2="16.65"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </Link>
+                {link.icon}
+              </Link>
+            ))}
           </div>
         </div>
       )}
