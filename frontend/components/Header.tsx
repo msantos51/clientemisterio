@@ -1,17 +1,16 @@
 import Link from 'next/link'
-import Image from 'next/image'
 
 // Cabeçalho com navegação principal
 export function Header() {
   return (
     // Cabeçalho fixo com elementos distribuídos em três colunas
     <header className="fixed left-0 right-0 top-0">
-      {/* Barra de navegação com logo, menus centrais e ícones à direita */}
-      <nav className="mx-auto flex max-w-6xl items-center justify-between p-6 text-white">
-        {/* Logótipo no canto superior esquerdo */}
+      {/* Barra de navegação com texto do logótipo, menus centrais e ícones à direita */}
+      <nav className="mx-auto flex max-w-6xl items-center justify-between p-6 text-white text-lg font-bold">
+        {/* Texto do logótipo no canto superior esquerdo */}
         <div className="flex flex-1 justify-start">
           <Link href="/" aria-label="Página inicial">
-            <Image src="/logo.svg" alt="Cliente Mistério" width={48} height={48} />
+            <span className="text-2xl font-bold">Cliente Mistério</span>
           </Link>
         </div>
         {/* Menus de navegação centrados */}
