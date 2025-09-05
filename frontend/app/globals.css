@@ -1,19 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Declaração do tipo de letra Butler Stencil */
-@font-face {
-  font-family: 'butler-regular_stencil';
-  src: url('https://fonts.cdnfonts.com/s/20312/Butler_Stencil.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
-
 /* Estilos globais base */
 html, body {
-  /* Aplica o tipo de letra em todo o site */
-  font-family: 'butler-regular_stencil', serif;
+  /* Aplica o tipo de letra Roboto em todo o site */
+  font-family: 'Roboto', sans-serif;
   /* Define texto branco em todo o site */
   @apply text-white;
   /* Remove margens e preenchimentos padrão */
