@@ -44,19 +44,19 @@ export function Faq() {
   return (
     <section className="mx-auto max-w-3xl pb-20">
       {/* Título principal da secção */}
-      <h2 className="mb-8 text-center text-3xl font-bold text-white">FAQs</h2>
+      <h2 className="mb-8 text-center text-3xl font-bold text-gray-800">FAQs</h2>
       {/* Lista de perguntas */}
       <div className="space-y-4">
         {faqItems.map((item) => (
           // Cada item expansível com pergunta e resposta
           <details
             key={item.question}
-            className="rounded-lg bg-white/20 p-4 text-white backdrop-blur"
+            className="rounded-lg bg-white p-4 shadow text-gray-800"
           >
             {/* Pergunta visível que pode ser clicada */}
-            <summary className="cursor-pointer">{item.question}</summary>
+            <summary className="cursor-pointer font-medium">{item.question}</summary>
             {/* Resposta apresentada ao clicar na pergunta */}
-            <p className="mt-2 text-gray-200">{item.answer}</p>
+            <p className="mt-2 text-gray-600">{item.answer}</p>
           </details>
         ))}
       </div>
