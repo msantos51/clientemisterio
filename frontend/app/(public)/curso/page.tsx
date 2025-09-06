@@ -1,7 +1,8 @@
 // Página com informação detalhada sobre o curso
 export default function CoursePage() {
   return (
-    <section className="py-20 max-w-3xl mx-auto">
+    // Secção principal com conteúdos do curso sem espaço superior
+    <section className="mx-auto max-w-3xl pb-20">
       {/* Título principal da página */}
       <h2 className="text-3xl font-bold text-center">Sobre o curso</h2>
 

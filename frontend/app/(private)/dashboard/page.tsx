@@ -7,7 +7,8 @@ import { ProtectedClient } from '../../../components/ProtectedClient'
 export default function DashboardPage() {
   return (
     <ProtectedClient>
-      <section className="py-8">
+      {/* Secção principal do dashboard sem margem superior */}
+      <section className="pb-8">
         {/* Título principal do dashboard */}
         <h2 className="mb-4 text-center text-2xl font-bold">Curso Cliente Mistério</h2>
         {/* Frase motivacional para contextualizar o aluno */}

@@ -24,8 +24,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="min-h-screen text-white">
           <Header /> {/* Cabeçalho exibido no topo */}
 
-          <main className="mx-4 mb-8 mt-8 md:mx-8">{children}</main> {/* Conteúdo principal com margens */}
- main
+          {/* Conteúdo principal sem margem superior para encostar ao cabeçalho */}
+          <main className="mx-4 mb-8 md:mx-8">{children}</main>
+
           <CookieBar /> {/* Aviso de cookies obrigatório */}
         </div>
       </body>

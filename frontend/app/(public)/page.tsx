@@ -6,8 +6,8 @@ import { Faq } from '@/components/Faq'
 export default function HomePage() {
   return (
     <main>
-      {/* Secção inicial com título e botão de adesão */}
-      <section className="flex min-h-screen flex-col items-center justify-center gap-8 text-center md:flex-row md:gap-16 md:text-left">
+      {/* Secção inicial com título e botão de adesão alinhada ao topo */}
+      <section className="flex flex-col items-center gap-8 text-center md:flex-row md:gap-16 md:text-left">
         {/* Bloco esquerdo com o título principal e botão de adesão */}
         <div className="flex flex-col items-center justify-center space-y-8 md:items-start">
           <h1 className="text-4xl font-bold leading-none md:text-8xl">
