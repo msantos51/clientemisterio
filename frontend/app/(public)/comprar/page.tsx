@@ -1,7 +1,8 @@
 // Página com link para o pagamento do curso
 export default function BuyPage() {
   return (
-    <section className="py-20 text-center">
+    // Secção principal para compra do curso sem espaço superior
+    <section className="text-center pb-20">
       {/* Título da página */}
       <h2 className="text-3xl font-bold">Comprar curso</h2>
       {/* Explicação do processo de compra */}

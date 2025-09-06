@@ -22,8 +22,8 @@ export default function ContactPage() {
   }
 
   return (
-    // Centraliza o formulário no ecrã
-    <section className="flex min-h-screen items-center justify-center">
+    // Centraliza o formulário horizontalmente sem espaço no topo
+    <section className="flex justify-center pb-20">
       {/* Formulário com mesma formatação que login e registo */}
       <form onSubmit={handleSubmit} className="form-control">
         {/* Título do formulário */}
