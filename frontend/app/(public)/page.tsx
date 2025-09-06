@@ -1,8 +1,7 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { Faq } from '@/components/Faq'
 
-// Página inicial com título destacado e imagem
+// Página inicial com título destacado e texto informativo
 export default function HomePage() {
   return (
     <main>
@@ -21,15 +20,19 @@ export default function HomePage() {
             Adere já!
           </Link>
         </div>
-        {/* Bloco direito com imagem abstrata branca */}
-        <div className="mt-8 flex justify-center md:mt-0">
-          <Image
-            src="/abstract-white.svg"
-            alt="Imagem abstrata branca"
-            width={320}
-            height={320}
-            className="h-64 w-64 md:h-80 md:w-80"
-          />
+        {/* Bloco direito com frase promocional e botão para empresas */}
+        <div className="mt-8 flex flex-col items-center space-y-4 md:mt-0 md:items-start">
+          {/* Frase promocional apresentada em destaque */}
+          <p className="text-2xl font-bold md:text-4xl">
+            É uma empresa de estudos de mercado? Temos parcerias para lhe trazer clientes mistério formados &rarr;
+          </p>
+          {/* Botão que redireciona para a página enterprise */}
+          <Link
+            href="/enterprise"
+            className="rounded bg-white px-10 py-4 font-bold text-[#fb4444]"
+          >
+            Saiba mais
+          </Link>
         </div>
       </section>
       {/* Secção de perguntas frequentes */}
