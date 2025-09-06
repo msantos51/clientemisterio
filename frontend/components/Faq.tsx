@@ -44,8 +44,8 @@ const faqItems = [
 // Renderiza a secção de FAQ na página
 export function Faq() {
   return (
-    // Ajusta a posição para aproximar as FAQs da secção anterior
-    <section className="mx-auto -mt-10 max-w-3xl pb-20">
+    // Adiciona margem superior para afastar as FAQs da secção anterior
+    <section className="mx-auto mt-10 max-w-3xl pb-20">
       {/* Título principal da secção */}
       <h2 className="mb-8 text-center text-3xl font-bold text-black">FAQs</h2>
       {/* Lista de perguntas */}
