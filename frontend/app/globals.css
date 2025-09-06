@@ -22,6 +22,11 @@ html, body {
   overflow-y: auto;
 }
 
+/* Justifica o texto de todos os parágrafos */
+p {
+  text-align: justify;
+}
+
 /* Torna o texto de todos os botões em negrito */
 button {
   font-weight: 700;
