@@ -11,27 +11,6 @@ const mainLinks = [
 // Lista de ligações com ícones para ações rápidas
 const iconLinks = [
   {
-    href: '/entrar',
-    label: 'Fazer login',
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth="2"
-        className="h-6 w-6"
-      >
-        <circle cx="12" cy="8" r="4" />
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M4 20c0-4 4-6 8-6s8 2 8 6"
-        />
-      </svg>
-    ),
-  },
-  {
     href: '#',
     label: 'Pesquisar',
     icon: (
@@ -55,56 +34,40 @@ const iconLinks = [
       </svg>
     ),
   },
+  {
+    href: '/entrar',
+    label: 'Fazer login',
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth="2"
+        className="h-6 w-6"
+      >
+        <circle cx="12" cy="8" r="4" />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M4 20c0-4 4-6 8-6s8 2 8 6"
+        />
+      </svg>
+    ),
+  },
 ]
 
-// Logótipo reutilizável
-const logo = (
-  <Link href="/" aria-label="Página inicial">
-    <span className="text-2xl font-bold">Cliente Mistério</span>
-  </Link>
-)
-
-// Cabeçalho com navegação principal
+// Cabeçalho principal do site
 export function Header() {
   return (
-    // Cabeçalho aderente ao topo com fundo branco
-    <header className="sticky top-0 z-50 bg-white">
-      {/* Contêiner centralizado para o conteúdo do cabeçalho */}
-      <div className="mx-auto max-w-6xl p-4 text-lg font-bold text-black md:p-6">
-        {/* Navegação completa para ecrãs médios ou maiores */}
-        <nav className="hidden items-center justify-between md:flex">
-          {/* Logótipo no canto superior esquerdo */}
-          <div className="flex flex-1 justify-start">{logo}</div>
-          {/* Menu central */}
-          <div className="flex flex-1 justify-center space-x-6">
-            {mainLinks.map((link) => (
-              <Link key={link.href} href={link.href}>
-                {link.label}
-              </Link>
-            ))}
-          </div>
-          {/* Ícones à direita */}
-          <div className="flex flex-1 items-center justify-end space-x-4">
-            {iconLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                aria-label={link.label}
-                className="inline-flex"
-              >
-                {link.icon}
-              </Link>
-            ))}
-          </div>
-        </nav>
-
-
-        {/* Navegação mobile com menu expansível */}
-        <details className="md:hidden">
-          {/* Linha superior com logótipo e botão hambúrguer */}
-          <summary className="flex cursor-pointer items-center justify-between list-none marker:content-none">
-            {logo}
-
+    // Cabeçalho aderente ao topo com fundo preto e texto branco
+    <header className="sticky top-0 z-50 bg-black text-white">
+      {/* Contêiner com três colunas para alinhar os elementos */}
+      <div className="mx-auto grid max-w-6xl grid-cols-3 items-center p-4 md:p-6">
+        {/* Menu hambúrguer no lado esquerdo */}
+        <details className="relative">
+          {/* Ícone do menu que abre as ligações principais */}
+          <summary className="flex cursor-pointer items-center justify-start list-none marker:content-none">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -120,29 +83,36 @@ export function Header() {
               />
             </svg>
           </summary>
-
-          {/* Lista de ligações apresentada quando o menu está aberto */}
-          <div className="mt-4 flex flex-col items-center space-y-4">
-
+          {/* Lista de ligações exibida ao abrir o menu */}
+          <nav className="absolute left-0 mt-2 flex flex-col space-y-2 bg-black p-4 shadow">
             {mainLinks.map((link) => (
-              <Link key={link.href} href={link.href}>
+              <Link key={link.href} href={link.href} className="hover:underline">
                 {link.label}
               </Link>
             ))}
-            <div className="flex space-x-4">
-              {iconLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  aria-label={link.label}
-                  className="inline-flex"
-                >
-                  {link.icon}
-                </Link>
-              ))}
-            </div>
-          </div>
+          </nav>
         </details>
+
+        {/* Logótipo central com ligação para a página inicial */}
+        <div className="text-center">
+          <Link href="/" className="text-2xl font-bold" aria-label="Página inicial">
+            Cliente Mistério
+          </Link>
+        </div>
+
+        {/* Ícones de pesquisa e perfil no lado direito */}
+        <div className="flex items-center justify-end space-x-4">
+          {iconLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              aria-label={link.label}
+              className="inline-flex"
+            >
+              {link.icon}
+            </Link>
+          ))}
+        </div>
       </div>
     </header>
   )
