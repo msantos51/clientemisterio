@@ -8,15 +8,15 @@
 html, body {
   /* Aplica o tipo de letra Roboto em todo o site */
   font-family: 'Roboto', sans-serif;
-  /* Define texto branco em todo o site */
-  @apply text-white;
+  /* Define texto preto em todo o site */
+  color: #000000;
   /* Remove margens e preenchimentos padrão */
   margin: 0;
   padding: 0;
   /* Garante altura mínima sem bloquear a rolagem */
   min-height: 100vh;
-  /* Define fundo vermelho sólido em todo o site */
-  background-color: #fb4444;
+  /* Define fundo branco sólido em todo o site */
+  background-color: #ffffff;
   /* Impede rolagem horizontal mantendo a vertical */
   overflow-x: hidden;
   overflow-y: auto;
@@ -25,6 +25,10 @@ html, body {
 /* Torna o texto de todos os botões em negrito */
 button {
   font-weight: 700;
+  /* Define fundo preto nos botões */
+  background-color: #000000;
+  /* Define texto branco nos botões */
+  color: #ffffff;
 }
 
 /* Contêiner principal do formulário */
@@ -100,22 +104,21 @@ button {
 .submit-btn {
   margin-top: 30px;
   height: 55px;
-  /* Define fundo claro para o botão */
-  background: #f2f2f2;
+  /* Define fundo preto para o botão */
+  background: #000000;
   border-radius: 11px;
   border: 0;
   outline: none;
-  /* Coloca o texto a preto para melhor legibilidade */
-  color: #000000;
+  /* Coloca o texto a branco para melhor legibilidade */
+  color: #ffffff;
   font-size: 18px;
   font-weight: 700;
-  box-shadow: 0px 0px 0px 0px #ffffff, 0px 0px 0px 0px #000000;
   transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
   cursor: pointer;
 }
 
 /* Efeito ao passar o rato sobre o botão */
 .submit-btn:hover {
-  box-shadow: 0px 0px 0px 2px #ffffff, 0px 0px 0px 4px #0000003a;
+  background: #000000cc;
 }
 

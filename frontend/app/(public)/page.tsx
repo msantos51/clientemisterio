@@ -15,7 +15,7 @@ export default function HomePage() {
           </h1>
           <Link
             href="/inscrever-se"
-            className="rounded bg-white px-10 py-4 font-bold text-[#fb4444]"
+            className="rounded bg-black px-10 py-4 font-bold text-white hover:bg-black/80"
           >
             Adere já!
           </Link>
@@ -29,7 +29,7 @@ export default function HomePage() {
           {/* Botão que redireciona para a página enterprise */}
           <Link
             href="/enterprise"
-            className="rounded bg-white px-10 py-4 font-bold text-[#fb4444]"
+            className="rounded bg-black px-10 py-4 font-bold text-white hover:bg-black/80"
           >
             Saiba mais
           </Link>

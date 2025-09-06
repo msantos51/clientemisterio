@@ -67,10 +67,10 @@ const logo = (
 // Cabeçalho com navegação principal
 export function Header() {
   return (
-    // Cabeçalho aderente ao topo com fundo vermelho
-    <header className="sticky top-0 z-50 bg-[#fb4444]">
+    // Cabeçalho aderente ao topo com fundo branco
+    <header className="sticky top-0 z-50 bg-white">
       {/* Contêiner centralizado para o conteúdo do cabeçalho */}
-      <div className="mx-auto max-w-6xl p-4 text-lg font-bold text-white md:p-6">
+      <div className="mx-auto max-w-6xl p-4 text-lg font-bold text-black md:p-6">
         {/* Navegação completa para ecrãs médios ou maiores */}
         <nav className="hidden items-center justify-between md:flex">
           {/* Logótipo no canto superior esquerdo */}

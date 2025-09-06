@@ -24,12 +24,12 @@ export function CookieBar() {
   if (accepted) return null
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-[#b82c3c] p-4 text-center text-white">
+    <div className="fixed bottom-0 left-0 right-0 border-t border-black bg-white p-4 text-center text-black">
       {/* Mensagem informativa sobre cookies */}
       <p className="mb-2">Usamos cookies para melhorar a experiência.</p>
       <button
         onClick={handleAccept}
-        className="rounded border border-white px-4 py-2 font-bold text-white hover:bg-white/20"
+        className="rounded bg-black px-4 py-2 font-bold text-white hover:bg-black/80"
       >
         Aceitar
       </button>
