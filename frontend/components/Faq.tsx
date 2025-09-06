@@ -45,21 +45,21 @@ const faqItems = [
 export function Faq() {
   return (
     // Ajusta a posição para aproximar as FAQs da secção anterior
-    <section className="mx-auto max-w-3xl -mt-10 pb-20">
+    <section className="mx-auto -mt-10 max-w-3xl pb-20">
       {/* Título principal da secção */}
-      <h2 className="mb-8 text-center text-3xl font-bold text-gray-800">FAQs</h2>
+      <h2 className="mb-8 text-center text-3xl font-bold text-black">FAQs</h2>
       {/* Lista de perguntas */}
       <div className="space-y-4">
         {faqItems.map((item) => (
           // Cada item expansível com pergunta e resposta
           <details
             key={item.question}
-            className="rounded-lg bg-white p-4 shadow text-gray-800"
+            className="rounded-lg bg-white p-4 text-black shadow"
           >
             {/* Pergunta visível que pode ser clicada */}
             <summary className="cursor-pointer font-medium">{item.question}</summary>
             {/* Resposta apresentada ao clicar na pergunta */}
-            <p className="mt-2 text-gray-600">{item.answer}</p>
+            <p className="mt-2 text-black">{item.answer}</p>
           </details>
         ))}
       </div>

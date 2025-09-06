@@ -20,8 +20,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt">
       <body>
-        {/* Estrutura principal com fundo gradiente e texto branco */}
-        <div className="min-h-screen text-white">
+        {/* Estrutura principal com fundo branco e texto preto */}
+        <div className="min-h-screen bg-white text-black">
           <Header /> {/* Cabeçalho exibido no topo */}
 
 

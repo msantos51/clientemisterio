@@ -12,7 +12,7 @@ export default function DashboardPage() {
         {/* Título principal do dashboard */}
         <h2 className="mb-4 text-center text-2xl font-bold">Curso Cliente Mistério</h2>
         {/* Frase motivacional para contextualizar o aluno */}
-        <p className="mb-8 text-center text-gray-600">Explore o conteúdo interativo do curso.</p>
+        <p className="mb-8 text-center text-black">Explore o conteúdo interativo do curso.</p>
         {/* Contêiner responsivo com o iframe do curso (código fornecido) */}
         <div style={{ width: '100%' }}>
           <div
