@@ -15,6 +15,7 @@ html, body {
   padding: 0;
   /* Garante altura mínima sem bloquear a rolagem */
   min-height: 100vh;
+
   /* Cor de fundo base em caso de falha no gradiente */
   background: #FD873F;
   /* Gradiente compatível com navegadores WebKit */
@@ -25,6 +26,7 @@ html, body {
   background: linear-gradient(153deg, rgba(253, 135, 63, 1) 0%, rgba(234, 121, 95, 1) 32%, rgba(152, 59, 236, 1) 73%, rgba(92, 178, 231, 1) 100%);
   /* Suporte para Internet Explorer */
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FD873F', endColorstr='#5CB2E7', GradientType=0);
+
   /* Mantém o fundo fixo em desktop */
   background-attachment: fixed;
   /* Impede rolagem horizontal mantendo a vertical */
@@ -142,6 +144,8 @@ button {
 /* Versão adaptada do fundo para ecrãs pequenos */
 @media (max-width: 768px) {
   html, body {
+
+
     /* Permite rolagem suave no mobile */
     background-attachment: scroll;
   }
