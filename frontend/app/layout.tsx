@@ -24,12 +24,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Estrutura principal com linhas SVG no fundo */}
         <div className="relative min-h-screen">
           <BackgroundLines /> {/* Linhas decorativas atrás do conteúdo */}
-          <Header /> {/* Cabeçalho exibido no topo */}
 
-          {/* Conteúdo principal sem margem superior para encostar ao cabeçalho */}
-          <main className="mx-4 mb-8 md:mx-8">{children}</main>
 
-          <CookieBar /> {/* Aviso de cookies obrigatório */}
+          {/* Conteúdo acima das linhas SVG */}
+          <div className="relative z-10">
+            <Header /> {/* Cabeçalho exibido no topo */}
+
+            {/* Conteúdo principal sem margem superior para encostar ao cabeçalho */}
+            <main className="mx-4 mb-8 md:mx-8">{children}</main>
+
+            <CookieBar /> {/* Aviso de cookies obrigatório */}
+          </div>
+
         </div>
       </body>
     </html>
