@@ -51,6 +51,8 @@ button {
 /* Contêiner principal do formulário */
 .form-control {
   margin: 20px;
+  /* Move o formulário ligeiramente para cima */
+  margin-top: -40px;
   background-color: #ffffff;
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
   width: 100%;
@@ -69,6 +71,8 @@ button {
 .title {
   font-size: 28px;
   font-weight: 800;
+  /* Centraliza o título do formulário */
+  text-align: center;
 }
 
 /* Contêiner de cada campo */

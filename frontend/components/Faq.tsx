@@ -46,8 +46,8 @@ export function Faq() {
   return (
     // Adiciona margem superior para afastar as FAQs da secção anterior
     <section className="mx-auto mt-10 max-w-3xl pb-20">
-      {/* Título principal da secção */}
-      <h2 className="mb-8 text-center text-3xl font-bold text-black">FAQs</h2>
+        {/* Título das FAQs com texto branco */}
+        <h2 className="mb-8 text-center text-3xl font-bold text-white">FAQs</h2>
       {/* Lista de perguntas */}
       <div className="space-y-4">
         {faqItems.map((item) => (
@@ -56,8 +56,8 @@ export function Faq() {
             key={item.question}
             className="rounded-lg bg-white p-4 text-black shadow"
           >
-            {/* Pergunta visível que pode ser clicada */}
-            <summary className="cursor-pointer font-medium">{item.question}</summary>
+              {/* Pergunta visível em negrito que pode ser clicada */}
+              <summary className="cursor-pointer font-bold">{item.question}</summary>
             {/* Resposta apresentada ao clicar na pergunta */}
             <p className="mt-2 text-black">{item.answer}</p>
           </details>
