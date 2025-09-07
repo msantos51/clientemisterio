@@ -84,8 +84,8 @@ export function Header() {
               />
             </svg>
           </summary>
-          {/* Lista de ligações exibida ao abrir o menu */}
-          <nav className="absolute left-0 mt-2 flex flex-col space-y-2 bg-black p-4 shadow">
+          {/* Lista de ligações exibida ao abrir o menu com fundo branco e texto preto */}
+          <nav className="absolute left-0 mt-2 flex flex-col space-y-2 bg-white p-4 text-black shadow">
             {mainLinks.map((link) => (
               <Link key={link.href} href={link.href} className="hover:underline">
                 {link.label}
