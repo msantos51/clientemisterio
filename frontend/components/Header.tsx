@@ -60,8 +60,8 @@ const iconLinks = [
 // Cabeçalho principal do site
 export function Header() {
   return (
-    // Cabeçalho aderente ao topo com fundo preto e texto branco
-    <header className="sticky top-0 z-50 bg-black text-white">
+    // Cabeçalho aderente ao topo com fundo transparente e texto branco
+    <header className="sticky top-0 z-50 bg-transparent text-white">
       {/* Contêiner com três colunas para alinhar os elementos */}
       <div className="mx-auto grid max-w-6xl grid-cols-3 items-center p-4 md:p-6">
         {/* Menu hambúrguer no lado esquerdo */}
