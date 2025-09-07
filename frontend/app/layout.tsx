@@ -25,6 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="relative min-h-screen">
           <BackgroundLines /> {/* Linhas decorativas atrás do conteúdo */}
 
+
           {/* Conteúdo acima das linhas SVG */}
           <div className="relative z-10">
             <Header /> {/* Cabeçalho exibido no topo */}
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
             <CookieBar /> {/* Aviso de cookies obrigatório */}
           </div>
+
         </div>
       </body>
     </html>
