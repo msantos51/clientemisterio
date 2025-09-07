@@ -16,19 +16,10 @@ html, body {
   /* Garante altura mínima sem bloquear a rolagem */
   min-height: 100vh;
 
-  /* Cor de fundo base em caso de falha no gradiente */
-  background: #FD873F;
-  /* Gradiente compatível com navegadores WebKit */
-  background: -webkit-linear-gradient(153deg, rgba(253, 135, 63, 1) 0%, rgba(234, 121, 95, 1) 32%, rgba(152, 59, 236, 1) 73%, rgba(92, 178, 231, 1) 100%);
-  /* Gradiente compatível com Firefox */
-  background: -moz-linear-gradient(153deg, rgba(253, 135, 63, 1) 0%, rgba(234, 121, 95, 1) 32%, rgba(152, 59, 236, 1) 73%, rgba(92, 178, 231, 1) 100%);
-  /* Gradiente padrão */
-  background: linear-gradient(153deg, rgba(253, 135, 63, 1) 0%, rgba(234, 121, 95, 1) 32%, rgba(152, 59, 236, 1) 73%, rgba(92, 178, 231, 1) 100%);
-  /* Suporte para Internet Explorer */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FD873F', endColorstr='#5CB2E7', GradientType=0);
-
-  /* Mantém o fundo fixo em desktop */
-  background-attachment: fixed;
+  /* Imagem de fundo para versões desktop */
+  background: url('/background-desktop.svg') no-repeat center center fixed;
+  /* Ajusta a imagem para cobrir toda a área */
+  background-size: cover;
   /* Impede rolagem horizontal mantendo a vertical */
   overflow-x: hidden;
   overflow-y: auto;
@@ -148,8 +139,10 @@ button {
 /* Versão adaptada do fundo para ecrãs pequenos */
 @media (max-width: 768px) {
   html, body {
-
-
+    /* Substitui a imagem de fundo para mobile */
+    background: url('/background-mobile.svg') no-repeat center center;
+    /* Ajusta a imagem para cobrir toda a área */
+    background-size: cover;
     /* Permite rolagem suave no mobile */
     background-attachment: scroll;
   }
