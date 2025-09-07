@@ -15,13 +15,8 @@ html, body {
   padding: 0;
   /* Garante altura mínima sem bloquear a rolagem */
   min-height: 100vh;
-
-  /* Imagem de fundo para versões desktop */
-  background: url('/background-desktop.svg') no-repeat center center fixed;
-  /* Ajusta a imagem para cobrir toda a área */
-  background-size: cover;
-  /* Define a cor de fundo base para evitar linhas brancas nas margens */
-  background-color: #000000;
+  /* Define uma cor de fundo branca */
+  background-color: #ffffff;
   /* Impede rolagem horizontal mantendo a vertical */
   overflow-x: hidden;
   overflow-y: auto;
@@ -137,17 +132,3 @@ button {
   background: #000000cc;
 }
 
-
-/* Versão adaptada do fundo para ecrãs pequenos */
-@media (max-width: 768px) {
-  html, body {
-    /* Substitui a imagem de fundo para mobile */
-    background: url('/background-mobile.svg') no-repeat center center;
-    /* Ajusta a imagem para cobrir toda a área */
-    background-size: cover;
-    /* Define cor de fundo para impedir linhas brancas em ecrãs pequenos */
-    background-color: #000000;
-    /* Permite rolagem suave no mobile */
-    background-attachment: scroll;
-  }
-}
