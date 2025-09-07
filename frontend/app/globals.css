@@ -8,15 +8,15 @@
 html, body {
   /* Aplica o tipo de letra Roboto em todo o site */
   font-family: 'Roboto', sans-serif;
-  /* Define texto preto em todo o site */
-  color: #000000;
+  /* Define a cor padrão do texto em todo o site */
+  color: #d36847;
   /* Remove margens e preenchimentos padrão */
   margin: 0;
   padding: 0;
   /* Garante altura mínima sem bloquear a rolagem */
   min-height: 100vh;
-  /* Define fundo branco sólido em todo o site */
-  background-color: #ffffff;
+  /* Define a cor de fundo padrão do site */
+  background-color: #8c1c5c;
   /* Impede rolagem horizontal mantendo a vertical */
   overflow-x: hidden;
   overflow-y: auto;
@@ -30,17 +30,17 @@ p {
 /* Torna o texto de todos os botões em negrito */
 button {
   font-weight: 700;
-  /* Define fundo preto nos botões */
-  background-color: #000000;
-  /* Define texto branco nos botões */
-  color: #ffffff;
+  /* Define fundo com o tom que substitui o preto */
+  background-color: #d36847;
+  /* Define texto com o tom que substitui o branco */
+  color: #8c1c5c;
 }
 
 /* Contêiner principal do formulário */
 .form-control {
   margin: 20px;
-  background-color: #ffffff;
-  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+  background-color: #8c1c5c;
+  box-shadow: 0 15px 25px rgba(211, 104, 71, 0.6);
   width: 100%;
   max-width: 400px;
   display: flex;
@@ -49,8 +49,8 @@ button {
   gap: 10px;
   padding: 25px;
   border-radius: 8px;
-  /* Garante que o texto dentro do formulário seja preto */
-  color: #000000;
+  /* Garante que o texto dentro do formulário utilize a nova cor */
+  color: #d36847;
 }
 
 /* Título do formulário */
@@ -100,7 +100,7 @@ button {
   left: 5px;
   font-size: 12px;
   color: #2d79f3;
-  background-color: #ffffff;
+  background-color: #8c1c5c;
   padding-left: 5px;
   padding-right: 5px;
 }
@@ -109,13 +109,13 @@ button {
 .submit-btn {
   margin-top: 30px;
   height: 55px;
-  /* Define fundo preto para o botão */
-  background: #000000;
+  /* Define fundo com o tom que substitui o preto */
+  background: #d36847;
   border-radius: 11px;
   border: 0;
   outline: none;
-  /* Coloca o texto a branco para melhor legibilidade */
-  color: #ffffff;
+  /* Coloca o texto com o tom que substitui o branco */
+  color: #8c1c5c;
   font-size: 18px;
   font-weight: 700;
   transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
@@ -124,6 +124,6 @@ button {
 
 /* Efeito ao passar o rato sobre o botão */
 .submit-btn:hover {
-  background: #000000cc;
+  background: #d36847cc;
 }
 
