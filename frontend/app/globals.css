@@ -20,6 +20,8 @@ html, body {
   background: url('/background-desktop.svg') no-repeat center center fixed;
   /* Ajusta a imagem para cobrir toda a área */
   background-size: cover;
+  /* Define a cor de fundo base para evitar linhas brancas nas margens */
+  background-color: #000000;
   /* Impede rolagem horizontal mantendo a vertical */
   overflow-x: hidden;
   overflow-y: auto;
@@ -143,6 +145,8 @@ button {
     background: url('/background-mobile.svg') no-repeat center center;
     /* Ajusta a imagem para cobrir toda a área */
     background-size: cover;
+    /* Define cor de fundo para impedir linhas brancas em ecrãs pequenos */
+    background-color: #000000;
     /* Permite rolagem suave no mobile */
     background-attachment: scroll;
   }
