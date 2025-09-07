@@ -17,6 +17,14 @@ html, body {
   min-height: 100vh;
   /* Define fundo branco simples para todo o site */
   background-color: #ffffff;
+  /* Define imagem de fundo padrão */
+  background-image: url('/background-desktop.svg');
+  /* Faz o SVG cobrir todo o ecrã */
+  background-size: cover;
+  /* Evita repetição do SVG */
+  background-repeat: no-repeat;
+  /* Mantém o fundo fixo em desktop */
+  background-attachment: fixed;
   /* Impede rolagem horizontal mantendo a vertical */
   overflow-x: hidden;
   overflow-y: auto;
@@ -128,3 +136,13 @@ button {
   background: #000000cc;
 }
 
+
+/* Versão adaptada do fundo para ecrãs pequenos */
+@media (max-width: 768px) {
+  html, body {
+    /* Utiliza SVG específico para mobile */
+    background-image: url('/background-mobile.svg');
+    /* Permite rolagem suave no mobile */
+    background-attachment: scroll;
+  }
+}
