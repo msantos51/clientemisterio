@@ -15,14 +15,18 @@ html, body {
   padding: 0;
   /* Garante altura mínima sem bloquear a rolagem */
   min-height: 100vh;
-  /* Define fundo branco simples para todo o site */
-  background-color: #ffffff;
-  /* Define imagem de fundo padrão */
-  background-image: url('/background-desktop.svg');
-  /* Faz o SVG cobrir todo o ecrã */
-  background-size: cover;
-  /* Evita repetição do SVG */
-  background-repeat: no-repeat;
+
+  /* Cor de fundo base em caso de falha no gradiente */
+  background: #FD873F;
+  /* Gradiente compatível com navegadores WebKit */
+  background: -webkit-linear-gradient(153deg, rgba(253, 135, 63, 1) 0%, rgba(234, 121, 95, 1) 32%, rgba(152, 59, 236, 1) 73%, rgba(92, 178, 231, 1) 100%);
+  /* Gradiente compatível com Firefox */
+  background: -moz-linear-gradient(153deg, rgba(253, 135, 63, 1) 0%, rgba(234, 121, 95, 1) 32%, rgba(152, 59, 236, 1) 73%, rgba(92, 178, 231, 1) 100%);
+  /* Gradiente padrão */
+  background: linear-gradient(153deg, rgba(253, 135, 63, 1) 0%, rgba(234, 121, 95, 1) 32%, rgba(152, 59, 236, 1) 73%, rgba(92, 178, 231, 1) 100%);
+  /* Suporte para Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FD873F', endColorstr='#5CB2E7', GradientType=0);
+
   /* Mantém o fundo fixo em desktop */
   background-attachment: fixed;
   /* Impede rolagem horizontal mantendo a vertical */
@@ -140,8 +144,8 @@ button {
 /* Versão adaptada do fundo para ecrãs pequenos */
 @media (max-width: 768px) {
   html, body {
-    /* Utiliza SVG específico para mobile */
-    background-image: url('/background-mobile.svg');
+
+
     /* Permite rolagem suave no mobile */
     background-attachment: scroll;
   }
