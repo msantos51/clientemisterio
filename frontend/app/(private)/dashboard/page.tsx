@@ -18,7 +18,6 @@ export default function DashboardPage() {
         <div
           className="w-full rounded-lg p-4"
           style={{ backgroundColor: 'rgba(238, 105, 46, 0.25)' }}
-
         >
           <div
             style={{
