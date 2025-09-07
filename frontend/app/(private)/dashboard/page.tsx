@@ -13,6 +13,7 @@ export default function DashboardPage() {
         <h2 className="mb-4 text-center text-2xl font-bold">Curso Cliente Mistério</h2>
         {/* Frase motivacional para contextualizar o aluno */}
         <p className="mb-8 text-black">Explore o conteúdo interativo do curso.</p>
+
         {/* Contêiner responsivo com o iframe dentro de uma caixa laranja translúcida */}
         <div
           className="w-full rounded-lg p-4"
