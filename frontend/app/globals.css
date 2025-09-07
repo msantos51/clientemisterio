@@ -15,8 +15,18 @@ html, body {
   padding: 0;
   /* Garante altura mínima sem bloquear a rolagem */
   min-height: 100vh;
-  /* Define a cor de fundo padrão do site */
-  background-color: #8c1c5c;
+  /* Define cor de fundo de reserva caso a imagem não carregue */
+  background-color: #6727FF;
+  /* Define a imagem SVG como fundo do site */
+  background-image: url('/background.svg');
+  /* Evita a repetição da imagem */
+  background-repeat: no-repeat;
+  /* Centraliza o fundo na página */
+  background-position: center;
+  /* Faz a imagem de fundo preencher todo o ecrã */
+  background-size: cover;
+  /* Mantém a imagem fixa ao rolar a página */
+  background-attachment: fixed;
   /* Impede rolagem horizontal mantendo a vertical */
   overflow-x: hidden;
   overflow-y: auto;

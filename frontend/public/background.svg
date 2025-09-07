@@ -1,0 +1,61 @@
+<svg width="1440" height="900" viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- Fundo roxo -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1440" y2="900" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6727FF"/>
+      <stop offset="0.55" stop-color="#7D3BFF"/>
+      <stop offset="1" stop-color="#A55BFF"/>
+    </linearGradient>
+
+    <!-- Sombra suave para blobs -->
+    <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="18" result="blur"/>
+      <feOffset dy="10" result="offset"/>
+      <feMerge>
+        <feMergeNode in="offset"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Gradiente laranja dos blobs -->
+    <linearGradient id="blobGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFB100"/>
+      <stop offset="1" stop-color="#FF7A00"/>
+    </linearGradient>
+
+    <!-- Vinheta suave nas bordas -->
+    <radialGradient id="vignette" cx="50%" cy="50%" r="70%">
+      <stop offset="60%" stop-color="rgba(0,0,0,0)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0.25)"/>
+    </radialGradient>
+
+    <!-- Desfoque para brilho roxo sob blobs -->
+    <filter id="purpleGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="45" />
+    </filter>
+  </defs>
+
+  <!-- Fundo -->
+  <rect width="1440" height="900" fill="url(#bgGrad)"/>
+
+  <!-- Brilhos roxos difusos -->
+  <g opacity="0.6" filter="url(#purpleGlow)">
+    <ellipse cx="170" cy="800" rx="230" ry="160" fill="#F2C94C" opacity="0.0"/> <!-- placeholder invisível -->
+    <ellipse cx="290" cy="820" rx="260" ry="180" fill="#8F5BFF" opacity="0.8"/>
+    <ellipse cx="1180" cy="160" rx="220" ry="160" fill="#8F5BFF" opacity="0.6"/>
+  </g>
+
+  <!-- Massa roxa com recorte ondulado à direita -->
+  <path d="M1440,900 L0,900 L0,720 C120,700 240,680 380,700 C560,726 720,820 900,770 C1050,728 1160,620 1240,560 C1320,500 1380,470 1440,490 L1440,900 Z"
+        fill="#4B1B9F" opacity="0.55"/>
+
+  <!-- Blobs laranja (com sombra) -->
+  <g filter="url(#softShadow)">
+    <path d="M1180,605c55,-90 25,-180 -40,-205c-65,-25 -150,25 -170,105c-20,80 40,150 115,155c45,3 75,-15 95,-55Z" fill="url(#blobGrad)"/>
+    <path d="M980,760c35,-55 10,-115 -30,-130c-42,-15 -96,20 -110,75c-15,60 30,105 85,105c25,0 44,-12 55,-50Z" fill="url(#blobGrad)"/>
+    <path d="M1270,520c15,-24 4,-48 -13,-55c-18,-7 -41,9 -46,32c-6,25 13,44 36,44c11,0 18,-5 23,-21Z" fill="url(#blobGrad)"/>
+  </g>
+
+  <!-- Vinheta muito suave -->
+  <rect width="1440" height="900" fill="url(#vignette)" opacity="0.25"/>
+</svg>
