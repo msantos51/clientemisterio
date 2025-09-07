@@ -2,7 +2,6 @@ import './globals.css'
 import React from 'react'
 import { Header } from '../components/Header'
 import { CookieBar } from '../components/CookieBar'
-import { BackgroundLines } from '../components/BackgroundLines'
 
 // Metadados básicos da aplicação
 export const metadata = {
@@ -21,21 +20,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt">
       <body>
-        {/* Estrutura principal com linhas SVG no fundo */}
-        <div className="relative min-h-screen">
-          <BackgroundLines /> {/* Linhas decorativas atrás do conteúdo */}
+        {/* Estrutura principal sem elementos decorativos */}
+        <div className="min-h-screen">
+          {/* Cabeçalho exibido no topo */}
+          <Header />
 
+          {/* Conteúdo principal sem margem superior para encostar ao cabeçalho */}
+          <main className="mx-4 mb-8 md:mx-8">{children}</main>
 
-          {/* Conteúdo acima das linhas SVG */}
-          <div className="relative z-10">
-            <Header /> {/* Cabeçalho exibido no topo */}
-
-            {/* Conteúdo principal sem margem superior para encostar ao cabeçalho */}
-            <main className="mx-4 mb-8 md:mx-8">{children}</main>
-
-            <CookieBar /> {/* Aviso de cookies obrigatório */}
-          </div>
-
+          {/* Aviso de cookies obrigatório */}
+          <CookieBar />
         </div>
       </body>
     </html>
