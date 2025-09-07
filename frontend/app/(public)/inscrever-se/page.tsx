@@ -30,8 +30,8 @@ export default function RegisterPage() {
   }
 
   return (
-    // Centraliza o formulário horizontalmente sem espaço no topo
-    <section className="flex justify-center pb-20">
+    // Centraliza o formulário vertical e horizontalmente
+    <section className="flex min-h-screen items-center justify-center pb-20">
       <form onSubmit={handleSubmit} className="form-control">
         {/* Título do formulário */}
         <p className="title">Inscrever-se</p>

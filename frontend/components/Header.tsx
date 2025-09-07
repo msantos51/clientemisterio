@@ -5,6 +5,7 @@ const mainLinks = [
   { href: '/', label: 'Início' },
   { href: '/curso', label: 'Curso' },
   { href: '/contacto', label: 'Contacto' },
+  { href: '/faq', label: 'FAQs' },
   { href: '/enterprise', label: 'Enterprise' },
 ]
 
