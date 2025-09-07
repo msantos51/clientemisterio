@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt">
       <body>
-        {/* Estrutura principal sem cor de fundo para mostrar o SVG global */}
+        {/* Estrutura principal com estilo base preto e branco */}
         <div className="min-h-screen">
           <Header /> {/* Cabeçalho exibido no topo */}
 

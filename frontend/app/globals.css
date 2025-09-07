@@ -9,24 +9,14 @@ html, body {
   /* Aplica o tipo de letra Roboto em todo o site */
   font-family: 'Roboto', sans-serif;
   /* Define a cor padrão do texto em todo o site */
-  color: #d36847;
+  color: #000000;
   /* Remove margens e preenchimentos padrão */
   margin: 0;
   padding: 0;
   /* Garante altura mínima sem bloquear a rolagem */
   min-height: 100vh;
-  /* Define cor de fundo de reserva caso a imagem não carregue */
-  background-color: #6727FF;
-  /* Define a imagem SVG como fundo do site */
-  background-image: url('/background.svg');
-  /* Evita a repetição da imagem */
-  background-repeat: no-repeat;
-  /* Centraliza o fundo na página */
-  background-position: center;
-  /* Faz a imagem de fundo preencher todo o ecrã */
-  background-size: cover;
-  /* Mantém a imagem fixa ao rolar a página */
-  background-attachment: fixed;
+  /* Define fundo branco simples para todo o site */
+  background-color: #ffffff;
   /* Impede rolagem horizontal mantendo a vertical */
   overflow-x: hidden;
   overflow-y: auto;
@@ -40,17 +30,17 @@ p {
 /* Torna o texto de todos os botões em negrito */
 button {
   font-weight: 700;
-  /* Define fundo com o tom que substitui o preto */
-  background-color: #d36847;
-  /* Define texto com o tom que substitui o branco */
-  color: #8c1c5c;
+  /* Fundo preto para todos os botões */
+  background-color: #000000;
+  /* Texto branco para contraste */
+  color: #ffffff;
 }
 
 /* Contêiner principal do formulário */
 .form-control {
   margin: 20px;
-  background-color: #8c1c5c;
-  box-shadow: 0 15px 25px rgba(211, 104, 71, 0.6);
+  background-color: #ffffff;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
   display: flex;
@@ -59,8 +49,8 @@ button {
   gap: 10px;
   padding: 25px;
   border-radius: 8px;
-  /* Garante que o texto dentro do formulário utilize a nova cor */
-  color: #d36847;
+  /* Garante texto preto dentro do formulário */
+  color: #000000;
 }
 
 /* Título do formulário */
@@ -82,14 +72,15 @@ button {
   outline: none;
   border-radius: 8px;
   height: 45px;
-  border: 1.5px solid #ecedec;
+  border: 1.5px solid #000000;
   background: transparent;
   padding-left: 10px;
+  color: #000000;
 }
 
 /* Realce do campo quando focado */
 .input:focus {
-  border: 1.5px solid #2d79f3;
+  border: 1.5px solid #000000;
 }
 
 /* Etiqueta posicionada sobre o campo */
@@ -97,7 +88,7 @@ button {
   position: absolute;
   top: 25px;
   left: 15px;
-  color: #ccc;
+  color: #000000;
   transition: all 0.3s ease;
   pointer-events: none;
   z-index: 2;
@@ -109,8 +100,8 @@ button {
   top: 5px;
   left: 5px;
   font-size: 12px;
-  color: #2d79f3;
-  background-color: #8c1c5c;
+  color: #000000;
+  background-color: #ffffff;
   padding-left: 5px;
   padding-right: 5px;
 }
@@ -119,13 +110,13 @@ button {
 .submit-btn {
   margin-top: 30px;
   height: 55px;
-  /* Define fundo com o tom que substitui o preto */
-  background: #d36847;
+  /* Fundo preto do botão de submissão */
+  background: #000000;
   border-radius: 11px;
   border: 0;
   outline: none;
-  /* Coloca o texto com o tom que substitui o branco */
-  color: #8c1c5c;
+  /* Texto branco para visibilidade */
+  color: #ffffff;
   font-size: 18px;
   font-weight: 700;
   transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
@@ -134,6 +125,6 @@ button {
 
 /* Efeito ao passar o rato sobre o botão */
 .submit-btn:hover {
-  background: #d36847cc;
+  background: #000000cc;
 }
 
