@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { Faq } from '@/components/Faq'
 
 // Página inicial com título destacado e texto informativo
 export default function HomePage() {
@@ -15,14 +14,12 @@ export default function HomePage() {
           </h1>
           <Link
             href="/inscrever-se"
-            className="rounded bg-[#F66400] px-10 py-4 font-bold text-white hover:bg-[#F66400]/80"
+            className="rounded bg-white px-10 py-4 font-bold text-black hover:bg-gray-200"
           >
             Adere já!
           </Link>
         </div>
       </section>
-      {/* Secção de perguntas frequentes */}
-      <Faq />
     </main>
   )
 }
