@@ -13,8 +13,11 @@ export default function DashboardPage() {
         <h2 className="mb-4 text-center text-2xl font-bold">Curso Cliente Mistério</h2>
         {/* Frase motivacional para contextualizar o aluno */}
         <p className="mb-8 text-black">Explore o conteúdo interativo do curso.</p>
-        {/* Contêiner responsivo com o iframe do curso (código fornecido) */}
-        <div style={{ width: '100%' }}>
+        {/* Contêiner responsivo com o iframe do curso dentro de uma caixa laranja translúcida */}
+        <div
+          className="rounded-lg bg-[#ee692e]/20 p-4"
+          style={{ width: '100%' }}
+        >
           <div
             style={{
               position: 'relative',
