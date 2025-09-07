@@ -1,92 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev/svgjs" width="360" height="640" preserveAspectRatio="none" viewBox="0 0 1440 560">
-    <!-- Plano de fundo com círculos coloridos para a versão mobile -->
-    <g clip-path="url(&quot;#SvgjsClipPath1006&quot;)" fill="none">
-        <!-- Círculos difusos que criam o efeito visual -->
-        <circle r="14" cx="417" cy="348" fill="rgba(148, 4, 222, 1)" opacity="0.09" filter="blur(9px)"></circle>
-        <circle r="10.5" cx="417" cy="348" fill="rgba(148, 4, 222, 1)" opacity="0.13" filter="blur(6px)"></circle>
-        <circle r="7" cx="417" cy="348" fill="rgba(148, 4, 222, 1)" opacity="0.27" filter="blur(3px)"></circle>
-        <circle r="3.5" cx="417" cy="348" fill="rgba(148, 4, 222, 1)" opacity="0.89" filter="drop-shadow(0 0 14px rgba(148, 4, 222, 1))"></circle>
-        <circle r="6.45" cx="1304" cy="144" fill="rgba(148, 4, 222, 1)" opacity="0.09" filter="blur(9px)"></circle>
-        <circle r="4.8" cx="1304" cy="144" fill="rgba(148, 4, 222, 1)" opacity="0.14" filter="blur(6px)"></circle>
-        <circle r="3.15" cx="1304" cy="144" fill="rgba(148, 4, 222, 1)" opacity="0.27" filter="blur(3px)"></circle>
-        <circle r="1.5" cx="1304" cy="144" fill="rgba(148, 4, 222, 1)" opacity="0.9" filter="drop-shadow(0 0 6.6px rgba(148, 4, 222, 1))"></circle>
-        <circle r="6.5" cx="386" cy="313" fill="rgba(255, 97, 13, 1)" opacity="0.1" filter="blur(9px)"></circle>
-        <circle r="5" cx="386" cy="313" fill="rgba(255, 97, 13, 1)" opacity="0.15" filter="blur(6px)"></circle>
-        <circle r="3.5" cx="386" cy="313" fill="rgba(255, 97, 13, 1)" opacity="0.3" filter="blur(3px)"></circle>
-        <circle r="2" cx="386" cy="313" fill="rgba(255, 97, 13, 1)" opacity="0.99" filter="drop-shadow(0 0 6px rgba(255, 97, 13, 1))"></circle>
-        <circle r="4" cx="947" cy="556" fill="rgba(148, 4, 222, 1)" opacity="0.09" filter="blur(9px)"></circle>
-        <circle r="3" cx="947" cy="556" fill="rgba(148, 4, 222, 1)" opacity="0.13" filter="blur(6px)"></circle>
-        <circle r="2" cx="947" cy="556" fill="rgba(148, 4, 222, 1)" opacity="0.26" filter="blur(3px)"></circle>
-        <circle r="1" cx="947" cy="556" fill="rgba(148, 4, 222, 1)" opacity="0.86" filter="drop-shadow(0 0 4px rgba(148, 4, 222, 1))"></circle>
-        <circle r="13.25" cx="592" cy="79" fill="rgba(148, 4, 222, 1)" opacity="0.08" filter="blur(9px)"></circle>
-        <circle r="10.5" cx="592" cy="79" fill="rgba(148, 4, 222, 1)" opacity="0.11" filter="blur(6px)"></circle>
-        <circle r="7.75" cx="592" cy="79" fill="rgba(148, 4, 222, 1)" opacity="0.23" filter="blur(3px)"></circle>
-        <circle r="5" cx="592" cy="79" fill="rgba(148, 4, 222, 1)" opacity="0.76" filter="drop-shadow(0 0 11px rgba(148, 4, 222, 1))"></circle>
-        <circle r="6.625" cx="74" cy="155" fill="rgba(255, 97, 13, 1)" opacity="0.09" filter="blur(9px)"></circle>
-        <circle r="5.25" cx="74" cy="155" fill="rgba(255, 97, 13, 1)" opacity="0.14" filter="blur(6px)"></circle>
-        <circle r="3.875" cx="74" cy="155" fill="rgba(255, 97, 13, 1)" opacity="0.27" filter="blur(3px)"></circle>
-        <circle r="2.5" cx="74" cy="155" fill="rgba(255, 97, 13, 1)" opacity="0.91" filter="drop-shadow(0 0 5.5px rgba(255, 97, 13, 1))"></circle>
-        <circle r="6.8" cx="132" cy="314" fill="rgba(148, 4, 222, 1)" opacity="0.06" filter="blur(9px)"></circle>
-        <circle r="5.2" cx="132" cy="314" fill="rgba(148, 4, 222, 1)" opacity="0.1" filter="blur(6px)"></circle>
-        <circle r="3.6" cx="132" cy="314" fill="rgba(148, 4, 222, 1)" opacity="0.19" filter="blur(3px)"></circle>
-        <circle r="2" cx="132" cy="314" fill="rgba(148, 4, 222, 1)" opacity="0.64" filter="drop-shadow(0 0 6.4px rgba(148, 4, 222, 1))"></circle>
-        <circle r="16.6" cx="354" cy="193" fill="rgba(255, 97, 13, 1)" opacity="0.09" filter="blur(9px)"></circle>
-        <circle r="12.4" cx="354" cy="193" fill="rgba(255, 97, 13, 1)" opacity="0.14" filter="blur(6px)"></circle>
-        <circle r="8.2" cx="354" cy="193" fill="rgba(255, 97, 13, 1)" opacity="0.28" filter="blur(3px)"></circle>
-        <circle r="4" cx="354" cy="193" fill="rgba(255, 97, 13, 1)" opacity="0.93" filter="drop-shadow(0 0 16.8px rgba(255, 97, 13, 1))"></circle>
-        <circle r="7.95" cx="36" cy="422" fill="rgba(255, 97, 13, 1)" opacity="0.06" filter="blur(9px)"></circle>
-        <circle r="6.3" cx="36" cy="422" fill="rgba(255, 97, 13, 1)" opacity="0.09" filter="blur(6px)"></circle>
-        <circle r="4.65" cx="36" cy="422" fill="rgba(255, 97, 13, 1)" opacity="0.19" filter="blur(3px)"></circle>
-        <circle r="3" cx="36" cy="422" fill="rgba(255, 97, 13, 1)" opacity="0.63" filter="drop-shadow(0 0 6.6px rgba(255, 97, 13, 1))"></circle>
-        <circle r="5.325" cx="87" cy="426" fill="rgba(148, 4, 222, 1)" opacity="0.06" filter="blur(9px)"></circle>
-        <circle r="4.05" cx="87" cy="426" fill="rgba(148, 4, 222, 1)" opacity="0.09" filter="blur(6px)"></circle>
-        <circle r="2.775" cx="87" cy="426" fill="rgba(148, 4, 222, 1)" opacity="0.18" filter="blur(3px)"></circle>
-        <circle r="1.5" cx="87" cy="426" fill="rgba(148, 4, 222, 1)" opacity="0.6" filter="drop-shadow(0 0 5.1px rgba(148, 4, 222, 1))"></circle>
-        <circle r="7.125" cx="154" cy="230" fill="rgba(255, 97, 13, 1)" opacity="0.07" filter="blur(9px)"></circle>
-        <circle r="5.25" cx="154" cy="230" fill="rgba(255, 97, 13, 1)" opacity="0.1" filter="blur(6px)"></circle>
-        <circle r="3.375" cx="154" cy="230" fill="rgba(255, 97, 13, 1)" opacity="0.2" filter="blur(3px)"></circle>
-        <circle r="1.5" cx="154" cy="230" fill="rgba(255, 97, 13, 1)" opacity="0.65" filter="drop-shadow(0 0 7.5px rgba(255, 97, 13, 1))"></circle>
-        <circle r="12.95" cx="313" cy="86" fill="rgba(255, 97, 13, 1)" opacity="0.09" filter="blur(9px)"></circle>
-        <circle r="9.8" cx="313" cy="86" fill="rgba(255, 97, 13, 1)" opacity="0.14" filter="blur(6px)"></circle>
-        <circle r="6.65" cx="313" cy="86" fill="rgba(255, 97, 13, 1)" opacity="0.28" filter="blur(3px)"></circle>
-        <circle r="3.5" cx="313" cy="86" fill="rgba(255, 97, 13, 1)" opacity="0.93" filter="drop-shadow(0 0 12.6px rgba(255, 97, 13, 1))"></circle>
-        <circle r="8.025" cx="154" cy="251" fill="rgba(148, 4, 222, 1)" opacity="0.07" filter="blur(9px)"></circle>
-        <circle r="5.85" cx="154" cy="251" fill="rgba(148, 4, 222, 1)" opacity="0.11" filter="blur(6px)"></circle>
-        <circle r="3.675" cx="154" cy="251" fill="rgba(148, 4, 222, 1)" opacity="0.22" filter="blur(3px)"></circle>
-        <circle r="1.5" cx="154" cy="251" fill="rgba(148, 4, 222, 1)" opacity="0.72" filter="drop-shadow(0 0 8.7px rgba(148, 4, 222, 1))"></circle>
-        <circle r="17.675" cx="64" cy="301" fill="rgba(148, 4, 222, 1)" opacity="0.07" filter="blur(9px)"></circle>
-        <circle r="12.95" cx="64" cy="301" fill="rgba(148, 4, 222, 1)" opacity="0.11" filter="blur(6px)"></circle>
-        <circle r="8.225" cx="64" cy="301" fill="rgba(148, 4, 222, 1)" opacity="0.21" filter="blur(3px)"></circle>
-        <circle r="3.5" cx="64" cy="301" fill="rgba(148, 4, 222, 1)" opacity="0.71" filter="drop-shadow(0 0 18.9px rgba(148, 4, 222, 1))"></circle>
-        <circle r="7.5" cx="1002" cy="36" fill="rgba(148, 4, 222, 1)" opacity="0.07" filter="blur(9px)"></circle>
-        <circle r="6" cx="1002" cy="36" fill="rgba(148, 4, 222, 1)" opacity="0.1" filter="blur(6px)"></circle>
-        <circle r="4.5" cx="1002" cy="36" fill="rgba(148, 4, 222, 1)" opacity="0.21" filter="blur(3px)"></circle>
-        <circle r="3" cx="1002" cy="36" fill="rgba(148, 4, 222, 1)" opacity="0.69" filter="drop-shadow(0 0 6px rgba(148, 4, 222, 1))"></circle>
-        <circle r="24.075" cx="333" cy="480" fill="rgba(255, 97, 13, 1)" opacity="0.09" filter="blur(9px)"></circle>
-        <circle r="17.55" cx="333" cy="480" fill="rgba(255, 97, 13, 1)" opacity="0.14" filter="blur(6px)"></circle>
-        <circle r="11.025" cx="333" cy="480" fill="rgba(255, 97, 13, 1)" opacity="0.28" filter="blur(3px)"></circle>
-        <circle r="4.5" cx="333" cy="480" fill="rgba(255, 97, 13, 1)" opacity="0.93" filter="drop-shadow(0 0 26.1px rgba(255, 97, 13, 1))"></circle>
-        <circle r="12.45" cx="1201" cy="133" fill="rgba(255, 97, 13, 1)" opacity="0.05" filter="blur(9px)"></circle>
-        <circle r="9.3" cx="1201" cy="133" fill="rgba(255, 97, 13, 1)" opacity="0.08" filter="blur(6px)"></circle>
-        <circle r="6.15" cx="1201" cy="133" fill="rgba(255, 97, 13, 1)" opacity="0.16" filter="blur(3px)"></circle>
-        <circle r="3" cx="1201" cy="133" fill="rgba(255, 97, 13, 1)" opacity="0.53" filter="drop-shadow(0 0 12.6px rgba(255, 97, 13, 1))"></circle>
-        <circle r="23" cx="884" cy="228" fill="rgba(255, 97, 13, 1)" opacity="0.07" filter="blur(9px)"></circle>
-        <circle r="17" cx="884" cy="228" fill="rgba(255, 97, 13, 1)" opacity="0.11" filter="blur(6px)"></circle>
-        <circle r="11" cx="884" cy="228" fill="rgba(255, 97, 13, 1)" opacity="0.22" filter="blur(3px)"></circle>
-        <circle r="5" cx="884" cy="228" fill="rgba(255, 97, 13, 1)" opacity="0.72" filter="drop-shadow(0 0 24px rgba(255, 97, 13, 1))"></circle>
-        <circle r="12" cx="344" cy="247" fill="rgba(148, 4, 222, 1)" opacity="0.06" filter="blur(9px)"></circle>
-        <circle r="9" cx="344" cy="247" fill="rgba(148, 4, 222, 1)" opacity="0.09" filter="blur(6px)"></circle>
-        <circle r="6" cx="344" cy="247" fill="rgba(148, 4, 222, 1)" opacity="0.18" filter="blur(3px)"></circle>
-        <circle r="3" cx="344" cy="247" fill="rgba(148, 4, 222, 1)" opacity="0.59" filter="drop-shadow(0 0 12px rgba(148, 4, 222, 1))"></circle>
-        <circle r="7" cx="362" cy="463" fill="rgba(148, 4, 222, 1)" opacity="0.09" filter="blur(9px)"></circle>
-        <circle r="5.5" cx="362" cy="463" fill="rgba(148, 4, 222, 1)" opacity="0.14" filter="blur(6px)"></circle>
-        <circle r="4" cx="362" cy="463" fill="rgba(148, 4, 222, 1)" opacity="0.28" filter="blur(3px)"></circle>
-        <circle r="2.5" cx="362" cy="463" fill="rgba(148, 4, 222, 1)" opacity="0.95" filter="drop-shadow(0 0 6px rgba(148, 4, 222, 1))"></circle>
-    </g>
-    <defs>
-        <!-- Recorte que limita a área do SVG -->
-        <clipPath id="SvgjsClipPath1006">
-            <rect width="1440" height="560" x="0" y="0"></rect>
-        </clipPath>
-    </defs>
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="640" viewBox="0 0 360 640" preserveAspectRatio="none">
+  <!-- Plano de fundo com degradê para a versão mobile -->
+  <defs>
+    <!-- Definição do degradê linear utilizado no retângulo -->
+    <linearGradient id="background-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9404de" />
+      <stop offset="100%" stop-color="#ff610d" />
+    </linearGradient>
+  </defs>
+  <!-- Retângulo preenchido com o degradê -->
+  <rect width="360" height="640" fill="url(#background-gradient)" />
 </svg>
