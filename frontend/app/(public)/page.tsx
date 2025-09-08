@@ -16,11 +16,11 @@ export default function HomePage() {
               <span className="block">CURSO</span>
               <span className="block">COMPLETO</span>
             </h1>
-            <Link
-              href="/inscrever-se"
-              className="rounded bg-white px-10 py-4 font-bold text-black hover:bg-gray-200"
-            >
-              Adere já!
+            {/* Botão de chamada para a página de registo */}
+            <Link href="/inscrever-se" className="block">
+              <button type="button" className="join-button">
+                Adere já!
+              </button>
             </Link>
           </div>
         </div>
