@@ -15,6 +15,7 @@ export default function LoginPage() {
   // Função chamada ao submeter o formulário
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    console.log('submitting login form') // Regista na consola que o formulário está a ser submetido
     setError('')
 
     // Validação mínima dos campos
