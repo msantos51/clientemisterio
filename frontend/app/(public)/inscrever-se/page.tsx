@@ -75,9 +75,9 @@ export default function RegisterPage() {
         {/* Mensagem de erro, se existir */}
         {error && <p className="text-sm text-red-600">{error}</p>}
 
-        {/* Botão de submissão */}
-        <button type="submit" className="submit-btn">
-          Registar
+        {/* Botão de submissão com o estilo de adesão */}
+        <button type="submit" className="join-button mt-8">
+          Registar-se
         </button>
       </form>
     </section>
