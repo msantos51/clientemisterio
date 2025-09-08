@@ -94,11 +94,11 @@ export function Header() {
           </nav>
         </details>
 
-        {/* Logótipo central com texto 'CM' em branco e fonte Square Kids */}
+        {/* Logótipo central com texto 'CM' em branco e fonte Squarish Sans */}
         <div className="text-center">
           <Link
             href="/"
-            className="text-2xl font-bold text-white logo-font"
+            className="text-3xl font-bold text-white logo-font"
             aria-label="Página inicial"
           >
             CM
