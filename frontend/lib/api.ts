@@ -2,7 +2,10 @@
 // (Comentários em português, código em inglês)
 
 // URL base da API, lida das variáveis de ambiente
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000'
+// caso não esteja definida, utiliza o backend no Render
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ??
+  'https://clientemisterio-backend.onrender.com'
 
 // Extrai mensagem de erro enviada pelo backend
 function extractError(errorData: any, fallback: string) {

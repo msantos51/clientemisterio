@@ -8,6 +8,10 @@ services:
     rootDir: backend
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      # domínio permitido nas chamadas CORS do backend
+      - key: FRONTEND_URL
+        value: https://clientemisterio-frontend.onrender.com
 
   # Serviço frontend com Next.js
   - type: web
@@ -17,3 +21,7 @@ services:
     rootDir: frontend
     buildCommand: npm install && npm run build
     startCommand: npm run start
+    envVars:
+      # URL base da API usada no frontend
+      - key: NEXT_PUBLIC_API_URL
+        value: https://clientemisterio-backend.onrender.com

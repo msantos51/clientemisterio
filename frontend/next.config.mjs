@@ -1,6 +1,9 @@
 /** Configuração do Next.js com headers de segurança e modo estrito */
 // URL do backend, lida das variáveis de ambiente em tempo de build
-const BACKEND = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
+// se a variável não existir, usa o domínio do serviço no Render
+const BACKEND =
+  process.env.NEXT_PUBLIC_API_URL ??
+  'https://clientemisterio-backend.onrender.com';
 
 const csp = [
   "default-src 'self'",
