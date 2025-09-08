@@ -78,8 +78,8 @@ export default function LoginPage() {
         {/* Mensagem de erro, se existir */}
         {error && <p className="text-sm text-red-600">{error}</p>}
 
-        {/* Botão de submissão */}
-        <button type="submit" className="submit-btn">
+        {/* Botão de submissão com o estilo de adesão */}
+        <button type="submit" className="join-button mt-8">
           Entrar
         </button>
       </form>
