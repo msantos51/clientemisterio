@@ -23,6 +23,7 @@ export async function registerUser(data: { name: string; email: string; password
   const response = await fetch(`${API_URL}/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
     body: JSON.stringify(data),
   })
 
@@ -39,6 +40,7 @@ export async function loginUser(data: { email: string; password: string }) {
   const response = await fetch(`${API_URL}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
     body: JSON.stringify(data),
   })
 
@@ -51,10 +53,10 @@ export async function loginUser(data: { email: string; password: string }) {
 }
 
 // Obtém os dados do utilizador autenticado
-export async function getCurrentUser(token: string) {
+export async function getCurrentUser() {
   const response = await fetch(`${API_URL}/auth/me`, {
     method: 'GET',
-    headers: { Authorization: `Bearer ${token}` },
+    credentials: 'include',
   })
 
   if (!response.ok) {
@@ -66,16 +68,13 @@ export async function getCurrentUser(token: string) {
 }
 
 // Atualiza os dados pessoais do utilizador autenticado
-export async function updateUser(
-  token: string,
-  data: { name?: string; email?: string }
-) {
+export async function updateUser(data: { name?: string; email?: string }) {
   const response = await fetch(`${API_URL}/auth/me`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
     },
+    credentials: 'include',
     body: JSON.stringify(data),
   })
 
