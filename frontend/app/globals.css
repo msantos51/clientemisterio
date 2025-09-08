@@ -50,13 +50,42 @@ button {
   color: #ffffff;
 }
 
+/* Estilo personalizado do botão "Adere já" */
+.join-button {
+  /* Cor de fundo suave do botão */
+  background-color: #f3f7fe;
+  /* Texto com cor violeta */
+  color: #c645f9;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  /* Largura e altura definidas conforme o design */
+  width: 100px;
+  height: 45px;
+  /* Centraliza o texto dentro do botão */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Transição suave para efeitos de hover */
+  transition: 0.3s;
+}
+
+/* Efeito ao passar o rato sobre o botão "Adere já" */
+.join-button:hover {
+  background-color: #5e6ce7;
+  box-shadow: 0 0 0 5px #3b83f65f;
+  color: #ffffff;
+}
+
 /* Contêiner principal do formulário */
 .form-control {
   margin: 20px;
   /* Move o formulário ligeiramente para cima */
   margin-top: -40px;
-  /* Fundo branco semi-transparente para destacar o formulário */
-  background-color: rgba(255, 255, 255, 0.2);
+
+  /* Fundo branco translúcido do formulário */
+  background-color: rgba(255, 255, 255, 0.4);
+
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
@@ -91,6 +120,7 @@ button {
   outline: none;
   border-radius: 8px;
   height: 45px;
+
   border: 1.5px solid #ffffff;
   background: transparent;
   padding-left: 10px;
@@ -122,9 +152,12 @@ button {
   top: 5px;
   left: 5px;
   font-size: 12px;
-  /* Etiqueta mantém a cor branca e fundo translúcido quando ativa */
+
+  /* Mantém o texto branco ao mover a etiqueta */
   color: #ffffff;
-  background-color: rgba(255, 255, 255, 0.2);
+  /* Fundo translúcido para a etiqueta destacada */
+  background-color: rgba(255, 255, 255, 0.4);
+
   padding-left: 5px;
   padding-right: 5px;
 }
