@@ -1,5 +1,7 @@
 """Ponto de entrada principal da API Cliente Mistério."""
 
+import os  # Lê variáveis de ambiente
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -15,11 +17,14 @@ except Exception as e:
 
 app = FastAPI(title="Cliente Mistério API")
 
+# URL do frontend autorizada nas requisições CORS
+FRONTEND_URL = os.getenv("FRONTEND_URL", "https://clientemisterio-frontend.onrender.com")
+
 # CORS (ajusta o domínio do frontend)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://clientemisterio.onrender.com",
+        FRONTEND_URL,
         "http://localhost:3000",
     ],
     allow_credentials=True,

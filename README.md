@@ -33,3 +33,11 @@ O objetivo do site é **vender o curso de Cliente Mistério** e dar acesso aos a
 
 O ficheiro `render.yaml` define dois webservices: um para o backend e outro para o frontend, permitindo deploy separado em Render.
 
+### Variáveis de ambiente
+
+- **Backend**
+  - `FRONTEND_URL`: domínio autorizado nas chamadas CORS (ex.: `https://clientemisterio-frontend.onrender.com`)
+  - `SECRET_KEY`: chave usada para assinar os tokens JWT
+- **Frontend**
+  - `NEXT_PUBLIC_API_URL`: URL base da API (ex.: `https://clientemisterio-backend.onrender.com`)
+
