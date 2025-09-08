@@ -16,9 +16,11 @@ export default function HomePage() {
               <span className="block">CURSO</span>
               <span className="block">COMPLETO</span>
             </h1>
+
             {/* Botão de adesão com estilo personalizado */}
             <Link href="/inscrever-se" className="join-button">
               Adere já!
+
             </Link>
           </div>
         </div>
