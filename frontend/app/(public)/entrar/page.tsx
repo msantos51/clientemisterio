@@ -1,7 +1,7 @@
 'use client'
 
 // Página de login para alunos com formulário formatado
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { loginUser } from '@/lib/api'
 
@@ -11,6 +11,12 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const router = useRouter()
+
+  // Regista na consola quando o componente é montado
+  useEffect(() => {
+    console.log('LoginPage mounted')
+    console.log('API URL', process.env.NEXT_PUBLIC_API_URL)
+  }, [])
 
   // Função chamada ao submeter o formulário
   const handleSubmit = async (e: React.FormEvent) => {
@@ -39,6 +45,7 @@ export default function LoginPage() {
       // Redireciona para o dashboard do aluno
       router.push('/dashboard')
     } catch (err: unknown) {
+      console.error('login error', err) // Regista o erro para depuração
       // Apresenta mensagem de erro devolvida pela API
       if (err instanceof Error) setError(err.message)
       else setError('Erro inesperado ao iniciar sessão.')
