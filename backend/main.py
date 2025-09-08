@@ -36,7 +36,8 @@ def read_root():
 
 @app.get("/health")
 def health():
-    return {"status": "ok"}
+    """Endpoint para verificação de vida utilizado pelo Render."""
+    return {"ok": True}
 
 # rotas de autenticação
 # O router já inclui o prefixo "/auth", por isso não o repetimos

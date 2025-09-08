@@ -2,8 +2,7 @@
 import os
 from datetime import datetime, timedelta, timezone
 
-from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
+from fastapi import APIRouter, Depends, HTTPException, status, Request, Response
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 from jose import jwt, JWTError
@@ -24,8 +23,6 @@ if not SECRET_KEY or SECRET_KEY == "CHANGE_ME":
 
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60"))
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")  # para extrair Bearer token
 
 # ── DB dependency ──────────────────────────────────────────────────────────────
 def get_db():
@@ -59,21 +56,26 @@ def decode_access_token(token: str) -> dict:
         )
 
 # Dependência que retorna o utilizador autenticado (ou 401)
-def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) -> User:
+def get_current_user(request: Request, db: Session = Depends(get_db)) -> User:
+    """Obtém o utilizador autenticado a partir do token guardado no cookie."""
+    token = request.cookies.get("access_token")
+    if not token:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token não encontrado",  # mensagem de erro em português
+        )
     payload = decode_access_token(token)
     user_id: str | None = payload.get("sub")
     if user_id is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Token sem subject",
-            headers={"WWW-Authenticate": "Bearer"},
         )
     user = db.query(User).get(int(user_id))
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Utilizador não existe",
-            headers={"WWW-Authenticate": "Bearer"},
         )
     return user
 
@@ -104,7 +106,7 @@ def register(user_in: UserCreate, db: Session = Depends(get_db)):
     return user
 
 @router.post("/login")
-def login(user_in: UserLogin, db: Session = Depends(get_db)):
+def login(user_in: UserLogin, response: Response, db: Session = Depends(get_db)):
     """
     Valida credenciais e devolve:
     { access_token, token_type, expires_in }
@@ -121,6 +123,16 @@ def login(user_in: UserLogin, db: Session = Depends(get_db)):
 
     expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token({"sub": str(user.id)}, expires)
+    # Configura o cookie com as flags necessárias para cross-site
+    response.set_cookie(
+        key="access_token",
+        value=access_token,
+        httponly=True,
+        secure=True,
+        samesite="none",
+        max_age=int(expires.total_seconds()),
+        path="/",
+    )
     return {
         "access_token": access_token,
         "token_type": "bearer",

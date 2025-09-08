@@ -9,7 +9,6 @@ import { getCurrentUser, updateUser } from '@/lib/api'
 
 export default function DashboardPage() {
   // Estados para os dados do utilizador e mensagens
-  const [token, setToken] = useState('')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
@@ -19,14 +18,15 @@ export default function DashboardPage() {
     const session = localStorage.getItem('cm_session')
     try {
       const parsed = session ? JSON.parse(session) : null
-      if (parsed?.token) {
-        setToken(parsed.token)
-        getCurrentUser(parsed.token)
+      if (parsed?.loggedIn) {
+        getCurrentUser()
           .then((user) => {
             setName(user.name)
             setEmail(user.email)
           })
           .catch(() => setMessage('Erro ao carregar dados.'))
+      } else {
+        setMessage('Sessão inválida.')
       }
     } catch {
       setMessage('Sessão inválida.')
@@ -38,7 +38,7 @@ export default function DashboardPage() {
     e.preventDefault()
     setMessage('')
     try {
-      await updateUser(token, { name, email })
+      await updateUser({ name, email })
       setMessage('Dados atualizados com sucesso.')
     } catch (err: unknown) {
       if (err instanceof Error) setMessage(err.message)
