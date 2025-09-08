@@ -54,3 +54,22 @@ class UserLogin(BaseModel):
             raise ValueError("Invalid email format")
         return v
 
+
+class UserUpdate(BaseModel):
+    """Dados recebidos para atualizar o perfil do utilizador."""
+
+    # Novo nome do utilizador (opcional)
+    name: str | None = None
+    # Novo e-mail do utilizador (opcional)
+    email: str | None = None
+
+    @field_validator("email")
+    def validate_email(cls, v: str | None) -> str | None:
+        """Valida formato básico do e-mail quando fornecido."""
+        if v is None:
+            return v
+        pattern = r"^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$"
+        if not re.match(pattern, v):
+            raise ValueError("Invalid email format")
+        return v
+
