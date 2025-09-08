@@ -68,8 +68,8 @@ export default function ContactPage() {
           <label className="label">Mensagem</label>
         </div>
 
-        {/* Botão de submissão com o estilo de adesão */}
-        <button type="submit" className="join-button mt-8">
+        {/* Botão de submissão centrado dentro do formulário */}
+        <button type="submit" className="join-button mt-8 self-center">
           Enviar
         </button>
       </form>
