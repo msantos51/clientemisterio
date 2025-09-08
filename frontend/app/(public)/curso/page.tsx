@@ -2,9 +2,9 @@
 export default function CoursePage() {
   return (
     // Secção principal com conteúdos do curso sem espaço superior
-    <section className="mx-auto max-w-5xl pb-20">
+    <section className="mx-auto max-w-5xl pb-20 text-justify">
       {/* Título principal da página */}
-      <h2 className="text-3xl font-bold text-center">Sobre o curso</h2>
+      <h2 className="text-3xl font-bold">Sobre o curso</h2>
 
       {/* Parágrafos introdutórios sobre o curso */}
       <p className="mt-4 text-black">
@@ -19,7 +19,7 @@ export default function CoursePage() {
       {/* Contêiner com divisão dos temas em caixas */}
       <div className="mt-10 grid gap-8 md:grid-cols-2">
         {/* Caixa: O que vai aprender */}
-        <div className="rounded-lg border bg-white p-6 shadow">
+        <div className="rounded-lg border bg-white/70 p-6 shadow">
           <h3 className="text-xl font-semibold">O que vai aprender</h3>
           <ul className="mt-4 list-disc list-inside text-black space-y-2">
             <li>O que é um Cliente Mistério e qual o seu papel.</li>
@@ -30,7 +30,7 @@ export default function CoursePage() {
         </div>
 
         {/* Caixa: Estrutura do curso */}
-        <div className="rounded-lg border bg-white p-6 shadow">
+        <div className="rounded-lg border bg-white/70 p-6 shadow">
           <h3 className="text-xl font-semibold">Estrutura do curso</h3>
           <p className="mt-4 text-black">
             O curso está organizado em módulos curtos e diretos, com exemplos práticos e questionários no
@@ -39,7 +39,7 @@ export default function CoursePage() {
         </div>
 
         {/* Caixa: Para quem é este curso */}
-        <div className="rounded-lg border bg-white p-6 shadow">
+        <div className="rounded-lg border bg-white/70 p-6 shadow">
           <h3 className="text-xl font-semibold">Para quem é este curso</h3>
           <ul className="mt-4 list-disc list-inside text-black space-y-2">
             <li>Pessoas que querem iniciar-se como Clientes Mistério.</li>
@@ -49,7 +49,7 @@ export default function CoursePage() {
         </div>
 
         {/* Caixa: Benefícios do curso */}
-        <div className="rounded-lg border bg-white p-6 shadow">
+        <div className="rounded-lg border bg-white/70 p-6 shadow">
           <h3 className="text-xl font-semibold">Benefícios</h3>
           <ul className="mt-4 list-disc list-inside text-black space-y-2">
             <li>100% online, pode aprender ao seu ritmo.</li>
@@ -60,11 +60,6 @@ export default function CoursePage() {
         </div>
       </div>
 
-      {/* Parágrafo final de incentivo */}
-      <p className="mt-10 text-black">
-        ✨ Se procura uma forma prática e profissional de entrar no mundo do Cliente Mistério, este
-        curso é para si. Inscreva-se hoje e dê o primeiro passo para novas oportunidades!
-      </p>
     </section>
   )
 }
