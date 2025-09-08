@@ -16,10 +16,8 @@ export default function HomePage() {
               <span className="block">CURSO</span>
               <span className="block">COMPLETO</span>
             </h1>
-            <Link
-              href="/inscrever-se"
-              className="rounded bg-white px-10 py-4 font-bold text-black hover:bg-gray-200"
-            >
+            {/* Botão de adesão com estilo personalizado */}
+            <Link href="/inscrever-se" className="join-button">
               Adere já!
             </Link>
           </div>
