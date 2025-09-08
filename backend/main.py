@@ -41,4 +41,5 @@ def health():
     return {"status": "ok"}
 
 # rotas de autenticação
-app.include_router(auth_router, prefix="/auth", tags=["Auth"])
+# O router já inclui o prefixo "/auth", por isso não o repetimos
+app.include_router(auth_router, tags=["Auth"])

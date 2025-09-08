@@ -1,12 +1,13 @@
 /** Configuração do Next.js com headers de segurança e modo estrito */
-const BACKEND = "https://clientemisterio-backend.onrender.com";
+// URL do backend, lida das variáveis de ambiente em tempo de build
+const BACKEND = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
 
 const csp = [
   "default-src 'self'",
   "img-src 'self' data:",
   "script-src 'self'",
   "style-src 'self' 'unsafe-inline'",
-  // permitir fetch/XHR ao backend:
+  // permitir fetch/XHR ao backend definido em BACKEND
   `connect-src 'self' ${BACKEND}`,
   // permitir o embed do Genially:
   "frame-src https://view.genially.com",
