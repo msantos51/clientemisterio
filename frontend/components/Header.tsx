@@ -94,10 +94,14 @@ export function Header() {
           </nav>
         </details>
 
-        {/* Logótipo central com ligação para a página inicial */}
+        {/* Logótipo central com texto 'CM' em branco e fonte Square Kids */}
         <div className="text-center">
-          <Link href="/" className="text-2xl font-bold" aria-label="Página inicial">
-            Cliente Mistério
+          <Link
+            href="/"
+            className="text-2xl font-bold text-white logo-font"
+            aria-label="Página inicial"
+          >
+            CM
           </Link>
         </div>
 

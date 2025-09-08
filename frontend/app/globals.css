@@ -1,3 +1,4 @@
+@import url('https://fonts.cdnfonts.com/css/square-kids');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 @tailwind base;
@@ -28,6 +29,11 @@ html, body {
   /* Impede rolagem horizontal mantendo a vertical */
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+/* Classe para aplicar a fonte Square Kids ao logótipo */
+.logo-font {
+  font-family: 'Square Kids', sans-serif;
 }
 
 /* Justifica o texto de todos os parágrafos */
