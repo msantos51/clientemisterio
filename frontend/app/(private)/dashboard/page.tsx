@@ -1,10 +1,51 @@
 'use client'
 
-// Página protegida que funciona como dashboard do aluno
-// Importa o componente que protege a página
+// Página protegida que serve de dashboard do aluno
+// Importa hooks e funções necessárias
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { ProtectedClient } from '../../../components/ProtectedClient'
+import { getCurrentUser, updateUser } from '@/lib/api'
 
 export default function DashboardPage() {
+  // Estados para os dados do utilizador e mensagens
+  const [token, setToken] = useState('')
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [message, setMessage] = useState('')
+
+  // Ao montar a página, obtém a sessão e carrega os dados do utilizador
+  useEffect(() => {
+    const session = localStorage.getItem('cm_session')
+    try {
+      const parsed = session ? JSON.parse(session) : null
+      if (parsed?.token) {
+        setToken(parsed.token)
+        getCurrentUser(parsed.token)
+          .then((user) => {
+            setName(user.name)
+            setEmail(user.email)
+          })
+          .catch(() => setMessage('Erro ao carregar dados.'))
+      }
+    } catch {
+      setMessage('Sessão inválida.')
+    }
+  }, [])
+
+  // Submete as alterações de perfil para a API
+  const handleUpdate = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setMessage('')
+    try {
+      await updateUser(token, { name, email })
+      setMessage('Dados atualizados com sucesso.')
+    } catch (err: unknown) {
+      if (err instanceof Error) setMessage(err.message)
+      else setMessage('Erro ao atualizar dados.')
+    }
+  }
+
   return (
     <ProtectedClient>
       {/* Secção principal do dashboard sem margem superior */}
@@ -13,6 +54,16 @@ export default function DashboardPage() {
         <h2 className="mb-4 text-center text-2xl font-bold">Curso Cliente Mistério</h2>
         {/* Frase motivacional para contextualizar o aluno */}
         <p className="mb-8 text-black">Explore o conteúdo interativo do curso.</p>
+
+        {/* Link para a página de compra do curso */}
+        <div className="mb-8 text-center">
+          <Link
+            href="/comprar"
+            className="rounded bg-black px-4 py-2 text-white hover:bg-black/80"
+          >
+            Comprar curso
+          </Link>
+        </div>
 
         {/* Contêiner responsivo com o iframe dentro de uma caixa laranja translúcida */}
         <div
@@ -45,7 +96,37 @@ export default function DashboardPage() {
             />
           </div>
         </div>
+
+        {/* Formulário para atualizar dados pessoais */}
+        <h3 className="mt-8 text-xl font-bold">Atualizar dados pessoais</h3>
+        <form onSubmit={handleUpdate} className="mt-4 max-w-md space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-black">Nome</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="mt-1 w-full rounded border p-2"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-black">Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="mt-1 w-full rounded border p-2"
+              required
+            />
+          </div>
+          {message && <p className="text-sm text-red-600">{message}</p>}
+          <button type="submit" className="join-button mt-2">
+            Guardar
+          </button>
+        </form>
       </section>
     </ProtectedClient>
   )
 }
+

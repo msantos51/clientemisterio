@@ -10,7 +10,7 @@ from jose import jwt, JWTError
 
 from database import SessionLocal
 from models import User
-from schemas import UserCreate, UserRead, UserLogin
+from schemas import UserCreate, UserRead, UserLogin, UserUpdate
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -130,4 +130,30 @@ def login(user_in: UserLogin, db: Session = Depends(get_db)):
 @router.get("/me", response_model=UserRead)
 def me(current_user: User = Depends(get_current_user)):
     """Devolve o utilizador atual (para validar sessão no frontend)."""
+    return current_user
+
+
+@router.put("/me", response_model=UserRead)
+def update_me(
+    user_in: UserUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Atualiza os dados do utilizador autenticado."""
+
+    # Atualiza o nome, se fornecido
+    if user_in.name is not None:
+        current_user.name = user_in.name.strip()
+
+    # Atualiza o e-mail, se fornecido
+    if user_in.email is not None:
+        email = user_in.email.strip().lower()
+        # Verifica se o novo e-mail já está em uso por outro utilizador
+        if db.query(User).filter(User.email == email, User.id != current_user.id).first():
+            raise HTTPException(status_code=400, detail="Email já registado")
+        current_user.email = email
+
+    db.add(current_user)
+    db.commit()
+    db.refresh(current_user)
     return current_user

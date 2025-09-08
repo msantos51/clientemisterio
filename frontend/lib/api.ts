@@ -49,3 +49,40 @@ export async function loginUser(data: { email: string; password: string }) {
 
   return response.json()
 }
+
+// Obtém os dados do utilizador autenticado
+export async function getCurrentUser(token: string) {
+  const response = await fetch(`${API_URL}/auth/me`, {
+    method: 'GET',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}))
+    throw new Error(extractError(errorData, 'Fetch failed'))
+  }
+
+  return response.json()
+}
+
+// Atualiza os dados pessoais do utilizador autenticado
+export async function updateUser(
+  token: string,
+  data: { name?: string; email?: string }
+) {
+  const response = await fetch(`${API_URL}/auth/me`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  })
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}))
+    throw new Error(extractError(errorData, 'Update failed'))
+  }
+
+  return response.json()
+}
