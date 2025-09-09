@@ -16,11 +16,23 @@ const mainLinks = [
 ]
 
 // Componente reutilizável que gera as ligações principais
-function MainLinks({ linkClass }: { linkClass: string }) {
+// Recebe classe de estilo e ação opcional ao clicar
+function MainLinks({
+  linkClass,
+  onClick,
+}: {
+  linkClass: string
+  onClick?: () => void
+}) {
   return (
     <>
       {mainLinks.map((link) => (
-        <Link key={link.href} href={link.href} className={linkClass}>
+        <Link
+          key={link.href}
+          href={link.href}
+          className={linkClass}
+          onClick={onClick}
+        >
           {link.label}
         </Link>
       ))}
@@ -48,10 +60,40 @@ const loginIcon = (
   </svg>
 )
 
+// Ícone do menu hambúrguer exibido em ecrãs pequenos
+const menuIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth="2"
+    className="h-6 w-6"
+  >
+    <path strokeLinecap="round" d="M4 7h16M4 12h16M4 17h16" />
+  </svg>
+)
+
+// Ícone de fechar menu utilizado quando o menu móvel está aberto
+const closeIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth="2"
+    className="h-6 w-6"
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+  </svg>
+)
+
 // Cabeçalho principal do site
 export function Header() {
   // Estado que indica se o utilizador está autenticado
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  // Estado que controla a visibilidade do menu móvel
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   // Router para redirecionar após logout
   const router = useRouter()
 
@@ -93,7 +135,7 @@ export function Header() {
     // Cabeçalho fixo no topo com fundo transparente e texto branco
     <header className="sticky top-0 z-50 bg-transparent text-white">
       {/* Contêiner com largura máxima e itens dispostos numa única linha */}
-      <div className="mx-auto flex max-w-6xl items-center justify-between p-4 md:p-6">
+      <div className="relative mx-auto flex max-w-6xl items-center justify-between p-4 md:p-6">
         {/* Logótipo com slogan, alinhado à esquerda */}
         <Link
           href="/"
@@ -106,8 +148,8 @@ export function Header() {
 
         </Link>
 
-        {/* Menu principal alinhado ao centro com links maiores, a negrito e espaçados */}
-        <nav className="flex flex-1 justify-center space-x-8">
+        {/* Menu principal alinhado ao centro, visível apenas em ecrãs médios ou maiores */}
+        <nav className="hidden flex-1 justify-center space-x-8 md:flex">
           <MainLinks linkClass="text-lg font-bold hover:underline" />
         </nav>
 
@@ -134,7 +176,27 @@ export function Header() {
               {loginIcon}
             </Link>
           )}
+          {/* Botão que abre ou fecha o menu móvel, visível apenas em ecrãs pequenos */}
+          <button
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+            className="md:hidden"
+            aria-label={isMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+          >
+            {isMenuOpen ? closeIcon : menuIcon}
+          </button>
         </div>
+
+        {/* Menu móvel apresentado abaixo do cabeçalho quando ativo */}
+        {isMenuOpen && (
+          <nav className="absolute left-0 top-full w-full bg-black/90 md:hidden">
+            <div className="flex flex-col items-center space-y-4 p-4">
+              <MainLinks
+                linkClass="text-lg font-bold hover:underline"
+                onClick={() => setIsMenuOpen(false)}
+              />
+            </div>
+          </nav>
+        )}
       </div>
     </header>
   )
