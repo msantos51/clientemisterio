@@ -12,7 +12,7 @@ export default function BuyPage() {
         href="https://stripe.com/pagar/SEU_LINK"
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-8 inline-block rounded bg-white px-4 py-2 text-black hover:bg-white/80"
+        className="mt-8 inline-block rounded bg-white px-4 py-2 font-bold text-black hover:bg-white/80"
       >
         Comprar agora
       </a>

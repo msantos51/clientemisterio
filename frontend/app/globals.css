@@ -57,6 +57,7 @@ button {
   background-color: #f3f7fe;
   /* Texto com cor violeta */
   color: #c645f9;
+  font-weight: 700;
   border: none;
   cursor: pointer;
   border-radius: 8px;
