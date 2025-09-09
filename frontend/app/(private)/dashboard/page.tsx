@@ -53,13 +53,13 @@ export default function DashboardPage() {
         {/* Título principal do dashboard */}
         <h2 className="mb-4 text-center text-2xl font-bold">Curso Cliente Mistério</h2>
         {/* Frase motivacional para contextualizar o aluno */}
-        <p className="mb-8 text-black">Explore o conteúdo interativo do curso.</p>
+        <p className="mb-8 text-white">Explore o conteúdo interativo do curso.</p>
 
         {/* Link para a página de compra do curso */}
         <div className="mb-8 text-center">
           <Link
             href="/comprar"
-            className="rounded bg-black px-4 py-2 text-white hover:bg-black/80"
+            className="rounded bg-white px-4 py-2 text-black hover:bg-white/80"
           >
             Comprar curso
           </Link>
@@ -101,22 +101,22 @@ export default function DashboardPage() {
         <h3 className="mt-8 text-xl font-bold">Atualizar dados pessoais</h3>
         <form onSubmit={handleUpdate} className="mt-4 max-w-md space-y-4">
           <div>
-            <label className="block text-sm font-medium text-black">Nome</label>
+            <label className="block text-sm font-medium text-white">Nome</label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="mt-1 w-full rounded border p-2"
+              className="mt-1 w-full rounded border border-white bg-black p-2 text-white"
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-black">Email</label>
+            <label className="block text-sm font-medium text-white">Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 w-full rounded border p-2"
+              className="mt-1 w-full rounded border border-white bg-black p-2 text-white"
               required
             />
           </div>
