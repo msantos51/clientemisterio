@@ -32,7 +32,9 @@ html, body {
   overflow-y: auto;
 }
 
+
 /* Classe que aplica a fonte "Saira Stencil One" ao logótipo e títulos */
+
 .logo-font {
   font-family: 'Saira Stencil One', cursive;
 }
