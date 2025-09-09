@@ -2,12 +2,10 @@
 // Funções para ligação ao backend de autenticação
 // (Comentários em português, código em inglês)
 
-// URL base da API, lida das variáveis de ambiente;
-// caso não esteja definida, utiliza o backend no Render.
 export const API_URL =
   process.env.NEXT_PUBLIC_API_URL ?? 'https://clientemisterio-backend.onrender.com'
 
-// Tipos úteis (ajusta se o teu backend devolver mais campos)
+// Tipos úteis (ajusta conforme o teu backend)
 export type ApiUser = {
   id: number
   name: string
@@ -32,25 +30,28 @@ function extractError(errorData: any, fallback: string) {
   return fallback
 }
 
-// Pequeno helper para fazer requests com JSON + cookies incluídos
+// Helper genérico para requests com cookies incluídos
 async function request<T>(
   path: string,
-  init: RequestInit & { json?: any } = {}
+  init: RequestInit & { json?: unknown } = {}
 ): Promise<T> {
   const { json, headers, ...rest } = init
 
+  const withJson = json !== undefined
+  const finalHeaders = withJson
+    ? { 'Content-Type': 'application/json', ...(headers || {}) }
+    : { ...(headers || {}) }
+
   const res = await fetch(`${API_URL}${path}`, {
     credentials: 'include', // 👈 necessário para cookie httponly cross-site
-    headers: {
-      'Content-Type': 'application/json',
-      ...(headers || {}),
-    },
-    ...(json !== undefined ? { body: JSON.stringify(json), method: rest.method ?? 'POST' } : {}),
+    headers: finalHeaders,
+    ...(withJson ? { body: JSON.stringify(json), method: rest.method ?? 'POST' } : {}),
     ...rest,
   })
 
   const contentType = res.headers.get('Content-Type') || ''
-  const parseBody = async () => (contentType.includes('application/json') ? res.json() : res.text())
+  const parseBody = async () =>
+    contentType.includes('application/json') ? res.json() : res.text()
 
   if (!res.ok) {
     let data: any = undefined
@@ -63,33 +64,40 @@ async function request<T>(
     throw new Error(msg)
   }
 
-  // @ts-expect-error — se não for JSON, devolve string
-  return await parseBody()
+  // Sucesso: devolve o body como T (JSON na maioria dos casos)
+  const data = (await parseBody()) as unknown as T
+  return data
 }
 
 // ─────────────────────────── Auth Endpoints ───────────────────────────
 
-// Envia dados de registo para o backend
-export async function registerUser(data: { name: string; email: string; password: string }): Promise<ApiUser> {
+export async function registerUser(data: {
+  name: string
+  email: string
+  password: string
+}): Promise<ApiUser> {
   return request<ApiUser>('/auth/register', { json: data })
 }
 
-// Envia credenciais de login e devolve o token (o cookie httponly também é definido)
-export async function loginUser(data: { email: string; password: string }): Promise<LoginResponse> {
+export async function loginUser(data: {
+  email: string
+  password: string
+}): Promise<LoginResponse> {
   return request<LoginResponse>('/auth/login', { json: data })
 }
 
-// Faz logout limpando o cookie de sessão no backend
 export async function logout(): Promise<void> {
+  // 204 No Content esperado; ignoramos o body
   await request<void>('/auth/logout', { method: 'POST' })
 }
 
-// Obtém os dados do utilizador autenticado (requer cookie ou Bearer; aqui usamos cookie)
 export async function getCurrentUser(): Promise<ApiUser> {
   return request<ApiUser>('/auth/me', { method: 'GET' })
 }
 
-// Atualiza os dados pessoais do utilizador autenticado
-export async function updateUser(data: { name?: string; email?: string }): Promise<ApiUser> {
+export async function updateUser(data: {
+  name?: string
+  email?: string
+}): Promise<ApiUser> {
   return request<ApiUser>('/auth/me', { method: 'PUT', json: data })
 }
