@@ -34,6 +34,8 @@ export default function HomePage() {
               <span className="block">CURSO</span>
               <span className="block">COMPLETO</span>
             </h1>
+            {/* Frase descritiva colocada abaixo do título */}
+            <p className="text-base">Avalia marcas, recebe dinheiro e acumula produtos.</p>
 
             {/* Botão de adesão direciona para registo ou dashboard conforme sessão */}
             <Link
