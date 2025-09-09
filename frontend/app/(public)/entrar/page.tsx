@@ -39,6 +39,8 @@ export default function LoginPage() {
       await loginUser({ email, password })
       // Guarda apenas a flag de sessão autenticada
       localStorage.setItem('cm_session', JSON.stringify({ loggedIn: true }))
+      // Notifica a aplicação que a sessão foi alterada
+      window.dispatchEvent(new Event('cm-session'))
       // Redireciona para o dashboard do aluno
       router.push('/dashboard')
     } catch (err: unknown) {
