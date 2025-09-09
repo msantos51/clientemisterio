@@ -133,7 +133,7 @@ export function Header() {
             // Botão de logout visível quando autenticado
             <button
               onClick={handleLogout}
-              className="rounded bg-white px-4 py-1 text-black hover:bg-white/80"
+              className="join-button"
             >
               Logout
             </button>

@@ -43,8 +43,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {/* Cabeçalho exibido no topo */}
           <Header />
 
-          {/* Conteúdo principal sem margem superior para encostar ao cabeçalho */}
-          <main className="mx-4 mb-8 md:mx-8">{children}</main>
+          {/* Conteúdo principal com margem superior uniforme em todas as páginas */}
+          <main className="mx-4 mb-8 mt-8 md:mx-8">{children}</main>
 
           {/* Aviso de cookies obrigatório */}
           <CookieBar />
