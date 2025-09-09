@@ -7,6 +7,10 @@ import { CookieBar } from '../components/CookieBar'
 export const metadata = {
   title: 'Cliente Mistério',
   description: 'Plataforma de curso para clientes mistério',
+  // definir o favicon para evitar pedidos de /favicon.ico inexistente
+  icons: {
+    icon: '/logo.svg',
+  },
 }
 
 // Meta tag de viewport para adaptação mobile
