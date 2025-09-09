@@ -24,7 +24,11 @@ FRONTEND_URL = os.getenv("FRONTEND_URL", "https://clientemisterio-frontend.onren
 app.add_middleware(
     CORSMiddleware,
     # permitir apenas o domínio definido na variável FRONTEND_URL
-    allow_origins=[FRONTEND_URL],
+    allow_origins = [
+  "https://clientemisterio.com",
+  "https://clientemisterio-frontend.onrender.com",
+  "http://localhost:3000",
+]
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
