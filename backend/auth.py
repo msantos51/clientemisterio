@@ -71,7 +71,8 @@ def get_current_user(request: Request, db: Session = Depends(get_db)) -> User:
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Token sem subject",
         )
-    user = db.query(User).get(int(user_id))
+    # Recupera o utilizador pelo ID diretamente
+    user = db.get(User, int(user_id))
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
