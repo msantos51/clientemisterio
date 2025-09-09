@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20">
-  <!-- Logótipo com texto 'CM' em branco utilizando a fonte Squarish Sans -->
-  <text x="0" y="17" font-family="'Squarish Sans', sans-serif" font-size="20" fill="#ffffff">CM</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30">
+  <!-- Logótipo com texto 'CM' em branco utilizando a fonte manuscrita Pacifico -->
+  <text x="0" y="24" font-family="'Pacifico', cursive" font-size="30" fill="#ffffff">CM</text>
 </svg>

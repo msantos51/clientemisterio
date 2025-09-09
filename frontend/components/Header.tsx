@@ -81,7 +81,7 @@ export function Header() {
         {/* Logótipo alinhado à esquerda */}
         <Link
           href="/"
-          className="text-3xl font-bold text-white logo-font"
+          className="text-5xl font-bold text-white logo-font"
           aria-label="Página inicial"
         >
           CM
