@@ -2,8 +2,10 @@
 // Funções para ligação ao backend de autenticação
 // (Comentários em português, código em inglês)
 
+// Detecta URL da API a partir da variável de ambiente ou usa valor padrão
 export const API_URL =
-  process.env.NEXT_PUBLIC_API_URL ?? 'https://clientemisterio-backend.onrender.com'
+  process.env.NEXT_PUBLIC_API_URL?.trim() ||
+  'https://clientemisterio-backend.onrender.com'
 
 // Tipos úteis (ajusta conforme o teu backend)
 export type ApiUser = {
