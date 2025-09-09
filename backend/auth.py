@@ -2,7 +2,15 @@
 import os
 from datetime import datetime, timedelta, timezone
 
-from fastapi import APIRouter, Depends, HTTPException, status, Request, Response
+from fastapi import (
+    APIRouter,
+    Depends,
+    HTTPException,
+    Header,
+    Request,
+    Response,
+    status,
+)
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 from jose import jwt, JWTError
@@ -11,20 +19,28 @@ from database import SessionLocal
 from models import User
 from schemas import UserCreate, UserRead, UserLogin, UserUpdate
 
-router = APIRouter(prefix="/auth", tags=["auth"])
+# ───────────────────────────── Router ─────────────────────────────
+router = APIRouter(prefix="/auth", tags=["Auth"])
 
-# ── Segurança / Config ─────────────────────────────────────────────────────────
+# ─────────────── Segurança / Configuração de ambiente ─────────────
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+ENV = os.getenv("ENV", "prod").lower()  # "dev" | "prod"
+IS_DEV = ENV in {"dev", "development", "local"}
+
 SECRET_KEY = os.getenv("SECRET_KEY", "CHANGE_ME")
-if not SECRET_KEY or SECRET_KEY == "CHANGE_ME":
-    # Falhar cedo em produção evita tokens inválidos/iguais entre deploys
+# Em produção, falhar cedo se não estiver definida
+if (not SECRET_KEY or SECRET_KEY == "CHANGE_ME") and not IS_DEV:
     raise RuntimeError("SECRET_KEY não definida nas variáveis de ambiente.")
+
+# Em DEV, permite chave fallback explícita (apenas para testes)
+if IS_DEV and (not SECRET_KEY or SECRET_KEY == "CHANGE_ME"):
+    SECRET_KEY = "DEV_ONLY__CHANGE_ME_IN_PROD"
 
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60"))
 
-# ── DB dependency ──────────────────────────────────────────────────────────────
+# ─────────────────────────── DB dependency ─────────────────────────
 def get_db():
     db = SessionLocal()
     try:
@@ -32,7 +48,7 @@ def get_db():
     finally:
         db.close()
 
-# ── Helpers ───────────────────────────────────────────────────────────────────
+# ───────────────────────────── Helpers ─────────────────────────────
 def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
 
@@ -55,39 +71,76 @@ def decode_access_token(token: str) -> dict:
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-# Dependência que retorna o utilizador autenticado (ou 401)
-def get_current_user(request: Request, db: Session = Depends(get_db)) -> User:
-    """Obtém o utilizador autenticado a partir do token guardado no cookie."""
-    token = request.cookies.get("access_token")
+def extract_bearer(authorization: str | None) -> str | None:
+    if authorization and authorization.lower().startswith("bearer "):
+        return authorization.split(" ", 1)[1].strip()
+    return None
+
+def set_auth_cookie(response: Response, access_token: str, max_age_seconds: int) -> None:
+    """
+    Configura cookie cross-site em PROD e permissivo em DEV.
+    - Em PROD: Secure + SameSite=None (requer HTTPS)
+    - Em DEV:  Secure=False + SameSite=Lax (para localhost http)
+    """
+    response.set_cookie(
+        key="access_token",
+        value=access_token,
+        httponly=True,
+        secure=not IS_DEV,                          # True em PROD, False em DEV
+        samesite="none" if not IS_DEV else "lax",   # None em PROD, Lax em DEV
+        max_age=max_age_seconds,
+        path="/",
+    )
+
+def clear_auth_cookie(response: Response) -> None:
+    response.delete_cookie("access_token", path="/")
+
+# ───────────── Dependência de utilizador autenticado ──────────────
+def get_current_user(
+    request: Request,
+    db: Session = Depends(get_db),
+    authorization: str | None = Header(default=None),
+) -> User:
+    """
+    Aceita token via:
+      1) Header: Authorization: Bearer <token>
+      2) Cookie: access_token
+    """
+    token = extract_bearer(authorization) or request.cookies.get("access_token")
     if not token:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token não encontrado",  # mensagem de erro em português
+            detail="Token não encontrado",
+            headers={"WWW-Authenticate": "Bearer"},
         )
+
     payload = decode_access_token(token)
     user_id: str | None = payload.get("sub")
-    if user_id is None:
+    if not user_id:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Token sem subject",
+            headers={"WWW-Authenticate": "Bearer"},
         )
-    # Recupera o utilizador pelo ID diretamente
+
     user = db.get(User, int(user_id))
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Utilizador não existe",
+            headers={"WWW-Authenticate": "Bearer"},
         )
     return user
 
-# ── Rotas ─────────────────────────────────────────────────────────────────────
+# ───────────────────────────── Rotas ──────────────────────────────
 @router.post("/register", response_model=UserRead, status_code=status.HTTP_201_CREATED)
 def register(user_in: UserCreate, db: Session = Depends(get_db)):
     """
-    Cria um novo utilizador. Regras:
-    - email em lowercase
-    - password >= 6 chars
-    - email único
+    Cria um novo utilizador.
+    Regras:
+      - email em lowercase
+      - password >= 6 chars
+      - email único
     """
     email = user_in.email.strip().lower()
     if db.query(User).filter(User.email == email).first():
@@ -111,11 +164,11 @@ def login(user_in: UserLogin, response: Response, db: Session = Depends(get_db))
     """
     Valida credenciais e devolve:
     { access_token, token_type, expires_in }
+    Também define cookie 'access_token' (httponly), se o frontend usar credentials: 'include'.
     """
     email = user_in.email.strip().lower()
     user = db.query(User).filter(User.email == email).first()
     if not user or not verify_password(user_in.password, user.password_hash):
-        # 401 para fluxo de auth com WWW-Authenticate
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Credenciais inválidas",
@@ -124,27 +177,26 @@ def login(user_in: UserLogin, response: Response, db: Session = Depends(get_db))
 
     expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token({"sub": str(user.id)}, expires)
-    # Configura o cookie com as flags necessárias para cross-site
-    response.set_cookie(
-        key="access_token",
-        value=access_token,
-        httponly=True,
-        secure=True,
-        samesite="none",
-        max_age=int(expires.total_seconds()),
-        path="/",
-    )
+
+    # Cookie (opcional; só é útil se o frontend fizer fetch(..., credentials: 'include'))
+    set_auth_cookie(response, access_token, max_age_seconds=int(expires.total_seconds()))
+
     return {
         "access_token": access_token,
         "token_type": "bearer",
         "expires_in": int(expires.total_seconds()),
     }
 
+@router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
+def logout(response: Response):
+    """Limpa o cookie de sessão (se estiveres a usar cookies)."""
+    clear_auth_cookie(response)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
+
 @router.get("/me", response_model=UserRead)
 def me(current_user: User = Depends(get_current_user)):
     """Devolve o utilizador atual (para validar sessão no frontend)."""
     return current_user
-
 
 @router.put("/me", response_model=UserRead)
 def update_me(
@@ -153,7 +205,6 @@ def update_me(
     db: Session = Depends(get_db),
 ):
     """Atualiza os dados do utilizador autenticado."""
-
     # Atualiza o nome, se fornecido
     if user_in.name is not None:
         current_user.name = user_in.name.strip()
