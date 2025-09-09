@@ -57,7 +57,7 @@ export function Faq() {
             className="rounded-lg bg-white/20 p-4 shadow"
           >
               {/* Pergunta visível em negrito que pode ser clicada */}
-              <summary className="cursor-pointer font-bold text-black">{item.question}</summary>
+              <summary className="cursor-pointer font-bold text-white">{item.question}</summary>
             {/* Resposta apresentada ao clicar na pergunta com texto branco */}
             <p className="mt-2 text-white">{item.answer}</p>
           </details>

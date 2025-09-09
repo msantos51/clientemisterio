@@ -11,7 +11,7 @@ html, body {
   /* Aplica o tipo de letra Roboto em todo o site */
   font-family: 'Roboto', sans-serif;
   /* Define a cor padrão do texto em todo o site */
-  color: #000000;
+  color: #ffffff;
   /* Remove margens e preenchimentos padrão */
   margin: 0;
   padding: 0;
@@ -44,13 +44,11 @@ p {
   text-align: justify;
 }
 
-/* Torna o texto de todos os botões em negrito */
+/* Torna o texto de todos os botões em negrito e com cor preta */
 button {
   font-weight: 700;
-  /* Fundo preto para todos os botões */
-  background-color: #000000;
-  /* Texto branco para contraste */
-  color: #ffffff;
+  /* Texto preto para contrastar com o fundo */
+  color: #000000;
 }
 
 /* Estilo personalizado do botão "Adere já" */
@@ -77,7 +75,7 @@ button {
 .join-button:hover {
   background-color: #5e6ce7;
   box-shadow: 0 0 0 5px #3b83f65f;
-  color: #ffffff;
+  color: #000000;
 }
 
 /* Contêiner principal do formulário */
@@ -164,46 +162,4 @@ button {
   padding-left: 5px;
   padding-right: 5px;
 }
-
-/* Botão de submissão do formulário */
-.submit-btn {
-  margin-top: 30px;
-  height: 55px;
-  /* Fundo preto do botão de submissão */
-  background: #000000;
-  border-radius: 11px;
-  border: 0;
-  outline: none;
-  /* Texto branco para visibilidade */
-  color: #ffffff;
-  font-size: 18px;
-  font-weight: 700;
-  transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
-  cursor: pointer;
-}
-
-/* Efeito ao passar o rato sobre o botão */
-.submit-btn:hover {
-  background: #000000cc;
-}
-
-/* Botão de adesão com estilo personalizado */
-.join-button {
-  background-color: #f3f7fE;
-  color: #C645F9;
-  border: none;
-  cursor: pointer;
-  border-radius: 8px;
-  width: 100px;
-  height: 45px;
-  transition: 0.3s;
-}
-
-/* Efeito de foco para o botão de adesão */
-.join-button:hover {
-  background-color: #5E6CE7;
-  box-shadow: 0 0 0 5px #3b83f65f;
-  color: #fff;
-}
-
 
