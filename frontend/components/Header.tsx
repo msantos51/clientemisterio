@@ -117,9 +117,9 @@ export function Header() {
 
         </Link>
 
-        {/* Menu principal alinhado ao centro */}
-        <nav className="flex flex-1 justify-center space-x-6">
-          <MainLinks linkClass="hover:underline" />
+        {/* Menu principal alinhado ao centro com links maiores, a negrito e espaçados */}
+        <nav className="flex flex-1 justify-center space-x-8">
+          <MainLinks linkClass="text-lg font-bold hover:underline" />
         </nav>
 
         {/* Área de ações no canto superior direito */}
