@@ -17,18 +17,14 @@ except Exception as e:
 
 app = FastAPI(title="Cliente Mistério API")
 
-# URL do frontend autorizada nas requisições CORS
-FRONTEND_URL = os.getenv("FRONTEND_URL", "https://clientemisterio-frontend.onrender.com")
-
-# CORS (ajusta o domínio do frontend)
+# CORS (ajusta os domínios do frontend que vais usar)
 app.add_middleware(
     CORSMiddleware,
-    # permitir apenas o domínio definido na variável FRONTEND_URL
-    allow_origins = [
-  "https://clientemisterio.com",
-  "https://clientemisterio-frontend.onrender.com",
-  "http://localhost:3000",
-]
+    allow_origins=[
+        "https://clientemisterio.com",
+        "https://clientemisterio-frontend.onrender.com",
+        "http://localhost:3000",
+    ],  # 👈 vírgula aqui!
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
