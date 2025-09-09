@@ -8,8 +8,11 @@ const BACKEND =
 const csp = [
   "default-src 'self'",
   "img-src 'self' data:",
-  "script-src 'self'",
-  "style-src 'self' 'unsafe-inline'",
+  "script-src 'self' 'unsafe-inline'",
+  // permitir folhas de estilo locais e externas necessárias para as fontes
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.cdnfonts.com",
+  // permitir carregamento de fontes externas
+  "font-src 'self' https://fonts.gstatic.com https://fonts.cdnfonts.com",
   // permitir fetch/XHR ao backend definido em BACKEND
   `connect-src 'self' ${BACKEND}`,
   // permitir o embed do Genially:
