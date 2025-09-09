@@ -111,7 +111,6 @@ export default function EnterprisePage() {
         {/* Título principal e subtítulo */}
         <div className="text-center space-y-2">
           <h1 className="text-4xl font-bold">Empresas & Marcas</h1>
-          <p>Aceda a Clientes Mistério prontos a começar</p>
         </div>
 
         {/* Descrição inicial */}
