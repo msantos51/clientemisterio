@@ -1,5 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+/* Importa a fonte Saira Stencil One para títulos destacados */
+@import url('https://fonts.googleapis.com/css2?family=Saira+Stencil+One&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -31,9 +32,9 @@ html, body {
   overflow-y: auto;
 }
 
-/* Classe para aplicar a fonte manuscrita Pacifico ao logótipo */
+/* Classe que aplica a fonte "Saira Stencil One" ao logótipo e títulos */
 .logo-font {
-  font-family: 'Pacifico', cursive;
+  font-family: 'Saira Stencil One', cursive;
 }
 
 /* Justifica o texto de todos os parágrafos */
