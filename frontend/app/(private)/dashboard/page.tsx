@@ -59,7 +59,7 @@ export default function DashboardPage() {
         <div className="mb-8 text-center">
           <Link
             href="/comprar"
-            className="rounded bg-white px-4 py-2 text-black hover:bg-white/80"
+            className="rounded bg-white px-4 py-2 font-bold text-black hover:bg-white/80"
           >
             Comprar curso
           </Link>

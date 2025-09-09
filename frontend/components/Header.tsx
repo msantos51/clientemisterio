@@ -3,7 +3,7 @@
 // Cabeçalho principal com navegação e ações de sessão
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { logout } from '@/lib/api'
 
 // Lista de ligações principais para o menu
@@ -39,7 +39,6 @@ function MainLinks({
     </>
   )
 }
-
 
 // Ícone de utilizador para o botão de login
 const loginIcon = (
@@ -96,6 +95,8 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   // Router para redirecionar após logout
   const router = useRouter()
+  // Caminho atual para ocultar botões em páginas específicas
+  const pathname = usePathname()
 
   // Função que verifica a sessão no localStorage
   const checkSession = () => {
@@ -144,8 +145,6 @@ export function Header() {
         >
           {/* Sigla principal do site */}
           <span className="logo-font text-5xl font-bold">CM</span>
-
-
         </Link>
 
         {/* Menu principal alinhado ao centro, visível apenas em ecrãs médios ou maiores */}
@@ -157,10 +156,12 @@ export function Header() {
         <div className="flex items-center space-x-4">
           {isLoggedIn ? (
             <>
-              {/* Liga o aluno ao dashboard pessoal */}
-              <Link href="/dashboard" className="join-button">
-                Área Pessoal
-              </Link>
+              {/* Liga o aluno ao dashboard pessoal quando não está já lá */}
+              {pathname !== '/dashboard' && (
+                <Link href="/dashboard" className="join-button">
+                  Área Pessoal
+                </Link>
+              )}
               {/* Botão de logout visível quando autenticado */}
               <button onClick={handleLogout} className="join-button">
                 Logout
@@ -188,14 +189,22 @@ export function Header() {
 
         {/* Menu móvel apresentado abaixo do cabeçalho quando ativo */}
         {isMenuOpen && (
-          <nav className="absolute left-0 top-full w-full bg-black/90 md:hidden">
-            <div className="flex flex-col items-center space-y-4 p-4">
-              <MainLinks
-                linkClass="text-lg font-bold hover:underline"
-                onClick={() => setIsMenuOpen(false)}
-              />
-            </div>
-          </nav>
+          <>
+            {/* Área transparente que permite fechar o menu ao clicar fora */}
+            <div
+              className="fixed inset-0 z-40"
+              onClick={() => setIsMenuOpen(false)}
+            />
+            {/* Menu móvel com fundo branco translúcido */}
+            <nav className="absolute left-0 top-full z-50 w-full bg-white/80 text-black md:hidden">
+              <div className="flex flex-col items-center space-y-4 p-4">
+                <MainLinks
+                  linkClass="text-lg font-bold hover:underline"
+                  onClick={() => setIsMenuOpen(false)}
+                />
+              </div>
+            </nav>
+          </>
         )}
       </div>
     </header>
