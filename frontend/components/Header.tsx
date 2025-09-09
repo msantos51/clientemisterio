@@ -28,27 +28,6 @@ function MainLinks({ linkClass }: { linkClass: string }) {
   )
 }
 
-// Ícone de pesquisa reutilizável
-const searchIcon = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth="2"
-    className="h-6 w-6"
-  >
-    <circle cx="11" cy="11" r="8" />
-    <line
-      x1="21"
-      y1="21"
-      x2="16.65"
-      y2="16.65"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-)
 
 // Ícone de utilizador para o botão de login
 const loginIcon = (
@@ -76,8 +55,8 @@ export function Header() {
   // Router para redirecionar após logout
   const router = useRouter()
 
-  // Verifica no localStorage se existe sessão ativa
-  useEffect(() => {
+  // Função que verifica a sessão no localStorage
+  const checkSession = () => {
     const session = localStorage.getItem('cm_session')
     try {
       const parsed = session ? JSON.parse(session) : null
@@ -85,6 +64,14 @@ export function Header() {
     } catch {
       setIsLoggedIn(false)
     }
+  }
+
+  // Verifica sessão inicial e ouve alterações através de evento personalizado
+  useEffect(() => {
+    checkSession()
+    const handleSessionEvent = () => checkSession()
+    window.addEventListener('cm-session', handleSessionEvent)
+    return () => window.removeEventListener('cm-session', handleSessionEvent)
   }, [])
 
   // Termina a sessão ao clicar no botão de logout
@@ -96,6 +83,8 @@ export function Header() {
     } finally {
       localStorage.removeItem('cm_session')
       setIsLoggedIn(false)
+      // Dispara evento para informar outros componentes da alteração
+      window.dispatchEvent(new Event('cm-session'))
       router.push('/')
     }
   }
@@ -124,19 +113,17 @@ export function Header() {
 
         {/* Área de ações no canto superior direito */}
         <div className="flex items-center space-x-4">
-          {/* Link para pesquisa (não funcional) */}
-          <Link href="#" aria-label="Pesquisar" className="inline-flex">
-            {searchIcon}
-          </Link>
-
           {isLoggedIn ? (
-            // Botão de logout visível quando autenticado
-            <button
-              onClick={handleLogout}
-              className="join-button"
-            >
-              Logout
-            </button>
+            <>
+              {/* Liga o aluno ao dashboard pessoal */}
+              <Link href="/dashboard" className="join-button">
+                Área Pessoal
+              </Link>
+              {/* Botão de logout visível quando autenticado */}
+              <button onClick={handleLogout} className="join-button">
+                Logout
+              </button>
+            </>
           ) : (
             // Ícone de login quando não autenticado
             <Link
