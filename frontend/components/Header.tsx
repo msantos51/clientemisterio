@@ -78,13 +78,16 @@ export function Header() {
     <header className="sticky top-0 z-50 bg-transparent text-white">
       {/* Contêiner com largura máxima e itens dispostos numa única linha */}
       <div className="mx-auto flex max-w-6xl items-center justify-between p-4 md:p-6">
-        {/* Logótipo alinhado à esquerda */}
+        {/* Logótipo com slogan, alinhado à esquerda */}
         <Link
           href="/"
-          className="text-5xl font-bold text-white logo-font"
+          className="flex flex-col leading-none text-white"
           aria-label="Página inicial"
         >
-          CM
+          {/* Sigla principal do site */}
+          <span className="logo-font text-5xl font-bold">CM</span>
+          {/* Texto adicional "CURSO COMPLETO" */}
+          <span className="logo-font text-lg">CURSO COMPLETO</span>
         </Link>
 
         {/* Menu principal alinhado ao centro */}

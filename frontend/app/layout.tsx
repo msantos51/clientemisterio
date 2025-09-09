@@ -7,6 +7,10 @@ import { CookieBar } from '../components/CookieBar'
 export const metadata = {
   title: 'Cliente Mistério',
   description: 'Plataforma de curso para clientes mistério',
+  // definir o favicon para evitar pedidos de /favicon.ico inexistente
+  icons: {
+    icon: '/logo.svg',
+  },
 }
 
 // Meta tag de viewport para adaptação mobile
@@ -19,6 +23,20 @@ export const viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt">
+      <head>
+        {/* Pré-conexão às fontes do Google para maior desempenho */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        {/* Carregamento da fonte "Saira Stencil One" */}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body>
         {/* Estrutura principal sem elementos decorativos */}
         <div className="min-h-screen">

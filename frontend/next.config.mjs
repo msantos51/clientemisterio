@@ -8,7 +8,8 @@ const BACKEND =
 const csp = [
   "default-src 'self'",
   "img-src 'self' data:",
-  "script-src 'self' 'unsafe-inline'",
+  // permitir scripts locais e o script de feedback do Vercel
+  "script-src 'self' 'unsafe-inline' https://vercel.live",
   // permitir folhas de estilo locais e externas necessárias para as fontes
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.cdnfonts.com",
   // permitir carregamento de fontes externas
