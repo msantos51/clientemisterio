@@ -2,6 +2,7 @@
 
 // Página de contacto com formulário formatado como os restantes
 import { useState } from 'react'
+import { sendContactMessage } from '@/lib/api'
 
 export default function ContactPage() {
   // Estado do formulário para armazenar os valores dos campos
@@ -14,11 +15,16 @@ export default function ContactPage() {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
-  // Envia o formulário e limpa os campos
-  const handleSubmit = (e: React.FormEvent) => {
+  // Envia o formulário para o backend e limpa os campos em caso de sucesso
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    alert('Mensagem enviada!')
-    setForm({ name: '', email: '', message: '' })
+    try {
+      await sendContactMessage(form)
+      alert('Mensagem enviada!')
+      setForm({ name: '', email: '', message: '' })
+    } catch (err) {
+      alert('Erro ao enviar a mensagem')
+    }
   }
 
   return (

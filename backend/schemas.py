@@ -73,3 +73,22 @@ class UserUpdate(BaseModel):
             raise ValueError("Invalid email format")
         return v
 
+
+class ContactMessage(BaseModel):
+    """Dados recebidos a partir do formulário de contacto."""
+
+    # Nome de quem envia a mensagem
+    name: str
+    # Endereço de e-mail do remetente
+    email: str
+    # Conteúdo da mensagem
+    message: str
+
+    @field_validator("email")
+    def validate_email(cls, v: str) -> str:
+        """Valida formato básico do e-mail."""
+        pattern = r"^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$"
+        if not re.match(pattern, v):
+            raise ValueError("Invalid email format")
+        return v
+

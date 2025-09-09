@@ -103,3 +103,14 @@ export async function updateUser(data: {
 }): Promise<ApiUser> {
   return request<ApiUser>('/auth/me', { method: 'PUT', json: data })
 }
+
+// ────────────────────────── Contact Endpoint ─────────────────────────
+
+export async function sendContactMessage(data: {
+  name: string
+  email: string
+  message: string
+}): Promise<void> {
+  // Envia os dados do formulário de contacto para o backend
+  await request<void>('/contact', { json: data })
+}
