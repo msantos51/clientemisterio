@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # Imports do projeto (ajusta o path se necessário)
 from database import Base, engine
 from auth import router as auth_router
+from contact import router as contact_router
 
 # ───────────────────────────── App ─────────────────────────────
 app = FastAPI(title="Cliente Mistério API")
@@ -68,3 +69,7 @@ def health():
 # ─────────────────────── Rotas de autenticação ───────────────────────
 # O router já tem prefixo "/auth" no próprio ficheiro; não repetir aqui.
 app.include_router(auth_router, tags=["Auth"])
+
+# ───────────────────────── Rotas de contacto ─────────────────────────
+# Lida com mensagens enviadas através do formulário de contacto
+app.include_router(contact_router, tags=["Contact"])
