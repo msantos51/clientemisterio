@@ -60,32 +60,6 @@ function ClockIcon(props: SVGProps<SVGSVGElement>) {
   )
 }
 
-// Ícone de foguetão desenhado apenas com traços brancos
-function RocketIcon(props: SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-      aria-hidden="true"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M12 3c2 0 5 1 6 2 1 2 1 5 0 7l-6 6-6-6c-1-2-1-5 0-7 1-1 4-2 6-2zm0 0v4m0 0 2 2"
-      />
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="m9 13-2 5 5-2 5 2-2-5"
-      />
-
-    </svg>
-  )
-}
-
 // Página inicial com título destacado e texto informativo
 export default function HomePage() {
   // Estado que indica se o utilizador está autenticado
@@ -119,29 +93,6 @@ export default function HomePage() {
       Icon: ClockIcon,
       label: 'relógio',
       text: 'Aprendizagem ao seu ritmo',
-
-    },
-  ]
-
-  // Lista de caixas para a secção detalhada
-  const details = [
-    {
-      Icon: ShieldIcon,
-      label: 'confiança',
-      text:
-        'Confiança na equipa: Criado por especialistas em estudos de mercado, com experiência real em Cliente Mistério em Portugal.',
-    },
-    {
-      Icon: PhoneIcon,
-      label: 'flexibilidade',
-      text:
-        'Flexibilidade total: 100% online — faz o curso no telemóvel, tablet ou computador, ao teu ritmo.',
-    },
-    {
-      Icon: RocketIcon,
-      label: 'resultados',
-      text:
-        'Resultados rápidos: Aprendizagem prática — módulos curtos, exemplos reais, checklists e quizzes para passares da teoria à ação.',
 
     },
   ]
@@ -197,25 +148,6 @@ export default function HomePage() {
         ))}
       </section>
 
-      {/* Nova secção com explicações detalhadas */}
-      <section className="mt-8 grid gap-4 p-4 text-black md:mx-auto md:max-w-4xl md:grid-cols-3">
-        {details.map((detail, index) => (
-          <div
-            key={index}
-            className="mx-auto flex w-full max-w-xs flex-col items-center rounded-lg bg-white/40 p-6 text-center"
-          >
-            {/* Símbolo representativo da descrição */}
-            <detail.Icon
-              role="img"
-              aria-label={detail.label}
-              className="mb-4 h-12 w-12 text-white"
-            />
-            {/* Texto explicativo da vantagem */}
-            <p className="text-base font-bold">{detail.text}</p>
-
-          </div>
-        ))}
-      </section>
     </main>
   )
 }
