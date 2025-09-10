@@ -35,7 +35,7 @@ function extractError(errorData: any, fallback: string) {
 // Helper genérico para requests com cookies incluídos
 async function request<T>(
   path: string,
-  init: RequestInit & { json?: unknown } = {}
+  init: RequestInit & { json?: unknown } = {},
 ): Promise<T> {
   const { json, headers, ...rest } = init
 
@@ -100,6 +100,7 @@ export async function getCurrentUser(): Promise<ApiUser> {
 export async function updateUser(data: {
   name?: string
   email?: string
+  password?: string // password opcional para permitir alteração
 }): Promise<ApiUser> {
   return request<ApiUser>('/auth/me', { method: 'PUT', json: data })
 }
