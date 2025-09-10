@@ -40,8 +40,10 @@ function PhoneIcon(props: SVGProps<SVGSVGElement>) {
   )
 }
 
+
 // Ícone de relógio com linhas brancas
 function ClockIcon(props: SVGProps<SVGSVGElement>) {
+
   return (
     <svg
       {...props}
@@ -51,8 +53,10 @@ function ClockIcon(props: SVGProps<SVGSVGElement>) {
       stroke="currentColor"
       aria-hidden="true"
     >
+
       <circle cx="12" cy="12" r="9" />
       <path strokeLinecap="round" strokeLinejoin="round" d="M12 7v5l3 3" />
+
     </svg>
   )
 }
@@ -76,6 +80,7 @@ export default function HomePage() {
   // Lista de caixas a apresentar na secção informativa
   const features = [
     {
+
       Icon: ShieldIcon,
       label: 'escudo',
       text: 'Equipa experiente',
@@ -89,6 +94,7 @@ export default function HomePage() {
       Icon: ClockIcon,
       label: 'relógio',
       text: 'Aprendizagem ao seu ritmo',
+
     },
   ]
 
@@ -126,6 +132,7 @@ export default function HomePage() {
         {features.map((feature, index) => (
           <div
             key={index}
+
             className="mx-auto flex w-full max-w-xs flex-col items-center rounded-lg bg-white/40 p-6 text-center"
           >
             {/* Símbolo representativo da característica */}
@@ -136,6 +143,7 @@ export default function HomePage() {
             />
             {/* Texto descritivo da característica */}
             <p className="text-base font-bold">{feature.text}</p>
+
           </div>
         ))}
       </section>
