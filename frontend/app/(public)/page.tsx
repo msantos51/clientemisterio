@@ -19,6 +19,28 @@ export default function HomePage() {
     }
   }, [])
 
+  // Lista de caixas a apresentar na secção informativa
+  const features = [
+    {
+      icon: '🛡️',
+      iconLabel: 'escudo',
+      text:
+        'Confiança na equipa: Criado por especialistas em estudos de mercado, com experiência real em Cliente Mistério em Portugal.',
+    },
+    {
+      icon: '📱',
+      iconLabel: 'telemóvel',
+      text:
+        'Flexibilidade total: 100% online — faz o curso no telemóvel, tablet ou computador, ao teu ritmo.',
+    },
+    {
+      icon: '🚀',
+      iconLabel: 'foguetão',
+      text:
+        'Resultados rápidos: Aprendizagem prática — módulos curtos, exemplos reais, checklists e quizzes para passares da teoria à ação.',
+    },
+  ]
+
   return (
     <main>
       {/* Secção inicial com título e botão de adesão */}
@@ -46,6 +68,27 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
+      </section>
+
+      {/* Secção informativa com três caixas e símbolos associados */}
+      <section className="mt-12 grid gap-6 p-4 text-black md:grid-cols-3">
+        {features.map((feature, index) => (
+          <div
+            key={index}
+            className="flex flex-col items-center rounded-lg bg-white/40 p-6 text-center"
+          >
+            {/* Símbolo representativo da característica */}
+            <span
+              role="img"
+              aria-label={feature.iconLabel}
+              className="mb-4 text-4xl"
+            >
+              {feature.icon}
+            </span>
+            {/* Texto descritivo da característica */}
+            <p className="text-base">{feature.text}</p>
+          </div>
+        ))}
       </section>
     </main>
   )
