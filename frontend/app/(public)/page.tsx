@@ -85,20 +85,26 @@ export default function HomePage() {
   // Lista de caixas a apresentar na secção informativa
   const features = [
     {
+
       Icon: ShieldIcon,
       label: 'escudo',
+
       text:
         'Confiança na equipa: Criado por especialistas em estudos de mercado, com experiência real em Cliente Mistério em Portugal.',
     },
     {
+
       Icon: PhoneIcon,
       label: 'telemóvel',
+
       text:
         'Flexibilidade total: 100% online — faz o curso no telemóvel, tablet ou computador, ao teu ritmo.',
     },
     {
+
       Icon: RocketIcon,
       label: 'foguetão',
+
       text:
         'Resultados rápidos: Aprendizagem prática — módulos curtos, exemplos reais, checklists e quizzes para passares da teoria à ação.',
     },
@@ -138,6 +144,7 @@ export default function HomePage() {
         {features.map((feature, index) => (
           <div
             key={index}
+
             className="mx-auto flex w-full max-w-xs flex-col items-center rounded-lg bg-white/40 p-6 text-center"
           >
             {/* Símbolo representativo da característica */}
@@ -148,6 +155,7 @@ export default function HomePage() {
             />
             {/* Texto descritivo da característica */}
             <p className="text-base font-bold">{feature.text}</p>
+
           </div>
         ))}
       </section>
