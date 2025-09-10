@@ -148,9 +148,9 @@ button {
   z-index: 2;
 }
 
-/* Movimento da etiqueta ao focar ou preencher o campo */
+/* Movimento da etiqueta ao focar ou quando o campo tem conteúdo */
 .input-field .input:focus ~ .label,
-.input-field .input:valid ~ .label {
+.input-field .input:not(:placeholder-shown) ~ .label {
   top: 5px;
   left: 5px;
   font-size: 12px;

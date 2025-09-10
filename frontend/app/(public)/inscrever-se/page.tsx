@@ -43,6 +43,7 @@ export default function RegisterPage() {
             className="input"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            placeholder=" " // Espaço necessário para usar o seletor :placeholder-shown
             required
           />
           <label className="label">Nome completo</label>
@@ -55,6 +56,7 @@ export default function RegisterPage() {
             className="input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            placeholder=" " // Espaço necessário para usar o seletor :placeholder-shown
             required
           />
           <label className="label">Email</label>
@@ -67,6 +69,7 @@ export default function RegisterPage() {
             className="input"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder=" " // Espaço necessário para usar o seletor :placeholder-shown
             required
           />
           <label className="label">Palavra-passe</label>

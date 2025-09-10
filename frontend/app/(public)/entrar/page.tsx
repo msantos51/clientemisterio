@@ -65,6 +65,7 @@ export default function LoginPage() {
             className="input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            placeholder=" " // Espaço necessário para usar o seletor :placeholder-shown
             required
           />
           <label className="label">Email</label>
@@ -77,6 +78,7 @@ export default function LoginPage() {
             className="input"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder=" " // Espaço necessário para usar o seletor :placeholder-shown
             required
           />
           <label className="label">Palavra-passe</label>

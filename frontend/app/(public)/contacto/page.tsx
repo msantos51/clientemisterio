@@ -43,6 +43,7 @@ export default function ContactPage() {
             className="input"
             value={form.name}
             onChange={handleChange}
+            placeholder=" " // Espaço necessário para usar o seletor :placeholder-shown
             required
           />
           <label className="label">Nome</label>
@@ -56,6 +57,7 @@ export default function ContactPage() {
             className="input"
             value={form.email}
             onChange={handleChange}
+            placeholder=" " // Espaço necessário para usar o seletor :placeholder-shown
             required
           />
           <label className="label">Email</label>
@@ -69,6 +71,7 @@ export default function ContactPage() {
             value={form.message}
             onChange={handleChange}
             rows={5}
+            placeholder=" " // Espaço necessário para usar o seletor :placeholder-shown
             required
           />
           <label className="label">Mensagem</label>
