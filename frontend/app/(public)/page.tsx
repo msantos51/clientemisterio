@@ -40,8 +40,10 @@ function PhoneIcon(props: SVGProps<SVGSVGElement>) {
   )
 }
 
-// Ícone de foguetão com linhas brancas
-function RocketIcon(props: SVGProps<SVGSVGElement>) {
+
+// Ícone de relógio com linhas brancas
+function ClockIcon(props: SVGProps<SVGSVGElement>) {
+
   return (
     <svg
       {...props}
@@ -51,17 +53,10 @@ function RocketIcon(props: SVGProps<SVGSVGElement>) {
       stroke="currentColor"
       aria-hidden="true"
     >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M12 2c3 2 5 5 5 9 0 3-1 5-3 7v3l-2-2-2 2v-3c-2-2-3-4-3-7 0-4 2-7 5-9z"
-      />
-      <circle cx="12" cy="9" r="1" />
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M9 13l-2 4 4-2m4 0 4 2-2-4"
-      />
+
+      <circle cx="12" cy="12" r="9" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 7v5l3 3" />
+
     </svg>
   )
 }
@@ -88,25 +83,18 @@ export default function HomePage() {
 
       Icon: ShieldIcon,
       label: 'escudo',
-
-      text:
-        'Confiança na equipa: Criado por especialistas em estudos de mercado, com experiência real em Cliente Mistério em Portugal.',
+      text: 'Equipa experiente',
     },
     {
-
       Icon: PhoneIcon,
       label: 'telemóvel',
-
-      text:
-        'Flexibilidade total: 100% online — faz o curso no telemóvel, tablet ou computador, ao teu ritmo.',
+      text: '100% online',
     },
     {
+      Icon: ClockIcon,
+      label: 'relógio',
+      text: 'Aprendizagem ao seu ritmo',
 
-      Icon: RocketIcon,
-      label: 'foguetão',
-
-      text:
-        'Resultados rápidos: Aprendizagem prática — módulos curtos, exemplos reais, checklists e quizzes para passares da teoria à ação.',
     },
   ]
 
