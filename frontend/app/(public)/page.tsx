@@ -1,7 +1,86 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type SVGProps } from 'react'
+
+// Ícone de escudo representado apenas com linhas brancas
+function ShieldIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      aria-hidden="true"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 2 4 6v6c0 5 4 9 8 10 4-1 8-5 8-10V6z"
+      />
+    </svg>
+  )
+}
+
+// Ícone de telemóvel desenhado com traços brancos
+function PhoneIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      aria-hidden="true"
+    >
+      <rect x="7" y="2" width="10" height="20" rx="2" />
+      <path strokeLinecap="round" d="M11 18h2" />
+    </svg>
+  )
+}
+
+// Ícone de relógio com linhas brancas
+function ClockIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 7v5l3 3" />
+    </svg>
+  )
+}
+
+// Ícone de foguetão desenhado apenas com traços brancos
+function RocketIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      aria-hidden="true"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 3c2 0 5 1 6 2 1 2 1 5 0 7l-6 6-6-6c-1-2-1-5 0-7 1-1 4-2 6-2zm0 0v4m0 0 2 2"
+      />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="m9 13-2 5 5-2 5 2-2-5"
+      />
+    </svg>
+  )
+}
 
 // Página inicial com título destacado e texto informativo
 export default function HomePage() {
@@ -18,6 +97,47 @@ export default function HomePage() {
       setIsLoggedIn(false)
     }
   }, [])
+
+  // Lista de caixas a apresentar na secção informativa
+  const features = [
+    {
+      Icon: ShieldIcon,
+      label: 'escudo',
+      text: 'Equipa experiente',
+    },
+    {
+      Icon: PhoneIcon,
+      label: 'telemóvel',
+      text: '100% online',
+    },
+    {
+      Icon: ClockIcon,
+      label: 'relógio',
+      text: 'Aprendizagem ao seu ritmo',
+    },
+  ]
+
+  // Lista de caixas para a secção detalhada
+  const details = [
+    {
+      Icon: ShieldIcon,
+      label: 'confiança',
+      text:
+        'Confiança na equipa: Criado por especialistas em estudos de mercado, com experiência real em Cliente Mistério em Portugal.',
+    },
+    {
+      Icon: PhoneIcon,
+      label: 'flexibilidade',
+      text:
+        'Flexibilidade total: 100% online — faz o curso no telemóvel, tablet ou computador, ao teu ritmo.',
+    },
+    {
+      Icon: RocketIcon,
+      label: 'resultados',
+      text:
+        'Resultados rápidos: Aprendizagem prática — módulos curtos, exemplos reais, checklists e quizzes para passares da teoria à ação.',
+    },
+  ]
 
   return (
     <main>
@@ -46,6 +166,44 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
+      </section>
+
+      {/* Secção informativa com três caixas e símbolos associados */}
+      <section className="mt-12 grid gap-4 p-4 text-black md:mx-auto md:max-w-4xl md:grid-cols-3">
+        {features.map((feature, index) => (
+          <div
+            key={index}
+            className="mx-auto flex w-full max-w-xs flex-col items-center rounded-lg bg-white/40 p-6 text-center"
+          >
+            {/* Símbolo representativo da característica */}
+            <feature.Icon
+              role="img"
+              aria-label={feature.label}
+              className="mb-4 h-12 w-12 text-white"
+            />
+            {/* Texto descritivo da característica */}
+            <p className="text-base font-bold">{feature.text}</p>
+          </div>
+        ))}
+      </section>
+
+      {/* Nova secção com explicações detalhadas */}
+      <section className="mt-8 grid gap-4 p-4 text-black md:mx-auto md:max-w-4xl md:grid-cols-3">
+        {details.map((detail, index) => (
+          <div
+            key={index}
+            className="mx-auto flex w-full max-w-xs flex-col items-center rounded-lg bg-white/40 p-6 text-center"
+          >
+            {/* Símbolo representativo da descrição */}
+            <detail.Icon
+              role="img"
+              aria-label={detail.label}
+              className="mb-4 h-12 w-12 text-white"
+            />
+            {/* Texto explicativo da vantagem */}
+            <p className="text-base font-bold">{detail.text}</p>
+          </div>
+        ))}
       </section>
     </main>
   )
