@@ -40,8 +40,10 @@ function PhoneIcon(props: SVGProps<SVGSVGElement>) {
   )
 }
 
+
 // Ícone de relógio com linhas brancas
 function ClockIcon(props: SVGProps<SVGSVGElement>) {
+
   return (
     <svg
       {...props}
@@ -51,6 +53,7 @@ function ClockIcon(props: SVGProps<SVGSVGElement>) {
       stroke="currentColor"
       aria-hidden="true"
     >
+
       <circle cx="12" cy="12" r="9" />
       <path strokeLinecap="round" strokeLinejoin="round" d="M12 7v5l3 3" />
     </svg>
@@ -78,6 +81,7 @@ function RocketIcon(props: SVGProps<SVGSVGElement>) {
         strokeLinejoin="round"
         d="m9 13-2 5 5-2 5 2-2-5"
       />
+
     </svg>
   )
 }
@@ -101,6 +105,7 @@ export default function HomePage() {
   // Lista de caixas a apresentar na secção informativa
   const features = [
     {
+
       Icon: ShieldIcon,
       label: 'escudo',
       text: 'Equipa experiente',
@@ -114,6 +119,7 @@ export default function HomePage() {
       Icon: ClockIcon,
       label: 'relógio',
       text: 'Aprendizagem ao seu ritmo',
+
     },
   ]
 
@@ -136,6 +142,7 @@ export default function HomePage() {
       label: 'resultados',
       text:
         'Resultados rápidos: Aprendizagem prática — módulos curtos, exemplos reais, checklists e quizzes para passares da teoria à ação.',
+
     },
   ]
 
@@ -169,10 +176,12 @@ export default function HomePage() {
       </section>
 
       {/* Secção informativa com três caixas e símbolos associados */}
+
       <section className="mt-12 grid gap-4 p-4 text-black md:mx-auto md:max-w-4xl md:grid-cols-3">
         {features.map((feature, index) => (
           <div
             key={index}
+
             className="mx-auto flex w-full max-w-xs flex-col items-center rounded-lg bg-white/40 p-6 text-center"
           >
             {/* Símbolo representativo da característica */}
@@ -183,6 +192,7 @@ export default function HomePage() {
             />
             {/* Texto descritivo da característica */}
             <p className="text-base font-bold">{feature.text}</p>
+
           </div>
         ))}
       </section>
@@ -202,6 +212,7 @@ export default function HomePage() {
             />
             {/* Texto explicativo da vantagem */}
             <p className="text-base font-bold">{detail.text}</p>
+
           </div>
         ))}
       </section>
