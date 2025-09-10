@@ -40,10 +40,8 @@ function PhoneIcon(props: SVGProps<SVGSVGElement>) {
   )
 }
 
-
 // Ícone de relógio com linhas brancas
 function ClockIcon(props: SVGProps<SVGSVGElement>) {
-
   return (
     <svg
       {...props}
@@ -53,7 +51,6 @@ function ClockIcon(props: SVGProps<SVGSVGElement>) {
       stroke="currentColor"
       aria-hidden="true"
     >
-
       <circle cx="12" cy="12" r="9" />
       <path strokeLinecap="round" strokeLinejoin="round" d="M12 7v5l3 3" />
     </svg>
@@ -79,7 +76,6 @@ export default function HomePage() {
   // Lista de caixas a apresentar na secção informativa
   const features = [
     {
-
       Icon: ShieldIcon,
       label: 'escudo',
       text: 'Equipa experiente',
@@ -93,18 +89,26 @@ export default function HomePage() {
       Icon: ClockIcon,
       label: 'relógio',
       text: 'Aprendizagem ao seu ritmo',
-
     },
   ]
 
   return (
     <main>
+      {/* Secção introdutória com texto informativo sobre Cliente Mistério */}
+      <section className="flex justify-center p-4">
+        {/* Caixa branca translúcida contendo o texto explicativo */}
+        <div className="max-w-3xl rounded-lg bg-white/40 p-6 text-black">
+          {/* Texto introdutório em negrito fornecido pelo utilizador */}
+          <p className="font-bold">
+            Receba produtos, viva experiências e ainda ganhe dinheiro.
+          </p>
+        </div>
+      </section>
+
       {/* Secção inicial com título e botão de adesão */}
       <section className="flex flex-col items-center gap-8 text-center text-white">
-
         {/* Caixa branca translúcida que se ajusta ao tamanho do conteúdo */}
         <div className="w-fit rounded-lg bg-white/40 p-8">
-
           {/* Bloco com o título principal e botão de adesão */}
           <div className="flex flex-col items-center justify-center space-y-8">
             {/* Título principal com a fonte Saira Stencil One */}
@@ -113,7 +117,9 @@ export default function HomePage() {
               <span className="block">COMPLETO</span>
             </h1>
             {/* Frase descritiva colocada abaixo do título */}
-            <p className="text-base">Avalia marcas, recebe dinheiro e acumula produtos.</p>
+            <p className="text-base">
+              Avalia marcas, recebe dinheiro e acumula produtos.
+            </p>
 
             {/* Botão de adesão direciona para registo ou dashboard conforme sessão */}
             <Link
@@ -127,12 +133,10 @@ export default function HomePage() {
       </section>
 
       {/* Secção informativa com três caixas e símbolos associados */}
-
       <section className="mt-12 grid gap-4 p-4 text-black md:mx-auto md:max-w-4xl md:grid-cols-3">
         {features.map((feature, index) => (
           <div
             key={index}
-
             className="mx-auto flex w-full max-w-xs flex-col items-center rounded-lg bg-white/40 p-6 text-center"
           >
             {/* Símbolo representativo da característica */}
@@ -143,11 +147,10 @@ export default function HomePage() {
             />
             {/* Texto descritivo da característica */}
             <p className="text-base font-bold">{feature.text}</p>
-
           </div>
         ))}
       </section>
-
     </main>
   )
 }
+
