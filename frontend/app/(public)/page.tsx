@@ -1,7 +1,61 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type SVGProps } from 'react'
+
+// Ícone de escudo representado apenas com linhas brancas
+function ShieldIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      aria-hidden="true"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 2 4 6v6c0 5 4 9 8 10 4-1 8-5 8-10V6z"
+      />
+    </svg>
+  )
+}
+
+// Ícone de telemóvel desenhado com traços brancos
+function PhoneIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      aria-hidden="true"
+    >
+      <rect x="7" y="2" width="10" height="20" rx="2" />
+      <path strokeLinecap="round" d="M11 18h2" />
+    </svg>
+  )
+}
+
+// Ícone de relógio com linhas brancas
+function ClockIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 7v5l3 3" />
+    </svg>
+  )
+}
 
 // Página inicial com título destacado e texto informativo
 export default function HomePage() {
@@ -18,6 +72,25 @@ export default function HomePage() {
       setIsLoggedIn(false)
     }
   }, [])
+
+  // Lista de caixas a apresentar na secção informativa
+  const features = [
+    {
+      Icon: ShieldIcon,
+      label: 'escudo',
+      text: 'Equipa experiente',
+    },
+    {
+      Icon: PhoneIcon,
+      label: 'telemóvel',
+      text: '100% online',
+    },
+    {
+      Icon: ClockIcon,
+      label: 'relógio',
+      text: 'Aprendizagem ao seu ritmo',
+    },
+  ]
 
   return (
     <main>
@@ -46,6 +119,25 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
+      </section>
+
+      {/* Secção informativa com três caixas e símbolos associados */}
+      <section className="mt-12 grid gap-6 p-4 text-black md:grid-cols-3">
+        {features.map((feature, index) => (
+          <div
+            key={index}
+            className="mx-auto flex w-full max-w-xs flex-col items-center rounded-lg bg-white/40 p-6 text-center"
+          >
+            {/* Símbolo representativo da característica */}
+            <feature.Icon
+              role="img"
+              aria-label={feature.label}
+              className="mb-4 h-12 w-12 text-white"
+            />
+            {/* Texto descritivo da característica */}
+            <p className="text-base font-bold">{feature.text}</p>
+          </div>
+        ))}
       </section>
     </main>
   )
