@@ -1,7 +1,70 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type SVGProps } from 'react'
+
+// Ícone de escudo representado apenas com linhas brancas
+function ShieldIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      aria-hidden="true"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 2 4 6v6c0 5 4 9 8 10 4-1 8-5 8-10V6z"
+      />
+    </svg>
+  )
+}
+
+// Ícone de telemóvel desenhado com traços brancos
+function PhoneIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      aria-hidden="true"
+    >
+      <rect x="7" y="2" width="10" height="20" rx="2" />
+      <path strokeLinecap="round" d="M11 18h2" />
+    </svg>
+  )
+}
+
+// Ícone de foguetão com linhas brancas
+function RocketIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      aria-hidden="true"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 2c3 2 5 5 5 9 0 3-1 5-3 7v3l-2-2-2 2v-3c-2-2-3-4-3-7 0-4 2-7 5-9z"
+      />
+      <circle cx="12" cy="9" r="1" />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M9 13l-2 4 4-2m4 0 4 2-2-4"
+      />
+    </svg>
+  )
+}
 
 // Página inicial com título destacado e texto informativo
 export default function HomePage() {
@@ -22,20 +85,26 @@ export default function HomePage() {
   // Lista de caixas a apresentar na secção informativa
   const features = [
     {
-      icon: '🛡️',
-      iconLabel: 'escudo',
+
+      Icon: ShieldIcon,
+      label: 'escudo',
+
       text:
         'Confiança na equipa: Criado por especialistas em estudos de mercado, com experiência real em Cliente Mistério em Portugal.',
     },
     {
-      icon: '📱',
-      iconLabel: 'telemóvel',
+
+      Icon: PhoneIcon,
+      label: 'telemóvel',
+
       text:
         'Flexibilidade total: 100% online — faz o curso no telemóvel, tablet ou computador, ao teu ritmo.',
     },
     {
-      icon: '🚀',
-      iconLabel: 'foguetão',
+
+      Icon: RocketIcon,
+      label: 'foguetão',
+
       text:
         'Resultados rápidos: Aprendizagem prática — módulos curtos, exemplos reais, checklists e quizzes para passares da teoria à ação.',
     },
@@ -75,18 +144,18 @@ export default function HomePage() {
         {features.map((feature, index) => (
           <div
             key={index}
-            className="flex flex-col items-center rounded-lg bg-white/40 p-6 text-center"
+
+            className="mx-auto flex w-full max-w-xs flex-col items-center rounded-lg bg-white/40 p-6 text-center"
           >
             {/* Símbolo representativo da característica */}
-            <span
+            <feature.Icon
               role="img"
-              aria-label={feature.iconLabel}
-              className="mb-4 text-4xl"
-            >
-              {feature.icon}
-            </span>
+              aria-label={feature.label}
+              className="mb-4 h-12 w-12 text-white"
+            />
             {/* Texto descritivo da característica */}
-            <p className="text-base">{feature.text}</p>
+            <p className="text-base font-bold">{feature.text}</p>
+
           </div>
         ))}
       </section>
