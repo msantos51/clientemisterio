@@ -1,7 +1,10 @@
-# auth.py
+"""Funções e rotas relacionadas com autenticação de utilizadores."""
+
+# Importa módulos padrão de sistema e tempo
 import os
 from datetime import datetime, timedelta, timezone
 
+# Importa classes e funções do FastAPI para gerir requests e respostas
 from fastapi import (
     APIRouter,
     Depends,
@@ -11,10 +14,14 @@ from fastapi import (
     Response,
     status,
 )
+# Importa sessão do SQLAlchemy para interações com a base de dados
 from sqlalchemy.orm import Session
+# Importa utilitário de hashing de palavras-passe
 from passlib.context import CryptContext
+# Importa biblioteca para criação e validação de tokens JWT
 from jose import jwt, JWTError
 
+# Importa utilitários e modelos internos
 from database import SessionLocal
 from models import User
 from schemas import UserCreate, UserRead, UserLogin, UserUpdate
@@ -42,6 +49,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60")
 
 # ─────────────────────────── DB dependency ─────────────────────────
 def get_db():
+    """Cria e fornece uma sessão de base de dados por request."""
     db = SessionLocal()
     try:
         yield db
@@ -50,18 +58,22 @@ def get_db():
 
 # ───────────────────────────── Helpers ─────────────────────────────
 def get_password_hash(password: str) -> str:
+    """Gera o hash para a palavra-passe fornecida."""
     return pwd_context.hash(password)
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
+    """Compara palavra-passe em texto com o respetivo hash."""
     return pwd_context.verify(plain_password, hashed_password)
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
+    """Cria um token JWT com dados e tempo de expiração definidos."""
     to_encode = data.copy()
     expire = datetime.now(timezone.utc) + (expires_delta or timedelta(minutes=15))
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 def decode_access_token(token: str) -> dict:
+    """Decodifica e valida um token JWT retornando o payload."""
     try:
         return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
     except JWTError:
@@ -72,6 +84,7 @@ def decode_access_token(token: str) -> dict:
         )
 
 def extract_bearer(authorization: str | None) -> str | None:
+    """Extrai o token do cabeçalho Authorization se for do tipo Bearer."""
     if authorization and authorization.lower().startswith("bearer "):
         return authorization.split(" ", 1)[1].strip()
     return None
@@ -93,6 +106,7 @@ def set_auth_cookie(response: Response, access_token: str, max_age_seconds: int)
     )
 
 def clear_auth_cookie(response: Response) -> None:
+    """Remove o cookie de autenticação do cliente."""
     response.delete_cookie("access_token", path="/")
 
 # ───────────── Dependência de utilizador autenticado ──────────────
