@@ -98,13 +98,11 @@ export default function HomePage() {
       <section className="flex justify-center p-4">
         {/* Caixa branca translúcida contendo o texto explicativo */}
         <div className="max-w-3xl rounded-lg bg-white/40 p-6 text-black">
-          {/* Texto explicativo fornecido pelo utilizador */}
-          <p>
-            Ser Cliente Mistério é ter a oportunidade de viver experiências em
-            restaurantes, lojas e serviços, recebendo produtos ou refeições para
-            testar, além de honorários pelo seu relatório. É uma forma de ganhar
-            dinheiro extra enquanto avalia, de forma discreta, a qualidade das
-            marcas.
+
+          {/* Texto introdutório em negrito fornecido pelo utilizador */}
+          <p className="font-bold">
+            Receba produtos, viva experiências e ainda ganhe dinheiro.
+
           </p>
         </div>
       </section>
