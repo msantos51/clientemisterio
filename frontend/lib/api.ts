@@ -12,6 +12,7 @@ export type ApiUser = {
   id: number
   name: string
   email: string
+  has_paid: boolean
   created_at?: string
   updated_at?: string
 }
