@@ -55,10 +55,10 @@ export default function DashboardPage() {
             }}
           >
             <iframe
-              title="Curso Completo Cliente Mistério"
+              title="CURSO COMPLETO - CLIENTE MISTÉRIO"
               frameBorder={0}
-              width={800}
-              height={450}
+              width={1200}
+              height={675}
               style={{
                 position: 'absolute',
                 top: 0,
@@ -66,7 +66,7 @@ export default function DashboardPage() {
                 width: '100%',
                 height: '100%',
               }}
-              src="https://view.genially.com/68b97653b3a4717fa5a9e8b1"
+              src="https://view.genially.com/68c2fc398c5abdf14fbb9cb7"
               allowFullScreen
               scrolling="yes"
             />
