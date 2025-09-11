@@ -76,6 +76,13 @@ class UserUpdate(BaseModel):
         return v
 
 
+class PaymentStatusUpdate(BaseModel):
+    """Dados para atualizar o estado de pagamento do utilizador."""
+
+    # Indica se o utilizador já efetuou o pagamento do curso
+    has_paid: bool
+
+
 class ContactMessage(BaseModel):
     """Dados recebidos a partir do formulário de contacto."""
 
