@@ -98,9 +98,11 @@ export default function HomePage() {
       <section className="flex justify-center p-4">
         {/* Caixa branca translúcida contendo o texto explicativo */}
         <div className="max-w-3xl rounded-lg bg-white/40 p-6 text-black">
+
           {/* Texto introdutório em negrito fornecido pelo utilizador */}
           <p className="font-bold">
             Receba produtos, viva experiências e ainda ganhe dinheiro.
+
           </p>
         </div>
       </section>
