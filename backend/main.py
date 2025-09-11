@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 # Imports do projeto (ajusta o path se necessário)
-from database import Base, engine
+from database import Base, engine, ensure_has_paid_column
 from auth import router as auth_router
 from contact import router as contact_router
 
@@ -14,7 +14,8 @@ app = FastAPI(title="Cliente Mistério API")
 
 # (temporário até usares Alembic) criar tabelas no arranque
 try:
-    Base.metadata.create_all(bind=engine)
+    Base.metadata.create_all(bind=engine)  # cria tabelas se não existirem
+    ensure_has_paid_column()  # garante a coluna has_paid
 except Exception as e:
     print(f"⚠️ Erro ao criar tabelas: {e}")
 
