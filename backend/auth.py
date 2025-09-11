@@ -21,6 +21,9 @@ from passlib.context import CryptContext
 # Importa biblioteca para criação e validação de tokens JWT
 from jose import jwt, JWTError
 
+# Importa classes de segurança do FastAPI para suporte a OAuth2
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+
 # Importa utilitários e modelos internos
 from database import SessionLocal
 from models import User
@@ -52,6 +55,9 @@ if IS_DEV and (not SECRET_KEY or SECRET_KEY == "CHANGE_ME"):
 
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60"))
+
+# Instância do esquema OAuth2 para permitir "Authorize" na documentação
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token", auto_error=False)
 
 # ─────────────────────────── DB dependency ─────────────────────────
 def get_db():
@@ -115,18 +121,44 @@ def clear_auth_cookie(response: Response) -> None:
     """Remove o cookie de autenticação do cliente."""
     response.delete_cookie("access_token", path="/")
 
+
+def authenticate_credentials(db: Session, email: str, password: str) -> User:
+    """Valida credenciais e devolve o utilizador autenticado."""
+    email = email.strip().lower()
+    user = db.query(User).filter(User.email == email).first()
+    if not user or not verify_password(password, user.password_hash):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Credenciais inválidas",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    return user
+
+
+def create_login_response(user: User, response: Response) -> dict:
+    """Gera token e configura cookie para o utilizador autenticado."""
+    expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token({"sub": str(user.id)}, expires)
+    set_auth_cookie(response, access_token, max_age_seconds=int(expires.total_seconds()))
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "expires_in": int(expires.total_seconds()),
+    }
+
 # ───────────── Dependência de utilizador autenticado ──────────────
 def get_current_user(
     request: Request,
     db: Session = Depends(get_db),
     authorization: str | None = Header(default=None),
+    token: str | None = Depends(oauth2_scheme),
 ) -> User:
     """
     Aceita token via:
       1) Header: Authorization: Bearer <token>
       2) Cookie: access_token
     """
-    token = extract_bearer(authorization) or request.cookies.get("access_token")
+    token = token or extract_bearer(authorization) or request.cookies.get("access_token")
     if not token:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -186,26 +218,19 @@ def login(user_in: UserLogin, response: Response, db: Session = Depends(get_db))
     { access_token, token_type, expires_in }
     Também define cookie 'access_token' (httponly), se o frontend usar credentials: 'include'.
     """
-    email = user_in.email.strip().lower()
-    user = db.query(User).filter(User.email == email).first()
-    if not user or not verify_password(user_in.password, user.password_hash):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Credenciais inválidas",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
+    user = authenticate_credentials(db, user_in.email, user_in.password)
+    return create_login_response(user, response)
 
-    expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token({"sub": str(user.id)}, expires)
 
-    # Cookie (opcional; só é útil se o frontend fizer fetch(..., credentials: 'include'))
-    set_auth_cookie(response, access_token, max_age_seconds=int(expires.total_seconds()))
-
-    return {
-        "access_token": access_token,
-        "token_type": "bearer",
-        "expires_in": int(expires.total_seconds()),
-    }
+@router.post("/token")
+def login_token(
+    response: Response,
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    db: Session = Depends(get_db),
+):
+    """Compatível com OAuth2: devolve token ao receber credenciais em formulário."""
+    user = authenticate_credentials(db, form_data.username, form_data.password)
+    return create_login_response(user, response)
 
 @router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
 def logout(response: Response):
