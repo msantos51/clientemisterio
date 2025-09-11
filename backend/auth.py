@@ -22,8 +22,10 @@ from passlib.context import CryptContext
 # Importa biblioteca para criação e validação de tokens JWT
 from jose import jwt, JWTError
 
+
 # Importa classe de segurança do FastAPI para suporte a OAuth2
-from fastapi.security import OAuth2PasswordBearer
+
+
 
 # Importa utilitários e modelos internos
 from database import SessionLocal
@@ -60,28 +62,6 @@ ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60")
 # Instância do esquema OAuth2 para permitir "Authorize" na documentação
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token", auto_error=False)
 
-
-class OAuth2EmailRequestForm:
-    """Recebe email e password via formulário para obtenção de token."""
-
-    def __init__(
-        self,
-        email: str = Form(..., alias="username", description="Email do utilizador"),
-        password: str = Form(..., description="Password do utilizador"),
-        grant_type: str | None = Form(
-            default=None, alias="grant_type", regex="password", include_in_schema=False
-        ),
-        scope: str = Form("", include_in_schema=False),
-        client_id: str | None = Form(None, include_in_schema=False),
-        client_secret: str | None = Form(None, include_in_schema=False),
-    ):
-        # Guarda o email e a password fornecidos
-        self.email = email
-        self.password = password
-        # As variáveis seguintes são ignoradas mas mantidas para compatibilidade com OAuth2
-        self.scopes = scope.split()
-        self.client_id = client_id
-        self.client_secret = client_secret
 
 # ─────────────────────────── DB dependency ─────────────────────────
 def get_db():
@@ -249,11 +229,13 @@ def login(user_in: UserLogin, response: Response, db: Session = Depends(get_db))
 @router.post("/token")
 def login_token(
     response: Response,
+
     form_data: OAuth2EmailRequestForm = Depends(),
     db: Session = Depends(get_db),
 ):
     """Recebe email e password e devolve token para uso nas rotas protegidas."""
     user = authenticate_credentials(db, form_data.email, form_data.password)
+
     return create_login_response(user, response)
 
 @router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
