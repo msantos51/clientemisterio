@@ -32,6 +32,8 @@ class UserRead(BaseModel):
     name: str
     # E-mail do utilizador
     email: str
+    # Indica se o utilizador já efetuou o pagamento do curso
+    has_paid: bool
 
     class Config:
         # Permitir conversão a partir de objetos ORM
@@ -91,4 +93,3 @@ class ContactMessage(BaseModel):
         if not re.match(pattern, v):
             raise ValueError("Invalid email format")
         return v
-

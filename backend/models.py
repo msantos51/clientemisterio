@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Boolean
 
 # ✅ import absoluto (sem o ponto)
 from database import Base
@@ -12,3 +12,4 @@ class User(Base):
     name = Column(String, nullable=False)                # nome do utilizador
     email = Column(String, unique=True, index=True, nullable=False)  # e-mail
     password_hash = Column(String, nullable=False)       # hash da palavra-passe
+    has_paid = Column(Boolean, default=False, nullable=False)  # indica se o curso foi pago
