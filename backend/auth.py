@@ -24,7 +24,13 @@ from jose import jwt, JWTError
 # Importa utilitários e modelos internos
 from database import SessionLocal
 from models import User
-from schemas import UserCreate, UserRead, UserLogin, UserUpdate
+from schemas import (
+    UserCreate,
+    UserRead,
+    UserLogin,
+    UserUpdate,
+    PaymentStatusUpdate,
+)
 
 # ───────────────────────────── Router ─────────────────────────────
 router = APIRouter(prefix="/auth", tags=["Auth"])
@@ -235,3 +241,26 @@ def update_me(
     db.commit()
     db.refresh(current_user)
     return current_user
+
+
+@router.put("/users/{user_id}/payment", response_model=UserRead)
+def update_payment_status(
+    user_id: int,
+    payment_in: PaymentStatusUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Altera manualmente o estado de pagamento de um utilizador."""
+    # Procura o utilizador pelo identificador fornecido
+    user = db.get(User, user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="Utilizador não encontrado")
+
+    # Atualiza o campo de pagamento com o novo valor
+    user.has_paid = payment_in.has_paid
+
+    # Guarda a alteração na base de dados
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return user
