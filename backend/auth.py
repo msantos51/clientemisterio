@@ -22,10 +22,8 @@ from passlib.context import CryptContext
 # Importa biblioteca para criação e validação de tokens JWT
 from jose import jwt, JWTError
 
-
 # Importa classe de segurança do FastAPI para suporte a OAuth2
-
-
+from fastapi.security import OAuth2PasswordBearer
 
 # Importa utilitários e modelos internos
 from database import SessionLocal
@@ -61,6 +59,29 @@ ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60")
 
 # Instância do esquema OAuth2 para permitir "Authorize" na documentação
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token", auto_error=False)
+
+
+class OAuth2EmailRequestForm:
+    """Formulário OAuth2 que utiliza o campo 'email' em vez de 'username'."""
+
+    def __init__(
+        self,
+        email: str = Form(...),
+        password: str = Form(...),
+        scope: str = Form(""),
+        client_id: str | None = Form(None),
+        client_secret: str | None = Form(None),
+    ) -> None:
+        # Email do utilizador
+        self.email = email
+        # Palavra-passe do utilizador
+        self.password = password
+        # Escopos separados por espaço
+        self.scopes = scope.split()
+        # Identificador opcional do cliente OAuth
+        self.client_id = client_id
+        # Segredo opcional do cliente OAuth
+        self.client_secret = client_secret
 
 
 # ─────────────────────────── DB dependency ─────────────────────────
