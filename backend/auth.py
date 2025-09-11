@@ -8,6 +8,7 @@ from datetime import datetime, timedelta, timezone
 from fastapi import (
     APIRouter,
     Depends,
+    Form,
     HTTPException,
     Header,
     Request,
@@ -21,8 +22,10 @@ from passlib.context import CryptContext
 # Importa biblioteca para criação e validação de tokens JWT
 from jose import jwt, JWTError
 
-# Importa classes de segurança do FastAPI para suporte a OAuth2
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+
+# Importa classe de segurança do FastAPI para suporte a OAuth2
+
+
 
 # Importa utilitários e modelos internos
 from database import SessionLocal
@@ -58,6 +61,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60")
 
 # Instância do esquema OAuth2 para permitir "Authorize" na documentação
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token", auto_error=False)
+
 
 # ─────────────────────────── DB dependency ─────────────────────────
 def get_db():
@@ -225,11 +229,13 @@ def login(user_in: UserLogin, response: Response, db: Session = Depends(get_db))
 @router.post("/token")
 def login_token(
     response: Response,
-    form_data: OAuth2PasswordRequestForm = Depends(),
+
+    form_data: OAuth2EmailRequestForm = Depends(),
     db: Session = Depends(get_db),
 ):
-    """Compatível com OAuth2: devolve token ao receber credenciais em formulário."""
-    user = authenticate_credentials(db, form_data.username, form_data.password)
+    """Recebe email e password e devolve token para uso nas rotas protegidas."""
+    user = authenticate_credentials(db, form_data.email, form_data.password)
+
     return create_login_response(user, response)
 
 @router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
