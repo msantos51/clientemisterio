@@ -129,7 +129,7 @@ export default function HomePage() {
             {/* Botão de adesão direciona para registo ou dashboard conforme sessão */}
             <Link
               href={isLoggedIn ? '/dashboard' : '/inscrever-se'}
-              className="join-button"
+              className="btn"
             >
               Adere já!
             </Link>

@@ -4,6 +4,61 @@
 
 @tailwind base;
 @tailwind components;
+/* From Uiverse.io by cssbuttons-io: estilo base para todos os botões */
+.btn {
+  position: relative;
+  font-size: 17px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 1em 2.5em;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 6em;
+  transition: all 0.2s;
+  border: none;
+  font-family: inherit;
+  font-weight: 500;
+  color: #f39e83; /* Texto com cor de fundo do site */
+  background-color: white;
+}
+
+/* Efeito ao pairar com sombra e movimento */
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Efeito ao clicar */
+.btn:active {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Pseudo-elemento para animação de expansão */
+.btn::after {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  border-radius: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transition: all 0.4s;
+}
+
+/* Cor de fundo do pseudo-elemento */
+.btn::after {
+  background-color: #fff;
+}
+
+/* Animação de desaparecimento ao pairar */
+.btn:hover::after {
+  transform: scaleX(1.4) scaleY(1.6);
+  opacity: 0;
+}
+
 @tailwind utilities;
 
 /* Estilos globais base */
@@ -43,47 +98,6 @@ html, body {
 /* Justifica o texto de todos os parágrafos */
 p {
   text-align: justify;
-}
-
-/* Torna o texto de todos os botões em negrito e com cor preta */
-button {
-  font-weight: 700;
-  /* Texto preto para contrastar com o fundo */
-  color: #000000;
-}
-
-/* Estilo personalizado do botão "Adere já" */
-.join-button {
-  /* Cor de fundo suave do botão */
-  background-color: #f3f7fe;
-  /* Texto com cor violeta */
-  color: #c645f9;
-  font-weight: 700;
-  border: none;
-  cursor: pointer;
-  border-radius: 8px;
-  /* Largura e altura definidas conforme o design */
-  width: 100px;
-  height: 45px;
-  /* Centraliza o texto dentro do botão */
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  /* Transição suave para efeitos de hover */
-  transition: 0.3s;
-}
-
-/* Efeito de hover que iguala o fundo dos botões ao fundo do site */
-button:hover,
-.button-hover:hover,
-.join-button:hover {
-  background: linear-gradient(to bottom, #F3A183, #EC6F66);
-  color: #000000;
-}
-
-/* Mantém a sombra do botão principal ao passar o rato */
-.join-button:hover {
-  box-shadow: 0 0 0 5px #3b83f65f;
 }
 
 /* Contêiner principal do formulário */

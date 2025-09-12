@@ -158,12 +158,12 @@ export function Header() {
             <>
               {/* Liga o aluno ao dashboard pessoal quando não está já lá */}
               {pathname !== '/dashboard' && (
-                <Link href="/dashboard" className="join-button">
+                <Link href="/dashboard" className="btn">
                   Área Pessoal
                 </Link>
               )}
               {/* Botão de logout visível quando autenticado */}
-              <button onClick={handleLogout} className="join-button">
+              <button onClick={handleLogout} className="btn">
                 Logout
               </button>
             </>
@@ -180,7 +180,7 @@ export function Header() {
           {/* Botão que abre ou fecha o menu móvel, visível apenas em ecrãs pequenos */}
           <button
             onClick={() => setIsMenuOpen((prev) => !prev)}
-            className="md:hidden"
+            className="btn md:hidden"
             aria-label={isMenuOpen ? 'Fechar menu' : 'Abrir menu'}
           >
             {isMenuOpen ? closeIcon : menuIcon}

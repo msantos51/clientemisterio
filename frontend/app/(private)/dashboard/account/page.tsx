@@ -17,7 +17,7 @@ export default function AccountPage() {
       {/* Secção para apagar a conta (placeholder) */}
       <div>
         <h4 className="font-semibold">Apagar conta</h4>
-        <button className="join-button mt-2">Apagar</button>
+        <button className="btn mt-2">Apagar</button>
       </div>
     </section>
   )
