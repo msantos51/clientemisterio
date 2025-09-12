@@ -1,5 +1,36 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320">
-  <circle cx="96" cy="96" r="60" fill="rgba(255,255,255,0.6)" />
-  <circle cx="224" cy="192" r="80" fill="rgba(255,255,255,0.4)" />
-  <path d="M0 256 Q160 200 320 256 L320 320 0 320 Z" fill="rgba(255,255,255,0.5)" />
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1200 800">
+  <!-- Fundo radial com gradientes suaves -->
+  <rect fill="#F1DDF8" width="1200" height="800"/>
+  <defs>
+    <radialGradient id="a" cx="0" cy="800" r="800" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#cfb8f2"/>
+      <stop offset="1" stop-color="#cfb8f2" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="b" cx="1200" cy="800" r="800" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f1ddf8"/>
+      <stop offset="1" stop-color="#f1ddf8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="c" cx="600" cy="0" r="600" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#cfb8f2"/>
+      <stop offset="1" stop-color="#cfb8f2" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="d" cx="600" cy="800" r="600" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F1DDF8"/>
+      <stop offset="1" stop-color="#F1DDF8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="e" cx="0" cy="0" r="800" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9792EE"/>
+      <stop offset="1" stop-color="#9792EE" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="f" cx="1200" cy="0" r="800" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F1DDF8"/>
+      <stop offset="1" stop-color="#F1DDF8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect fill="url(#a)" width="1200" height="800"/>
+  <rect fill="url(#b)" width="1200" height="800"/>
+  <rect fill="url(#c)" width="1200" height="800"/>
+  <rect fill="url(#d)" width="1200" height="800"/>
+  <rect fill="url(#e)" width="1200" height="800"/>
+  <rect fill="url(#f)" width="1200" height="800"/>
 </svg>
