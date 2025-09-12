@@ -2,18 +2,30 @@
 
 // Página principal do dashboard com o curso disponível
 import { useEffect, useState } from 'react'
-import { getCurrentUser } from '@/lib/api'
+import { useSearchParams } from 'next/navigation'
+import { getCurrentUser, updatePaymentStatus } from '@/lib/api'
 
 export default function DashboardPage() {
   // Estado que indica se o utilizador já pagou (null durante o carregamento)
   const [hasPaid, setHasPaid] = useState<boolean | null>(null)
+  // Permite aceder aos parâmetros da query string
+  const searchParams = useSearchParams()
 
   // Ao montar o componente, obtém os dados do utilizador
   useEffect(() => {
-    getCurrentUser()
-      .then((user) => setHasPaid(user.has_paid))
-      .catch(() => setHasPaid(false))
-  }, [])
+    const success = searchParams.get('success')
+    if (success === 'true') {
+      // Se o pagamento foi concluído, atualiza o estado no backend
+      updatePaymentStatus({ has_paid: true })
+        .then((user) => setHasPaid(user.has_paid))
+        .catch(() => setHasPaid(false))
+    } else {
+      // Caso contrário, apenas verifica o estado atual do utilizador
+      getCurrentUser()
+        .then((user) => setHasPaid(user.has_paid))
+        .catch(() => setHasPaid(false))
+    }
+  }, [searchParams])
 
   // Enquanto verifica o pagamento, mostra mensagem simples
   if (hasPaid === null) {

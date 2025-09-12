@@ -295,6 +295,23 @@ def update_me(
     return current_user
 
 
+@router.put("/me/payment", response_model=UserRead)
+def update_my_payment_status(
+    payment_in: PaymentStatusUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Atualiza o estado de pagamento do utilizador autenticado."""
+    # Define o novo estado de pagamento com base na informação recebida
+    current_user.has_paid = payment_in.has_paid
+
+    # Guarda a alteração na base de dados
+    db.add(current_user)
+    db.commit()
+    db.refresh(current_user)
+    return current_user
+
+
 @router.put("/users/{user_id}/payment", response_model=UserRead)
 def update_payment_status(
     user_id: int,
