@@ -33,7 +33,11 @@ export default function PersonalPage() {
     e.preventDefault()
     setMessage('')
     try {
-      await updateUser({ name, email, password })
+      // Prepara os dados a enviar (apenas nome e password)
+      const data: { name: string; password?: string } = { name }
+      if (password) data.password = password
+      const updated = await updateUser(data)
+      setName(updated.name)
       setMessage('Dados atualizados com sucesso.')
       setPassword('')
     } catch (err: unknown) {
@@ -46,7 +50,7 @@ export default function PersonalPage() {
     <section>
       {/* Título da secção */}
       <h3 className="text-xl font-bold">Dados pessoais</h3>
-      {/* Formulário para alteração de nome, email e password */}
+      {/* Formulário para alteração de nome e password */}
       <form onSubmit={handleUpdate} className="mt-4 max-w-md space-y-4">
         <div>
           <label className="block text-sm font-medium text-white">Nome</label>
@@ -63,9 +67,9 @@ export default function PersonalPage() {
           <input
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 w-full rounded border border-white bg-black p-2 text-white"
-            required
+            // Campo apenas para visualização, não permite alterações
+            disabled
+            className="mt-1 w-full rounded border border-white bg-black p-2 text-white opacity-50"
           />
         </div>
         <div>

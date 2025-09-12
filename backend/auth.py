@@ -289,6 +289,12 @@ def update_me(
             raise HTTPException(status_code=400, detail="Email já registado")
         current_user.email = email
 
+    # Atualiza a palavra-passe, se fornecida
+    if user_in.password is not None:
+        if len(user_in.password) < 6:
+            raise HTTPException(status_code=400, detail="Password demasiado curta (>= 6)")
+        current_user.password_hash = get_password_hash(user_in.password)
+
     db.add(current_user)
     db.commit()
     db.refresh(current_user)

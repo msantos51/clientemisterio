@@ -64,6 +64,8 @@ class UserUpdate(BaseModel):
     name: str | None = None
     # Novo e-mail do utilizador (opcional)
     email: str | None = None
+    # Nova palavra-passe do utilizador (opcional)
+    password: str | None = None
 
     @field_validator("email")
     def validate_email(cls, v: str | None) -> str | None:
@@ -73,6 +75,15 @@ class UserUpdate(BaseModel):
         pattern = r"^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$"
         if not re.match(pattern, v):
             raise ValueError("Invalid email format")
+        return v
+
+    @field_validator("password")
+    def validate_password(cls, v: str | None) -> str | None:
+        """Garante que a password tem pelo menos 6 caracteres."""
+        if v is None:
+            return v
+        if len(v) < 6:
+            raise ValueError("Password too short (>= 6)")
         return v
 
 
