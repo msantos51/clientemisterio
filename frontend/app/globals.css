@@ -7,13 +7,13 @@
 /* From Uiverse.io by cssbuttons-io: estilo base para todos os botões */
 .btn {
   position: relative;
-  font-size: 17px;
+  font-size: 15px; /* Tamanho do texto ligeiramente menor */
   text-transform: uppercase;
   text-decoration: none;
-  padding: 1em 2.5em;
+  padding: 0.75em 2em; /* Reduz a altura e largura do botão */
   display: inline-block;
   cursor: pointer;
-  border-radius: 6em;
+  border-radius: 4em; /* Borda mais pequena para acompanhar o novo tamanho */
   transition: all 0.2s;
   border: none;
   font-family: inherit;

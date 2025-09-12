@@ -111,8 +111,8 @@ export default function HomePage() {
         <div className="w-fit rounded-lg bg-white/40 p-8">
           {/* Bloco com o título principal e botão de adesão */}
           <div className="flex flex-col items-center justify-center space-y-8">
-            {/* Título principal com a fonte Saira Stencil One */}
-            <h1 className="logo-font text-4xl font-bold leading-none md:text-8xl">
+            {/* Título principal com a fonte Saira Stencil One e tamanho ajustado */}
+            <h1 className="logo-font text-3xl font-bold leading-none md:text-7xl">
               <span className="block">CURSO</span>
               <span className="block">COMPLETO</span>
             </h1>
