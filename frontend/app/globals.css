@@ -1,3 +1,4 @@
+/* Importa a fonte Roboto com pesos normal e negrito para uso global */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 /* Importa a fonte Saira Stencil One para títulos destacados */
 @import url('https://fonts.googleapis.com/css2?family=Saira+Stencil+One&display=swap');
@@ -17,7 +18,7 @@
   transition: all 0.2s;
   border: none;
   font-family: inherit;
-  font-weight: 500;
+  font-weight: 700; /* Texto dos botões sempre em negrito */
   color: #f39e83; /* Texto com cor de fundo do site */
   background-color: white;
 }
