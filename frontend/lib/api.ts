@@ -106,6 +106,13 @@ export async function updateUser(data: {
   return request<ApiUser>('/auth/me', { method: 'PUT', json: data })
 }
 
+// Atualiza o estado de pagamento do utilizador autenticado
+export async function updatePaymentStatus(data: {
+  has_paid: boolean
+}): Promise<ApiUser> {
+  return request<ApiUser>('/auth/me/payment', { method: 'PUT', json: data })
+}
+
 // ────────────────────────── Contact Endpoint ─────────────────────────
 
 export async function sendContactMessage(data: {
