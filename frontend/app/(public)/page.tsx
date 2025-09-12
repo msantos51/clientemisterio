@@ -100,8 +100,7 @@ export default function HomePage() {
         <div className="w-fit rounded-lg bg-white/40 p-8 text-white">
           {/* Texto introdutório em negrito fornecido pelo utilizador */}
           <p className="font-bold">
-            Receba produtos, viva experiências e ainda ganhe dinheiro. O preço
-            do curso é recuperado logo nas primeiras avaliações.
+            Avalia marcas, recebe dinheiro e acumula produtos.
           </p>
         </div>
       </section>
@@ -124,7 +123,7 @@ export default function HomePage() {
             </div>
             {/* Frase descritiva colocada abaixo do título */}
             <p className="text-base">
-              Avalia marcas, recebe dinheiro e acumula produtos.
+              O preço do curso é recuperado logo nas primeiras avaliações.
             </p>
 
             {/* Botão de adesão direciona para registo ou dashboard conforme sessão */}
