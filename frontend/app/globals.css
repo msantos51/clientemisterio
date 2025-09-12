@@ -18,10 +18,12 @@ html, body {
   /* Garante altura mínima sem bloquear a rolagem */
   min-height: 100vh;
 
-  /* Define o gradiente de fundo com cores suaves */
-  background: #9c96ed;  /* fallback para navegadores antigos */
-  background: -webkit-linear-gradient(to right, #f1ddf8, #9c96ed);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #f1ddf8, #9c96ed); /* Compatível com navegadores modernos */
+
+  /* Define o gradiente de fundo vertical com cores quentes */
+  background: #EC6F66;  /* fallback para navegadores antigos */
+  background: -webkit-linear-gradient(to bottom, #F3A183, #EC6F66);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #F3A183, #EC6F66); /* Compatível com navegadores modernos */
+
   /* Ajusta o tamanho do fundo para cobrir todo o ecrã */
   background-size: cover;
   /* Impede a repetição do fundo */
