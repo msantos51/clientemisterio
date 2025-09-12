@@ -82,7 +82,7 @@ export default function PersonalPage() {
           />
         </div>
         {message && <p className="text-sm text-red-600">{message}</p>}
-        <button type="submit" className="join-button mt-2">
+        <button type="submit" className="btn mt-2">
           Guardar
         </button>
       </form>

@@ -29,7 +29,7 @@ export function CookieBar() {
       <p className="mb-2">Usamos cookies para melhorar a experiência.</p>
       <button
         onClick={handleAccept}
-        className="button-hover rounded bg-white px-4 py-2 font-bold text-black"
+        className="btn"
       >
         Aceitar
       </button>

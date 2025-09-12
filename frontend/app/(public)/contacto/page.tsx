@@ -78,7 +78,7 @@ export default function ContactPage() {
         </div>
 
         {/* Botão de submissão centrado dentro do formulário */}
-        <button type="submit" className="join-button mt-8 self-center">
+        <button type="submit" className="btn mt-8 self-center">
           Enviar
         </button>
       </form>

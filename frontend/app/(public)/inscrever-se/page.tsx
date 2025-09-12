@@ -79,7 +79,7 @@ export default function RegisterPage() {
         {error && <p className="text-sm text-red-600">{error}</p>}
 
         {/* Botão de submissão centrado dentro do formulário */}
-        <button type="submit" className="join-button mt-8 self-center">
+        <button type="submit" className="btn mt-8 self-center">
           Registar-se
         </button>
       </form>
