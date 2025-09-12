@@ -48,6 +48,8 @@ async function request<T>(
   const res = await fetch(`${API_URL}${path}`, {
     credentials: 'include', // 👈 necessário para cookie httponly cross-site
     headers: finalHeaders,
+    // Força a não utilização de cache para obter sempre dados atualizados
+    cache: 'no-store',
     ...(withJson ? { body: JSON.stringify(json), method: rest.method ?? 'POST' } : {}),
     ...rest,
   })

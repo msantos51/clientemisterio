@@ -6,25 +6,41 @@ import { useSearchParams } from 'next/navigation'
 import { getCurrentUser, updatePaymentStatus } from '@/lib/api'
 
 export default function DashboardPage() {
-  // Estado que indica se o utilizador já pagou (null durante o carregamento)
-  const [hasPaid, setHasPaid] = useState<boolean | null>(null)
+  // Estado que indica se o utilizador já pagou
+  // Inicializa com o valor guardado no localStorage, se existir
+  const [hasPaid, setHasPaid] = useState<boolean | null>(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('has_paid') === 'true' ? true : null
+    }
+    return null
+  })
   // Permite aceder aos parâmetros da query string
   const searchParams = useSearchParams()
 
   // Ao montar o componente, obtém os dados do utilizador
   useEffect(() => {
     const success = searchParams.get('success')
-    if (success === 'true') {
-      // Se o pagamento foi concluído, atualiza o estado no backend
-      updatePaymentStatus({ has_paid: true })
-        .then((user) => setHasPaid(user.has_paid))
-        .catch(() => setHasPaid(false))
-    } else {
-      // Caso contrário, apenas verifica o estado atual do utilizador
-      getCurrentUser()
-        .then((user) => setHasPaid(user.has_paid))
-        .catch(() => setHasPaid(false))
-    }
+    const action =
+      success === 'true'
+        ? updatePaymentStatus({ has_paid: true })
+        : getCurrentUser()
+
+    action
+      .then((user) => {
+        setHasPaid(user.has_paid)
+        // Guarda no localStorage para que o curso fique disponível no futuro
+        if (user.has_paid) {
+          localStorage.setItem('has_paid', 'true')
+        }
+      })
+      .catch(() => {
+        // Em caso de erro (ex.: sessão expirada), usa o valor persistido
+        if (localStorage.getItem('has_paid') === 'true') {
+          setHasPaid(true)
+        } else {
+          setHasPaid(false)
+        }
+      })
   }, [searchParams])
 
   // Enquanto verifica o pagamento, mostra mensagem simples
