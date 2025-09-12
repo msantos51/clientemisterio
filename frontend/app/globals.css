@@ -73,11 +73,17 @@ button {
   transition: 0.3s;
 }
 
-/* Efeito ao passar o rato sobre o botão "Adere já" */
+/* Efeito de hover que iguala o fundo dos botões ao fundo do site */
+button:hover,
+.button-hover:hover,
 .join-button:hover {
-  background-color: #5e6ce7;
-  box-shadow: 0 0 0 5px #3b83f65f;
+  background: linear-gradient(to bottom, #F3A183, #EC6F66);
   color: #000000;
+}
+
+/* Mantém a sombra do botão principal ao passar o rato */
+.join-button:hover {
+  box-shadow: 0 0 0 5px #3b83f65f;
 }
 
 /* Contêiner principal do formulário */

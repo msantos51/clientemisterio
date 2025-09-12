@@ -100,7 +100,8 @@ export default function HomePage() {
         <div className="w-fit rounded-lg bg-white/40 p-8 text-white">
           {/* Texto introdutório em negrito fornecido pelo utilizador */}
           <p className="font-bold">
-            Receba produtos, viva experiências e ainda ganhe dinheiro.
+            Receba produtos, viva experiências e ainda ganhe dinheiro. O preço
+            do curso é recuperado logo nas primeiras avaliações.
           </p>
         </div>
       </section>
@@ -116,6 +117,11 @@ export default function HomePage() {
               <span className="block">CURSO</span>
               <span className="block">COMPLETO</span>
             </h1>
+            {/* Mostra o preço antigo riscado e o preço atual */}
+            <div className="text-2xl">
+              <span className="mr-2 line-through">59,99€</span>
+              <span className="font-bold">34,99€</span>
+            </div>
             {/* Frase descritiva colocada abaixo do título */}
             <p className="text-base">
               Avalia marcas, recebe dinheiro e acumula produtos.

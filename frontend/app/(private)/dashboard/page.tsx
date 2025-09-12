@@ -61,7 +61,7 @@ export default function DashboardPage() {
             href="https://buy.stripe.com/7sY7sE7Dk0XCc8L8vH4sE00"
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded bg-white px-4 py-2 font-bold text-black hover:bg-white/80"
+            className="button-hover rounded bg-white px-4 py-2 font-bold text-black"
           >
             Comprar curso
           </a>
