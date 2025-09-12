@@ -97,12 +97,10 @@ export default function HomePage() {
       {/* Secção introdutória com texto informativo sobre Cliente Mistério */}
       <section className="flex justify-center p-4">
         {/* Caixa branca translúcida contendo o texto explicativo */}
-        <div className="max-w-3xl rounded-lg bg-white/40 p-6 text-black">
-
+        <div className="w-fit rounded-lg bg-white/40 p-8 text-white">
           {/* Texto introdutório em negrito fornecido pelo utilizador */}
           <p className="font-bold">
             Receba produtos, viva experiências e ainda ganhe dinheiro.
-
           </p>
         </div>
       </section>
@@ -135,7 +133,7 @@ export default function HomePage() {
       </section>
 
       {/* Secção informativa com três caixas e símbolos associados */}
-      <section className="mt-12 grid gap-4 p-4 text-black md:mx-auto md:max-w-4xl md:grid-cols-3">
+      <section className="mt-12 grid gap-4 p-4 text-white md:mx-auto md:max-w-4xl md:grid-cols-3">
         {features.map((feature, index) => (
           <div
             key={index}
