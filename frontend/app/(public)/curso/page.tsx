@@ -22,10 +22,9 @@ export default function CoursePage() {
         <div className="rounded-lg border border-white/30 bg-white/10 p-6 shadow text-white">
           <h3 className="text-xl font-semibold">O que vai aprender</h3>
           <ul className="mt-4 list-disc list-inside space-y-2">
-            <li>O que é um Cliente Mistério e qual o seu papel.</li>
-            <li>Como avaliar o atendimento, a experiência do cliente e o cumprimento de standards de serviço.</li>
-            <li>Como realizar visitas de forma discreta e profissional.</li>
-            <li>Como preencher relatórios detalhados e úteis para as empresas.</li>
+            <li>O que é um Cliente Mistério.</li>
+            <li>Como começar a realizar avaliações.</li>
+            <li>Como adquirir o máximo de produtos e rendimentos.</li>
           </ul>
         </div>
 
@@ -43,11 +42,7 @@ export default function CoursePage() {
           <h3 className="text-xl font-semibold">Para quem é este curso</h3>
           <ul className="mt-4 list-disc list-inside space-y-2">
             <li>Pessoas que querem iniciar-se como Clientes Mistério.</li>
-            <li>
-              Profissionais que já atuam em áreas como comércio, hotelaria ou automóvel e pretendem melhorar a sua capacidade
-              de análise.
-            </li>
-            <li>Empresas que desejam formar colaboradores nesta metodologia de avaliação.</li>
+            <li>Profissionais que já atuam na área e querem aumentar os rendimentos.</li>
           </ul>
         </div>
 
