@@ -65,8 +65,24 @@ async function request<T>(
     } catch {
       // ignore parsing errors
     }
+    // Se o token estiver ausente ou expirado, remove a sessão local e informa a app
+    if (res.status === 401 && typeof window !== 'undefined') {
+      try {
+        localStorage.removeItem('cm_session')
+      } catch {
+        // ignora falhas ao aceder ao localStorage
+      }
+      // Notifica outros componentes sobre a alteração da sessão
+      window.dispatchEvent(new Event('cm-session'))
+    }
+    // Extrai mensagem de erro devolvida pelo backend
     const msg = extractError(data, `${res.status} ${res.statusText}`)
-    throw new Error(msg)
+    // Para erros de autenticação devolve mensagem amigável
+    throw new Error(
+      res.status === 401
+        ? 'Sessão expirada. Faça login novamente.'
+        : msg,
+    )
   }
 
   // Sucesso: devolve o body como T (JSON na maioria dos casos)
