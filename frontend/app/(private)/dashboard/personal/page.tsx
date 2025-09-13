@@ -2,7 +2,6 @@
 
 // Página para atualização de dados pessoais
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { getCurrentUser, updateUser } from '@/lib/api'
 
 export default function PersonalPage() {
@@ -11,8 +10,6 @@ export default function PersonalPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
-  // Router para redirecionar em caso de sessão inválida
-  const router = useRouter()
 
   // Ao carregar a página, obtém os dados atuais do utilizador
   useEffect(() => {
@@ -21,12 +18,12 @@ export default function PersonalPage() {
         setName(user.name)
         setEmail(user.email)
       })
-      .catch(() => {
-        // Se não for possível obter dados, remove sessão e redireciona
-        localStorage.removeItem('cm_session')
-        router.push('/entrar')
+      .catch((err: unknown) => {
+        // Mostra mensagem de erro sem redirecionar o utilizador
+        if (err instanceof Error) setMessage(err.message)
+        else setMessage('Erro ao obter dados do utilizador.')
       })
-  }, [router])
+  }, [])
 
   // Envia as alterações para a API
   const handleUpdate = async (e: React.FormEvent) => {
@@ -37,7 +34,9 @@ export default function PersonalPage() {
       const data: { name: string; password?: string } = { name }
       if (password) data.password = password
       const updated = await updateUser(data)
+      // Atualiza os estados com os dados devolvidos pela base de dados
       setName(updated.name)
+      setEmail(updated.email)
       setMessage('Dados atualizados com sucesso.')
       setPassword('')
     } catch (err: unknown) {
