@@ -95,9 +95,9 @@ export default function HomePage() {
   return (
     <main>
       {/* Secção introdutória com texto informativo sobre Cliente Mistério */}
-      <section className="flex justify-center p-4">
+      <section className="p-4">
         {/* Caixa branca translúcida contendo o texto explicativo */}
-        <div className="w-fit rounded-lg bg-white/40 p-8 text-white">
+        <div className="mx-auto w-full max-w-3xl rounded-lg bg-white/40 p-8 text-white">
           {/* Texto introdutório em negrito fornecido pelo utilizador */}
           <p className="font-bold">
             Avalia marcas, recebe dinheiro e acumula produtos.
@@ -106,9 +106,9 @@ export default function HomePage() {
       </section>
 
       {/* Secção inicial com título e botão de adesão */}
-      <section className="flex flex-col items-center gap-8 text-center text-white">
+      <section className="flex flex-col items-center gap-8 p-4 text-center text-white">
         {/* Caixa branca translúcida que se ajusta ao tamanho do conteúdo */}
-        <div className="w-fit rounded-lg bg-white/40 p-8">
+        <div className="mx-auto w-full max-w-3xl rounded-lg bg-white/40 p-8">
           {/* Bloco com o título principal e botão de adesão */}
           <div className="flex flex-col items-center justify-center space-y-8">
             {/* Título principal com a fonte Saira Stencil One e tamanho ajustado */}
@@ -138,11 +138,11 @@ export default function HomePage() {
       </section>
 
       {/* Secção informativa com três caixas e símbolos associados */}
-      <section className="mt-12 grid gap-4 p-4 text-white md:mx-auto md:max-w-4xl md:grid-cols-3">
+      <section className="mx-auto mt-12 grid gap-8 p-4 text-white max-w-3xl md:grid-cols-3">
         {features.map((feature, index) => (
           <div
             key={index}
-            className="mx-auto flex w-full max-w-xs flex-col items-center rounded-lg bg-white/40 p-6 text-center"
+            className="mx-auto flex w-full flex-col items-center rounded-lg bg-white/40 p-6 text-center"
           >
             {/* Símbolo representativo da característica */}
             <feature.Icon
