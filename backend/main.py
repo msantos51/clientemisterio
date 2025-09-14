@@ -1,5 +1,4 @@
 """Ponto de entrada principal da API Cliente Mistério."""
-import os
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -8,6 +7,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from database import Base, engine, ensure_has_paid_column
 from auth import router as auth_router
 from contact import router as contact_router
+
+# Importa configuração partilhada
+from settings import FRONTEND_URL, IS_DEV
 
 # ───────────────────────────── App ─────────────────────────────
 app = FastAPI(title="Cliente Mistério API")
@@ -20,15 +22,6 @@ except Exception as e:
     print(f"⚠️ Erro ao criar tabelas: {e}")
 
 # ─────────────────────── CORS / Ambientes ───────────────────────
-# Determina o ambiente atual.
-# Assume "prod" por omissão para permitir cookies seguros entre domínios.
-# Define ENV=dev apenas em desenvolvimento local, onde HTTPS não é usado.
-ENV = os.getenv("ENV", "prod").lower()  # "dev" | "prod"
-IS_DEV = ENV in {"dev", "development", "local"}
-
-# Domínio opcional vindo de ENV (ex.: FRONTEND_URL=https://app.meudominio.com)
-FRONTEND_URL = (os.getenv("FRONTEND_URL") or "").strip()
-
 # Lista base de origens permitidas (produção)
 allowed_origins = [
     "https://clientemisterio.com",

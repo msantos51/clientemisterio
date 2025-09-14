@@ -1,7 +1,6 @@
 """Funções e rotas relacionadas com autenticação de utilizadores."""
 
-# Importa módulos padrão de sistema e tempo
-import os
+# Importa módulos padrão de tempo
 from datetime import datetime, timedelta, timezone
 
 # Importa classes e funções do FastAPI para gerir requests e respostas
@@ -36,31 +35,20 @@ from schemas import (
     PaymentStatusUpdate,
 )
 
+# Importa configuração partilhada
+from settings import (
+    ACCESS_TOKEN_EXPIRE_MINUTES,
+    ALGORITHM,
+    IS_DEV,
+    SECRET_KEY,
+    COOKIE_DOMAIN,
+)
+
 # ───────────────────────────── Router ─────────────────────────────
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
-# ─────────────── Segurança / Configuração de ambiente ─────────────
+# ─────────────── Segurança / Configuração ─────────────
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-# Determina o ambiente em execução.
-# Por omissão assume "prod" para que os cookies sejam definidos
-# com `SameSite=None` e `Secure`, permitindo sessões entre domínios.
-# Em desenvolvimento local define ENV=dev para voltar a cookies sem
-# a flag `Secure`.
-ENV = os.getenv("ENV", "prod").lower()  # "dev" | "prod"
-IS_DEV = ENV in {"dev", "development", "local"}
-
-SECRET_KEY = os.getenv("SECRET_KEY", "CHANGE_ME")
-# Em produção, falhar cedo se não estiver definida
-if (not SECRET_KEY or SECRET_KEY == "CHANGE_ME") and not IS_DEV:
-    raise RuntimeError("SECRET_KEY não definida nas variáveis de ambiente.")
-
-# Em DEV, permite chave fallback explícita (apenas para testes)
-if IS_DEV and (not SECRET_KEY or SECRET_KEY == "CHANGE_ME"):
-    SECRET_KEY = "DEV_ONLY__CHANGE_ME_IN_PROD"
-
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60"))
 
 # Instância do esquema OAuth2 para permitir "Authorize" na documentação
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token", auto_error=False)
@@ -137,6 +125,7 @@ def set_auth_cookie(response: Response, access_token: str, max_age_seconds: int)
     - Em PROD: Secure + SameSite=None (requer HTTPS)
     - Em DEV:  Secure=False + SameSite=Lax (para localhost http)
     """
+    expire_time = datetime.now(timezone.utc) + timedelta(seconds=max_age_seconds)
     response.set_cookie(
         key="access_token",
         value=access_token,
@@ -144,12 +133,14 @@ def set_auth_cookie(response: Response, access_token: str, max_age_seconds: int)
         secure=not IS_DEV,                          # True em PROD, False em DEV
         samesite="none" if not IS_DEV else "lax",   # None em PROD, Lax em DEV
         max_age=max_age_seconds,
+        expires=expire_time,
         path="/",
+        domain=COOKIE_DOMAIN or None,
     )
 
 def clear_auth_cookie(response: Response) -> None:
     """Remove o cookie de autenticação do cliente."""
-    response.delete_cookie("access_token", path="/")
+    response.delete_cookie("access_token", path="/", domain=COOKIE_DOMAIN or None)
 
 
 def authenticate_credentials(db: Session, email: str, password: str) -> User:
