@@ -20,7 +20,10 @@ except Exception as e:
     print(f"⚠️ Erro ao criar tabelas: {e}")
 
 # ─────────────────────── CORS / Ambientes ───────────────────────
-ENV = os.getenv("ENV", "prod").lower()  # "dev" | "prod"
+# Determina o ambiente atual.
+# Assume "dev" por defeito para que o backend funcione em localhost
+# sem exigir HTTPS ou configuração extra.
+ENV = os.getenv("ENV", "dev").lower()  # "dev" | "prod"
 IS_DEV = ENV in {"dev", "development", "local"}
 
 # Domínio opcional vindo de ENV (ex.: FRONTEND_URL=https://app.meudominio.com)

@@ -42,7 +42,10 @@ router = APIRouter(prefix="/auth", tags=["Auth"])
 # ─────────────── Segurança / Configuração de ambiente ─────────────
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-ENV = os.getenv("ENV", "prod").lower()  # "dev" | "prod"
+# Determina o ambiente em execução.
+# Por omissão assume "dev" para facilitar o desenvolvimento local
+# e evitar cookies "secure" que não funcionam em HTTP.
+ENV = os.getenv("ENV", "dev").lower()  # "dev" | "prod"
 IS_DEV = ENV in {"dev", "development", "local"}
 
 SECRET_KEY = os.getenv("SECRET_KEY", "CHANGE_ME")
