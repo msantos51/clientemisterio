@@ -42,6 +42,11 @@ router = APIRouter(prefix="/auth", tags=["Auth"])
 # ─────────────── Segurança / Configuração de ambiente ─────────────
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+# Determina o ambiente em execução.
+# Por omissão assume "prod" para que os cookies sejam definidos
+# com `SameSite=None` e `Secure`, permitindo sessões entre domínios.
+# Em desenvolvimento local define ENV=dev para voltar a cookies sem
+# a flag `Secure`.
 ENV = os.getenv("ENV", "prod").lower()  # "dev" | "prod"
 IS_DEV = ENV in {"dev", "development", "local"}
 

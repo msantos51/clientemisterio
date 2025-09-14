@@ -84,6 +84,7 @@ async function request<T>(
       // ignora falhas ao analisar a resposta
     }
 
+
     // Extrai mensagem de erro devolvida pelo backend
     const msg = extractError(data, `${res.status} ${res.statusText}`)
 
