@@ -21,9 +21,9 @@ except Exception as e:
 
 # ─────────────────────── CORS / Ambientes ───────────────────────
 # Determina o ambiente atual.
-# Assume "dev" por defeito para que o backend funcione em localhost
-# sem exigir HTTPS ou configuração extra.
-ENV = os.getenv("ENV", "dev").lower()  # "dev" | "prod"
+# Assume "prod" por omissão para permitir cookies seguros entre domínios.
+# Define ENV=dev apenas em desenvolvimento local, onde HTTPS não é usado.
+ENV = os.getenv("ENV", "prod").lower()  # "dev" | "prod"
 IS_DEV = ENV in {"dev", "development", "local"}
 
 # Domínio opcional vindo de ENV (ex.: FRONTEND_URL=https://app.meudominio.com)
