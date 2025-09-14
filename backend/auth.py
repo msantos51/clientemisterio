@@ -1,7 +1,6 @@
 """Funções e rotas relacionadas com autenticação de utilizadores."""
 
-# Importa módulos padrão de sistema e tempo
-import os
+# Importa módulos padrão de tempo
 from datetime import datetime, timedelta, timezone
 
 # Importa classes e funções do FastAPI para gerir requests e respostas
@@ -36,31 +35,19 @@ from schemas import (
     PaymentStatusUpdate,
 )
 
+# Importa configuração partilhada
+from settings import (
+    ACCESS_TOKEN_EXPIRE_MINUTES,
+    ALGORITHM,
+    IS_DEV,
+    SECRET_KEY,
+)
+
 # ───────────────────────────── Router ─────────────────────────────
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
-# ─────────────── Segurança / Configuração de ambiente ─────────────
+# ─────────────── Segurança / Configuração ─────────────
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-# Determina o ambiente em execução.
-# Por omissão assume "prod" para que os cookies sejam definidos
-# com `SameSite=None` e `Secure`, permitindo sessões entre domínios.
-# Em desenvolvimento local define ENV=dev para voltar a cookies sem
-# a flag `Secure`.
-ENV = os.getenv("ENV", "prod").lower()  # "dev" | "prod"
-IS_DEV = ENV in {"dev", "development", "local"}
-
-SECRET_KEY = os.getenv("SECRET_KEY", "CHANGE_ME")
-# Em produção, falhar cedo se não estiver definida
-if (not SECRET_KEY or SECRET_KEY == "CHANGE_ME") and not IS_DEV:
-    raise RuntimeError("SECRET_KEY não definida nas variáveis de ambiente.")
-
-# Em DEV, permite chave fallback explícita (apenas para testes)
-if IS_DEV and (not SECRET_KEY or SECRET_KEY == "CHANGE_ME"):
-    SECRET_KEY = "DEV_ONLY__CHANGE_ME_IN_PROD"
-
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60"))
 
 # Instância do esquema OAuth2 para permitir "Authorize" na documentação
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token", auto_error=False)
