@@ -41,10 +41,32 @@ async function request<T>(
   const { json, headers, ...rest } = init
 
   const withJson = json !== undefined
+
+  // Normaliza os cabeçalhos recebidos (Headers | string[][] | Record) para um objeto simples
+  const normalizeHeaders = (input?: HeadersInit): Record<string, string> => {
+    if (!input) return {}
+    if (input instanceof Headers) {
+      const obj: Record<string, string> = {}
+      input.forEach((v, k) => {
+        obj[k] = v
+      })
+      return obj
+    }
+    if (Array.isArray(input)) {
+      return input.reduce<Record<string, string>>((acc, [k, v]) => {
+        acc[k] = v
+        return acc
+      }, {})
+    }
+    return { ...input }
+  }
+
+  const baseHeaders = normalizeHeaders(headers)
+
   // Cabeçalho final que inclui JSON e token de autorização quando disponível
   const finalHeaders: Record<string, string> = withJson
-    ? { 'Content-Type': 'application/json', ...(headers || {}) }
-    : { ...(headers || {}) }
+    ? { 'Content-Type': 'application/json', ...baseHeaders }
+    : { ...baseHeaders }
 
   // Procura token de sessão guardado no localStorage
   let token: string | null = null
