@@ -41,9 +41,27 @@ async function request<T>(
   const { json, headers, ...rest } = init
 
   const withJson = json !== undefined
-  const finalHeaders = withJson
+  // Cabeçalho final que inclui JSON e token de autorização quando disponível
+  const finalHeaders: Record<string, string> = withJson
     ? { 'Content-Type': 'application/json', ...(headers || {}) }
     : { ...(headers || {}) }
+
+  // Procura token de sessão guardado no localStorage
+  let token: string | null = null
+  if (typeof window !== 'undefined') {
+    try {
+      const session = localStorage.getItem('cm_session')
+      const parsed = session ? JSON.parse(session) : null
+      token = parsed?.token ?? null
+    } catch {
+      // ignora erros ao ler/parsing do localStorage
+    }
+  }
+
+  // Se existir token, inclui-o no cabeçalho Authorization
+  if (token) {
+    finalHeaders['Authorization'] = `Bearer ${token}`
+  }
 
   const res = await fetch(`${API_URL}${path}`, {
     credentials: 'include', // 👈 necessário para cookie httponly cross-site
@@ -63,9 +81,24 @@ async function request<T>(
     try {
       data = await parseBody()
     } catch {
-      // ignore parsing errors
+      // ignora falhas ao analisar a resposta
     }
+
+    // Extrai mensagem de erro devolvida pelo backend
     const msg = extractError(data, `${res.status} ${res.statusText}`)
+
+    // Em caso de 401, limpa sessão e notifica a aplicação
+    if (res.status === 401 && typeof window !== 'undefined') {
+      try {
+        localStorage.removeItem('cm_session')
+      } catch {
+        // ignora falhas ao aceder ao localStorage
+      }
+      window.dispatchEvent(new Event('cm-session'))
+      throw new Error('Sessão expirada. Faça login novamente.')
+    }
+
+    // Para outros erros, lança a mensagem obtida
     throw new Error(msg)
   }
 
