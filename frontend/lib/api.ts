@@ -13,6 +13,7 @@ export type ApiUser = {
   name: string
   email: string
   has_paid: boolean
+  is_confirmed: boolean
   created_at?: string
   updated_at?: string
 }
@@ -115,7 +116,6 @@ async function request<T>(
       // ignora falhas ao analisar a resposta
     }
 
-
     // Extrai mensagem de erro devolvida pelo backend
     const msg = extractError(data, `${res.status} ${res.statusText}`)
 
@@ -168,9 +168,17 @@ export async function getCurrentUser(): Promise<ApiUser> {
 export async function updateUser(data: {
   name?: string
   email?: string
-  password?: string // password opcional para permitir alteração
+  currentPassword?: string
+  newPassword?: string
 }): Promise<ApiUser> {
-  return request<ApiUser>('/auth/me', { method: 'PUT', json: data })
+  // Converte as chaves opcionais para o formato esperado pelo backend
+  const payload: Record<string, unknown> = {}
+  if (data.name !== undefined) payload.name = data.name
+  if (data.email !== undefined) payload.email = data.email
+  if (data.currentPassword !== undefined) payload.current_password = data.currentPassword
+  if (data.newPassword !== undefined) payload.new_password = data.newPassword
+
+  return request<ApiUser>('/auth/me', { method: 'PUT', json: payload })
 }
 
 // Atualiza o estado de pagamento do utilizador autenticado
@@ -178,6 +186,23 @@ export async function updatePaymentStatus(data: {
   has_paid: boolean
 }): Promise<ApiUser> {
   return request<ApiUser>('/auth/me/payment', { method: 'PUT', json: data })
+}
+
+export async function requestPasswordReset(data: { email: string }): Promise<{ message: string }> {
+  return request<{ message: string }>('/auth/password/forgot', { json: data })
+}
+
+export async function resetPassword(data: {
+  token: string
+  newPassword: string
+}): Promise<{ message: string }> {
+  return request<{ message: string }>('/auth/password/reset', {
+    json: { token: data.token, new_password: data.newPassword },
+  })
+}
+
+export async function confirmAccount(token: string): Promise<ApiUser> {
+  return request<ApiUser>('/auth/confirm', { json: { token } })
 }
 
 // ────────────────────────── Contact Endpoint ─────────────────────────

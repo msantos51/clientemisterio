@@ -11,15 +11,17 @@ export default function RegisterPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
 
   // Função chamada ao submeter o formulário
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault()
     setError('')
+    setSuccess('')
 
     try {
       await registerUser({ name, email, password })
-      alert(`Conta criada para ${name} (${email})`)
+      setSuccess('Conta criada. Verifique o e-mail para confirmar a conta antes de iniciar sessão.')
       setName('')
       setEmail('')
       setPassword('')
@@ -75,8 +77,9 @@ export default function RegisterPage() {
           <label className="label">Palavra-passe</label>
         </div>
 
-        {/* Mensagem de erro, se existir */}
+        {/* Mensagens de feedback */}
         {error && <p className="text-sm text-red-600">{error}</p>}
+        {success && <p className="text-sm text-green-500">{success}</p>}
 
         {/* Botão de submissão centrado dentro do formulário */}
         <button type="submit" className="btn mt-8 self-center">
@@ -86,4 +89,3 @@ export default function RegisterPage() {
     </section>
   )
 }
-

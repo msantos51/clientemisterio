@@ -23,17 +23,55 @@ Base = declarative_base()
 
 
 def ensure_has_paid_column() -> None:
-    """Garante que a coluna "has_paid" existe na tabela de utilizadores."""
+    """Garante que as colunas necessárias existem na tabela de utilizadores."""
 
-    # Inspeciona as colunas actuais da tabela
     inspector = inspect(engine)
+    if not inspector.has_table("users"):
+        return
+
     columns = {col["name"] for col in inspector.get_columns("users")}
 
-    # Se a coluna não existir, adiciona-a com valor padrão
+    statements: list[str] = []
+    added_is_confirmed = False
+
     if "has_paid" not in columns:
+        statements.append(
+            "ALTER TABLE users ADD COLUMN IF NOT EXISTS has_paid BOOLEAN NOT NULL DEFAULT FALSE"
+        )
+
+    if "is_confirmed" not in columns:
+        statements.append(
+            "ALTER TABLE users ADD COLUMN IF NOT EXISTS is_confirmed BOOLEAN NOT NULL DEFAULT TRUE"
+        )
+        added_is_confirmed = True
+
+    if "confirmation_token" not in columns:
+        statements.append(
+            "ALTER TABLE users ADD COLUMN IF NOT EXISTS confirmation_token TEXT"
+        )
+
+    if "confirmation_sent_at" not in columns:
+        statements.append(
+            "ALTER TABLE users ADD COLUMN IF NOT EXISTS confirmation_sent_at TIMESTAMPTZ"
+        )
+
+    if "reset_token" not in columns:
+        statements.append(
+            "ALTER TABLE users ADD COLUMN IF NOT EXISTS reset_token TEXT"
+        )
+
+    if "reset_token_expires_at" not in columns:
+        statements.append(
+            "ALTER TABLE users ADD COLUMN IF NOT EXISTS reset_token_expires_at TIMESTAMPTZ"
+        )
+
+    if statements:
         with engine.begin() as connection:  # inicia transacção
+            for statement in statements:
+                connection.execute(text(statement))
+
+    if added_is_confirmed:
+        with engine.begin() as connection:
             connection.execute(
-                text(
-                    "ALTER TABLE users ADD COLUMN IF NOT EXISTS has_paid BOOLEAN NOT NULL DEFAULT FALSE"
-                )
+                text("UPDATE users SET is_confirmed = TRUE WHERE is_confirmed IS NULL")
             )
