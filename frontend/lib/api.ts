@@ -202,6 +202,7 @@ export async function updatePaymentStatus(data: {
 }
 
 export async function requestPasswordReset(data: { email: string }): Promise<{ message: string }> {
+
   return request<{ message: string }>('/auth/password/forgot', { json: data, auth: false })
 }
 
@@ -212,6 +213,7 @@ export async function resetPassword(data: {
   return request<{ message: string }>('/auth/password/reset', {
     json: { token: data.token, new_password: data.newPassword },
     auth: false,
+
   })
 }
 
