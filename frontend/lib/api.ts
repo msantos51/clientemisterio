@@ -24,6 +24,9 @@ export type LoginResponse = {
   expires_in: number
 }
 
+// Tipo auxiliar para permitir enviar JSON sem perder compatibilidade com RequestInit
+type RequestOptions = RequestInit & { json?: unknown; auth?: boolean }
+
 // Extrai mensagem de erro enviada pelo backend (robusto)
 function extractError(errorData: any, fallback: string) {
   if (!errorData) return fallback
@@ -37,9 +40,9 @@ function extractError(errorData: any, fallback: string) {
 // Helper genérico para requests com cookies incluídos
 async function request<T>(
   path: string,
-  init: RequestInit & { json?: unknown } = {},
+  init: RequestOptions = {},
 ): Promise<T> {
-  const { json, headers, ...rest } = init
+  const { json, headers, credentials, auth = true, ...rest } = init
 
   const withJson = json !== undefined
 
@@ -82,18 +85,28 @@ async function request<T>(
   }
 
   // Se existir token, inclui-o no cabeçalho Authorization
-  if (token) {
+  if (auth && token) {
     finalHeaders['Authorization'] = `Bearer ${token}`
   }
 
-  const res = await fetch(`${API_URL}${path}`, {
-    credentials: 'include', // 👈 necessário para cookie httponly cross-site
-    headers: finalHeaders,
-    // Força a não utilização de cache para obter sempre dados atualizados
-    cache: 'no-store',
-    ...(withJson ? { body: JSON.stringify(json), method: rest.method ?? 'POST' } : {}),
-    ...rest,
-  })
+  // Define modo de credenciais com base no token e na flag de autenticação
+  const finalCredentials: RequestCredentials =
+    credentials ?? (auth && token ? 'include' : 'omit')
+
+  let res: Response
+  try {
+    res = await fetch(`${API_URL}${path}`, {
+      credentials: finalCredentials,
+      headers: finalHeaders,
+      // Força a não utilização de cache para obter sempre dados atualizados
+      cache: 'no-store',
+      ...(withJson ? { body: JSON.stringify(json), method: rest.method ?? 'POST' } : {}),
+      ...rest,
+    })
+  } catch (error) {
+    console.error('Erro de rede ao contactar a API', error)
+    throw new Error('Não foi possível contactar o servidor. Tente novamente mais tarde.')
+  }
 
   const contentType = res.headers.get('Content-Type') || ''
 
@@ -146,14 +159,14 @@ export async function registerUser(data: {
   email: string
   password: string
 }): Promise<ApiUser> {
-  return request<ApiUser>('/auth/register', { json: data })
+  return request<ApiUser>('/auth/register', { json: data, auth: false })
 }
 
 export async function loginUser(data: {
   email: string
   password: string
 }): Promise<LoginResponse> {
-  return request<LoginResponse>('/auth/login', { json: data })
+  return request<LoginResponse>('/auth/login', { json: data, auth: false })
 }
 
 export async function logout(): Promise<void> {
@@ -189,7 +202,8 @@ export async function updatePaymentStatus(data: {
 }
 
 export async function requestPasswordReset(data: { email: string }): Promise<{ message: string }> {
-  return request<{ message: string }>('/auth/password/forgot', { json: data })
+
+  return request<{ message: string }>('/auth/password/forgot', { json: data, auth: false })
 }
 
 export async function resetPassword(data: {
@@ -198,11 +212,13 @@ export async function resetPassword(data: {
 }): Promise<{ message: string }> {
   return request<{ message: string }>('/auth/password/reset', {
     json: { token: data.token, new_password: data.newPassword },
+    auth: false,
+
   })
 }
 
 export async function confirmAccount(token: string): Promise<ApiUser> {
-  return request<ApiUser>('/auth/confirm', { json: { token } })
+  return request<ApiUser>('/auth/confirm', { json: { token }, auth: false })
 }
 
 // ────────────────────────── Contact Endpoint ─────────────────────────
