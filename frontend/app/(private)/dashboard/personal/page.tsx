@@ -3,6 +3,7 @@
 // Página para atualização de dados pessoais
 import { useEffect, useState } from 'react'
 import { getCurrentUser, updateUser } from '@/lib/api'
+import PasswordInput from '@/components/PasswordInput'
 
 export default function PersonalPage() {
   // Estados para armazenar nome, email, password e mensagens de feedback
@@ -71,10 +72,9 @@ export default function PersonalPage() {
             className="mt-1 w-full rounded border border-white bg-black p-2 text-white opacity-50"
           />
         </div>
-        <div>
+        <div className="relative">
           <label className="block text-sm font-medium text-white">Password</label>
-          <input
-            type="password"
+          <PasswordInput
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="mt-1 w-full rounded border border-white bg-black p-2 text-white"

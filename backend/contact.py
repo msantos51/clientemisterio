@@ -21,19 +21,23 @@ def send_email(message: ContactMessage) -> None:
     user = os.getenv("SMTP_USER")
     password = os.getenv("SMTP_PASSWORD")
 
+    body = (
+        f"Nome: {message.name}\n"
+        f"Email: {message.email}\n\n"
+        f"Mensagem:\n{message.message}"
+    )
+
     if not user or not password:
-        raise RuntimeError("SMTP credentials not configured")
+        # Caso não existam credenciais, apenas regista a mensagem e não tenta enviar
+        print("SMTP credentials not configured; printing message:")
+        print(body)
+        return
 
     email_message = EmailMessage()
     email_message["From"] = user
     email_message["To"] = SUPPORT_EMAIL
     email_message["Subject"] = "Nova mensagem de contacto"
     email_message["Reply-To"] = message.email
-    body = (
-        f"Nome: {message.name}\n"
-        f"Email: {message.email}\n\n"
-        f"Mensagem:\n{message.message}"
-    )
     email_message.set_content(body)
 
     with smtplib.SMTP(host, port) as smtp:
