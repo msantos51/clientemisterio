@@ -2,6 +2,8 @@
 
 # Importa módulos padrão de tempo
 from datetime import datetime, timedelta, timezone
+import secrets
+from urllib.parse import urljoin
 
 # Importa classes e funções do FastAPI para gerir requests e respostas
 from fastapi import (
@@ -26,6 +28,7 @@ from fastapi.security import OAuth2PasswordBearer
 
 # Importa utilitários e modelos internos
 from database import SessionLocal
+from email_utils import send_email
 from models import User
 from schemas import (
     UserCreate,
@@ -33,6 +36,9 @@ from schemas import (
     UserLogin,
     UserUpdate,
     PaymentStatusUpdate,
+    PasswordForgotRequest,
+    PasswordResetRequest,
+    AccountConfirmationRequest,
 )
 
 # Importa configuração partilhada
@@ -41,6 +47,7 @@ from settings import (
     ALGORITHM,
     IS_DEV,
     SECRET_KEY,
+    FRONTEND_URL,
 )
 
 # ───────────────────────────── Router ─────────────────────────────
@@ -51,6 +58,51 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # Instância do esquema OAuth2 para permitir "Authorize" na documentação
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token", auto_error=False)
+
+# Tempo padrão de expiração do token de recuperação de password
+PASSWORD_RESET_TOKEN_EXPIRE_MINUTES = 60
+
+# URL base do frontend utilizada para construir links enviados nos e-mails
+_frontend_env = (FRONTEND_URL or "").strip()
+FRONTEND_BASE_URL = _frontend_env.rstrip("/") if _frontend_env else "https://clientemisterio.com"
+
+
+def generate_secure_token() -> str:
+    """Gera um token aleatório seguro para confirmação ou redefinição."""
+    return secrets.token_urlsafe(48)
+
+
+def build_frontend_link(path: str) -> str:
+    """Constrói um link absoluto para o frontend com base no caminho recebido."""
+    return urljoin(f"{FRONTEND_BASE_URL}/", path.lstrip("/"))
+
+
+def send_confirmation_email(user: User) -> None:
+    """Envia o e-mail com o link de confirmação de conta."""
+    confirmation_link = build_frontend_link(f"confirmar-conta/{user.confirmation_token}")
+    subject = "Confirme a sua conta Cliente Mistério"
+    body = (
+        f"Olá {user.name},\n\n"
+        "Obrigado por se registar na plataforma Cliente Mistério. "
+        "Para ativar a sua conta, confirme o endereço de e-mail através do link seguinte:\n\n"
+        f"{confirmation_link}\n\n"
+        "Se não efetuou este registo, ignore esta mensagem."
+    )
+    send_email(subject=subject, body=body, to=user.email)
+
+
+def send_password_reset_email(user: User) -> None:
+    """Envia o e-mail com o link para redefinir a palavra-passe."""
+    reset_link = build_frontend_link(f"entrar/redefinir-password/{user.reset_token}")
+    subject = "Redefinição da palavra-passe Cliente Mistério"
+    body = (
+        f"Olá {user.name},\n\n"
+        "Foi solicitado um pedido para redefinir a palavra-passe da sua conta. "
+        "Caso tenha sido você, utilize o link abaixo nas próximas horas:\n\n"
+        f"{reset_link}\n\n"
+        "Se não reconhece este pedido, ignore este e-mail."
+    )
+    send_email(subject=subject, body=body, to=user.email)
 
 
 class OAuth2EmailRequestForm:
@@ -90,9 +142,11 @@ def get_password_hash(password: str) -> str:
     """Gera o hash para a palavra-passe fornecida."""
     return pwd_context.hash(password)
 
+
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     """Compara palavra-passe em texto com o respetivo hash."""
     return pwd_context.verify(plain_password, hashed_password)
+
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
     """Cria um token JWT com dados e tempo de expiração definidos."""
@@ -100,6 +154,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None) -> s
     expire = datetime.now(timezone.utc) + (expires_delta or timedelta(minutes=15))
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+
 
 def decode_access_token(token: str) -> dict:
     """Decodifica e valida um token JWT retornando o payload."""
@@ -112,11 +167,13 @@ def decode_access_token(token: str) -> dict:
             headers={"WWW-Authenticate": "Bearer"},
         )
 
+
 def extract_bearer(authorization: str | None) -> str | None:
     """Extrai o token do cabeçalho Authorization se for do tipo Bearer."""
     if authorization and authorization.lower().startswith("bearer "):
         return authorization.split(" ", 1)[1].strip()
     return None
+
 
 def set_auth_cookie(response: Response, access_token: str, max_age_seconds: int) -> None:
     """
@@ -134,6 +191,7 @@ def set_auth_cookie(response: Response, access_token: str, max_age_seconds: int)
         path="/",
     )
 
+
 def clear_auth_cookie(response: Response) -> None:
     """Remove o cookie de autenticação do cliente."""
     response.delete_cookie("access_token", path="/")
@@ -148,6 +206,11 @@ def authenticate_credentials(db: Session, email: str, password: str) -> User:
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Credenciais inválidas",
             headers={"WWW-Authenticate": "Bearer"},
+        )
+    if not user.is_confirmed:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Conta ainda não confirmada. Verifique o e-mail de confirmação.",
         )
     return user
 
@@ -199,6 +262,13 @@ def get_current_user(
             detail="Utilizador não existe",
             headers={"WWW-Authenticate": "Bearer"},
         )
+
+    if not user.is_confirmed:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Conta ainda não confirmada. Verifique o e-mail enviado no registo.",
+        )
+
     return user
 
 # ───────────────────────────── Rotas ──────────────────────────────
@@ -210,6 +280,7 @@ def register(user_in: UserCreate, db: Session = Depends(get_db)):
       - email em lowercase
       - password >= 6 chars
       - email único
+      - envio obrigatório de e-mail de confirmação
     """
     email = user_in.email.strip().lower()
     if db.query(User).filter(User.email == email).first():
@@ -222,11 +293,27 @@ def register(user_in: UserCreate, db: Session = Depends(get_db)):
         name=user_in.name.strip(),
         email=email,
         password_hash=get_password_hash(user_in.password),
+        is_confirmed=False,
+        confirmation_token=generate_secure_token(),
+        confirmation_sent_at=datetime.now(timezone.utc),
     )
     db.add(user)
+
+    try:
+        db.flush()
+        send_confirmation_email(user)
+    except Exception as exc:  # em caso de falha no envio cancela o registo
+        db.rollback()
+        print(f"Erro ao enviar email de confirmação: {exc}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Não foi possível enviar o e-mail de confirmação. Tente novamente.",
+        )
+
     db.commit()
     db.refresh(user)
     return user
+
 
 @router.post("/login")
 def login(user_in: UserLogin, response: Response, db: Session = Depends(get_db)):
@@ -251,16 +338,19 @@ def login_token(
 
     return create_login_response(user, response)
 
+
 @router.post("/logout", status_code=status.HTTP_204_NO_CONTENT)
 def logout(response: Response):
     """Limpa o cookie de sessão (se estiveres a usar cookies)."""
     clear_auth_cookie(response)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
+
 @router.get("/me", response_model=UserRead)
 def me(current_user: User = Depends(get_current_user)):
     """Devolve o utilizador atual (para validar sessão no frontend)."""
     return current_user
+
 
 @router.put("/me", response_model=UserRead)
 def update_me(
@@ -281,11 +371,16 @@ def update_me(
             raise HTTPException(status_code=400, detail="Email já registado")
         current_user.email = email
 
-    # Atualiza a palavra-passe, se fornecida
-    if user_in.password is not None:
-        if len(user_in.password) < 6:
-            raise HTTPException(status_code=400, detail="Password demasiado curta (>= 6)")
-        current_user.password_hash = get_password_hash(user_in.password)
+    # Atualiza a palavra-passe apenas quando o pedido inclui ambos os campos
+    if user_in.new_password is not None:
+        if not user_in.current_password:
+            raise HTTPException(
+                status_code=400,
+                detail="É necessário indicar a password atual para a alterar.",
+            )
+        if not verify_password(user_in.current_password, current_user.password_hash):
+            raise HTTPException(status_code=400, detail="Password atual incorreta")
+        current_user.password_hash = get_password_hash(user_in.new_password)
 
     db.add(current_user)
     db.commit()
@@ -327,6 +422,73 @@ def update_payment_status(
     user.has_paid = payment_in.has_paid
 
     # Guarda a alteração na base de dados
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return user
+
+
+@router.post("/password/forgot", status_code=status.HTTP_202_ACCEPTED)
+def request_password_reset(
+    payload: PasswordForgotRequest, db: Session = Depends(get_db)
+) -> dict[str, str]:
+    """Gera um token de redefinição e envia o respetivo e-mail."""
+    email = payload.email.strip().lower()
+    user = db.query(User).filter(User.email == email).first()
+
+    if user and user.is_confirmed:
+        user.reset_token = generate_secure_token()
+        user.reset_token_expires_at = datetime.now(timezone.utc) + timedelta(
+            minutes=PASSWORD_RESET_TOKEN_EXPIRE_MINUTES
+        )
+        db.add(user)
+        db.commit()
+        try:
+            send_password_reset_email(user)
+        except Exception as exc:
+            print(f"Erro ao enviar email de recuperação: {exc}")
+            # Mesmo que o envio falhe, mantém o token para permitir nova tentativa
+
+    # Resposta neutra para evitar divulgar existência da conta
+    return {"message": "Se o email existir, receberá instruções para redefinir a password."}
+
+
+@router.post("/password/reset")
+def reset_password(
+    payload: PasswordResetRequest, db: Session = Depends(get_db)
+) -> dict[str, str]:
+    """Valida o token recebido e atualiza a palavra-passe do utilizador."""
+    user = db.query(User).filter(User.reset_token == payload.token).first()
+    if not user:
+        raise HTTPException(status_code=400, detail="Token inválido")
+
+    if not user.reset_token_expires_at:
+        raise HTTPException(status_code=400, detail="Token inválido")
+
+    if user.reset_token_expires_at < datetime.now(timezone.utc):
+        raise HTTPException(status_code=400, detail="Token expirado")
+
+    user.password_hash = get_password_hash(payload.new_password)
+    user.reset_token = None
+    user.reset_token_expires_at = None
+    db.add(user)
+    db.commit()
+    return {"message": "Password atualizada com sucesso."}
+
+
+@router.post("/confirm", response_model=UserRead)
+def confirm_account(
+    payload: AccountConfirmationRequest, db: Session = Depends(get_db)
+):
+    """Confirma a conta associada ao token enviado por e-mail."""
+    token = payload.token.strip()
+    user = db.query(User).filter(User.confirmation_token == token).first()
+    if not user:
+        raise HTTPException(status_code=400, detail="Token inválido")
+
+    user.is_confirmed = True
+    user.confirmation_token = None
+    user.confirmation_sent_at = None
     db.add(user)
     db.commit()
     db.refresh(user)

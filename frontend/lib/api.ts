@@ -13,6 +13,7 @@ export type ApiUser = {
   name: string
   email: string
   has_paid: boolean
+  is_confirmed: boolean
   created_at?: string
   updated_at?: string
 }
@@ -22,6 +23,9 @@ export type LoginResponse = {
   token_type: 'bearer' | string
   expires_in: number
 }
+
+// Tipo auxiliar para permitir enviar JSON sem perder compatibilidade com RequestInit
+type RequestOptions = RequestInit & { json?: unknown; auth?: boolean }
 
 // Extrai mensagem de erro enviada pelo backend (robusto)
 function extractError(errorData: any, fallback: string) {
@@ -36,9 +40,9 @@ function extractError(errorData: any, fallback: string) {
 // Helper genérico para requests com cookies incluídos
 async function request<T>(
   path: string,
-  init: RequestInit & { json?: unknown } = {},
+  init: RequestOptions = {},
 ): Promise<T> {
-  const { json, headers, ...rest } = init
+  const { json, headers, credentials, auth = true, ...rest } = init
 
   const withJson = json !== undefined
 
@@ -81,18 +85,28 @@ async function request<T>(
   }
 
   // Se existir token, inclui-o no cabeçalho Authorization
-  if (token) {
+  if (auth && token) {
     finalHeaders['Authorization'] = `Bearer ${token}`
   }
 
-  const res = await fetch(`${API_URL}${path}`, {
-    credentials: 'include', // 👈 necessário para cookie httponly cross-site
-    headers: finalHeaders,
-    // Força a não utilização de cache para obter sempre dados atualizados
-    cache: 'no-store',
-    ...(withJson ? { body: JSON.stringify(json), method: rest.method ?? 'POST' } : {}),
-    ...rest,
-  })
+  // Define modo de credenciais com base no token e na flag de autenticação
+  const finalCredentials: RequestCredentials =
+    credentials ?? (auth && token ? 'include' : 'omit')
+
+  let res: Response
+  try {
+    res = await fetch(`${API_URL}${path}`, {
+      credentials: finalCredentials,
+      headers: finalHeaders,
+      // Força a não utilização de cache para obter sempre dados atualizados
+      cache: 'no-store',
+      ...(withJson ? { body: JSON.stringify(json), method: rest.method ?? 'POST' } : {}),
+      ...rest,
+    })
+  } catch (error) {
+    console.error('Erro de rede ao contactar a API', error)
+    throw new Error('Não foi possível contactar o servidor. Tente novamente mais tarde.')
+  }
 
   const contentType = res.headers.get('Content-Type') || ''
 
@@ -114,7 +128,6 @@ async function request<T>(
     } catch {
       // ignora falhas ao analisar a resposta
     }
-
 
     // Extrai mensagem de erro devolvida pelo backend
     const msg = extractError(data, `${res.status} ${res.statusText}`)
@@ -146,14 +159,14 @@ export async function registerUser(data: {
   email: string
   password: string
 }): Promise<ApiUser> {
-  return request<ApiUser>('/auth/register', { json: data })
+  return request<ApiUser>('/auth/register', { json: data, auth: false })
 }
 
 export async function loginUser(data: {
   email: string
   password: string
 }): Promise<LoginResponse> {
-  return request<LoginResponse>('/auth/login', { json: data })
+  return request<LoginResponse>('/auth/login', { json: data, auth: false })
 }
 
 export async function logout(): Promise<void> {
@@ -168,9 +181,17 @@ export async function getCurrentUser(): Promise<ApiUser> {
 export async function updateUser(data: {
   name?: string
   email?: string
-  password?: string // password opcional para permitir alteração
+  currentPassword?: string
+  newPassword?: string
 }): Promise<ApiUser> {
-  return request<ApiUser>('/auth/me', { method: 'PUT', json: data })
+  // Converte as chaves opcionais para o formato esperado pelo backend
+  const payload: Record<string, unknown> = {}
+  if (data.name !== undefined) payload.name = data.name
+  if (data.email !== undefined) payload.email = data.email
+  if (data.currentPassword !== undefined) payload.current_password = data.currentPassword
+  if (data.newPassword !== undefined) payload.new_password = data.newPassword
+
+  return request<ApiUser>('/auth/me', { method: 'PUT', json: payload })
 }
 
 // Atualiza o estado de pagamento do utilizador autenticado
@@ -178,6 +199,24 @@ export async function updatePaymentStatus(data: {
   has_paid: boolean
 }): Promise<ApiUser> {
   return request<ApiUser>('/auth/me/payment', { method: 'PUT', json: data })
+}
+
+export async function requestPasswordReset(data: { email: string }): Promise<{ message: string }> {
+  return request<{ message: string }>('/auth/password/forgot', { json: data, auth: false })
+}
+
+export async function resetPassword(data: {
+  token: string
+  newPassword: string
+}): Promise<{ message: string }> {
+  return request<{ message: string }>('/auth/password/reset', {
+    json: { token: data.token, new_password: data.newPassword },
+    auth: false,
+  })
+}
+
+export async function confirmAccount(token: string): Promise<ApiUser> {
+  return request<ApiUser>('/auth/confirm', { json: { token }, auth: false })
 }
 
 // ────────────────────────── Contact Endpoint ─────────────────────────

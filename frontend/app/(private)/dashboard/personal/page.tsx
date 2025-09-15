@@ -5,12 +5,15 @@ import { useEffect, useState } from 'react'
 import { getCurrentUser, updateUser } from '@/lib/api'
 import PasswordInput from '@/components/PasswordInput'
 
+type Feedback = { text: string; tone: 'success' | 'error' } | null
+
 export default function PersonalPage() {
-  // Estados para armazenar nome, email, password e mensagens de feedback
+  // Estados para armazenar nome, email, passwords e mensagens de feedback
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [message, setMessage] = useState('')
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [feedback, setFeedback] = useState<Feedback>(null)
 
   // Ao carregar a página, obtém os dados atuais do utilizador
   useEffect(() => {
@@ -21,28 +24,53 @@ export default function PersonalPage() {
       })
       .catch((err: unknown) => {
         // Mostra mensagem de erro sem redirecionar o utilizador
-        if (err instanceof Error) setMessage(err.message)
-        else setMessage('Erro ao obter dados do utilizador.')
+        if (err instanceof Error)
+          setFeedback({ text: err.message, tone: 'error' })
+        else setFeedback({ text: 'Erro ao obter dados do utilizador.', tone: 'error' })
       })
   }, [])
 
   // Envia as alterações para a API
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault()
-    setMessage('')
+    setFeedback(null)
+
     try {
-      // Prepara os dados a enviar (apenas nome e password)
-      const data: { name: string; password?: string } = { name }
-      if (password) data.password = password
+      const data: {
+        name: string
+        currentPassword?: string
+        newPassword?: string
+      } = { name }
+
+      const wantsPasswordChange = currentPassword || newPassword
+
+      if (wantsPasswordChange) {
+        if (!currentPassword || !newPassword) {
+          setFeedback({
+            text: 'Para alterar a password indique a atual e a nova password.',
+            tone: 'error',
+          })
+          return
+        }
+        if (newPassword.length < 6) {
+          setFeedback({ text: 'A nova password deve ter pelo menos 6 caracteres.', tone: 'error' })
+          return
+        }
+        data.currentPassword = currentPassword
+        data.newPassword = newPassword
+      }
+
       const updated = await updateUser(data)
       // Atualiza os estados com os dados devolvidos pela base de dados
       setName(updated.name)
       setEmail(updated.email)
-      setMessage('Dados atualizados com sucesso.')
-      setPassword('')
+      setFeedback({ text: 'Dados atualizados com sucesso.', tone: 'success' })
+      setCurrentPassword('')
+      setNewPassword('')
     } catch (err: unknown) {
-      if (err instanceof Error) setMessage(err.message)
-      else setMessage('Erro ao atualizar dados.')
+      if (err instanceof Error)
+        setFeedback({ text: err.message, tone: 'error' })
+      else setFeedback({ text: 'Erro ao atualizar dados.', tone: 'error' })
     }
   }
 
@@ -73,14 +101,30 @@ export default function PersonalPage() {
           />
         </div>
         <div className="relative">
-          <label className="block text-sm font-medium text-white">Password</label>
+          <label className="block text-sm font-medium text-white">Password atual</label>
           <PasswordInput
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
             className="mt-1 w-full rounded border border-white bg-black p-2 text-white"
           />
         </div>
-        {message && <p className="text-sm text-red-600">{message}</p>}
+        <div className="relative">
+          <label className="block text-sm font-medium text-white">Nova password</label>
+          <PasswordInput
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            className="mt-1 w-full rounded border border-white bg-black p-2 text-white"
+          />
+        </div>
+        {feedback && (
+          <p
+            className={`text-sm ${
+              feedback.tone === 'success' ? 'text-green-500' : 'text-red-600'
+            }`}
+          >
+            {feedback.text}
+          </p>
+        )}
         <button type="submit" className="btn mt-2">
           Guardar
         </button>

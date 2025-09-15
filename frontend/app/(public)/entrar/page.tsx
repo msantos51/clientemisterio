@@ -1,6 +1,7 @@
 'use client'
 
 // Página de login para alunos com formulário formatado
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { loginUser } from '@/lib/api'
@@ -90,6 +91,13 @@ export default function LoginPage() {
         {/* Mensagem de erro, se existir */}
         {error && <p className="text-sm text-red-600">{error}</p>}
 
+        <div className="mt-4 text-sm text-white">
+          {/* Link para recuperação de password */}
+          <Link href="/entrar/esqueci-password" className="hover:underline">
+            Esqueci-me da password
+          </Link>
+        </div>
+
         {/* Botão de submissão centrado dentro do formulário */}
         <button type="submit" className="btn mt-8 self-center">
           Entrar
@@ -98,4 +106,3 @@ export default function LoginPage() {
     </section>
   )
 }
-
