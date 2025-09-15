@@ -3,6 +3,16 @@
 import re
 from pydantic import BaseModel, field_validator
 
+# Expressão regular partilhada para validação de emails
+EMAIL_PATTERN = re.compile(r"^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$")
+
+
+def _validate_email(value: str) -> str:
+    """Valida formato básico do e-mail utilizando o padrão partilhado."""
+    if not EMAIL_PATTERN.match(value):
+        raise ValueError("Invalid email format")
+    return value
+
 
 class UserCreate(BaseModel):
     """Dados recebidos aquando do registo de um novo utilizador."""
@@ -15,12 +25,9 @@ class UserCreate(BaseModel):
     password: str
 
     @field_validator("email")
-    def validate_email(cls, v: str) -> str:
+    def validate_email(cls, value: str) -> str:
         """Valida formato básico do e-mail."""
-        pattern = r"^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$"
-        if not re.match(pattern, v):
-            raise ValueError("Invalid email format")
-        return v
+        return _validate_email(value)
 
 
 class UserRead(BaseModel):
@@ -34,6 +41,8 @@ class UserRead(BaseModel):
     email: str
     # Indica se o utilizador já efetuou o pagamento do curso
     has_paid: bool
+    # Indica se o e-mail do utilizador já foi confirmado
+    is_confirmed: bool
 
     class Config:
         # Permitir conversão a partir de objetos ORM
@@ -49,12 +58,9 @@ class UserLogin(BaseModel):
     password: str
 
     @field_validator("email")
-    def validate_email(cls, v: str) -> str:
+    def validate_email(cls, value: str) -> str:
         """Valida formato básico do e-mail."""
-        pattern = r"^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$"
-        if not re.match(pattern, v):
-            raise ValueError("Invalid email format")
-        return v
+        return _validate_email(value)
 
 
 class UserUpdate(BaseModel):
@@ -64,27 +70,26 @@ class UserUpdate(BaseModel):
     name: str | None = None
     # Novo e-mail do utilizador (opcional)
     email: str | None = None
-    # Nova palavra-passe do utilizador (opcional)
-    password: str | None = None
+    # Palavra-passe atual necessária para alteração (opcional)
+    current_password: str | None = None
+    # Nova palavra-passe pretendida (opcional)
+    new_password: str | None = None
 
     @field_validator("email")
-    def validate_email(cls, v: str | None) -> str | None:
+    def validate_email(cls, value: str | None) -> str | None:
         """Valida formato básico do e-mail quando fornecido."""
-        if v is None:
-            return v
-        pattern = r"^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$"
-        if not re.match(pattern, v):
-            raise ValueError("Invalid email format")
-        return v
+        if value is None:
+            return value
+        return _validate_email(value)
 
-    @field_validator("password")
-    def validate_password(cls, v: str | None) -> str | None:
-        """Garante que a password tem pelo menos 6 caracteres."""
-        if v is None:
-            return v
-        if len(v) < 6:
+    @field_validator("new_password")
+    def validate_new_password(cls, value: str | None) -> str | None:
+        """Garante que a nova password tem pelo menos 6 caracteres."""
+        if value is None:
+            return value
+        if len(value) < 6:
             raise ValueError("Password too short (>= 6)")
-        return v
+        return value
 
 
 class PaymentStatusUpdate(BaseModel):
@@ -105,9 +110,55 @@ class ContactMessage(BaseModel):
     message: str
 
     @field_validator("email")
-    def validate_email(cls, v: str) -> str:
+    def validate_email(cls, value: str) -> str:
         """Valida formato básico do e-mail."""
-        pattern = r"^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$"
-        if not re.match(pattern, v):
-            raise ValueError("Invalid email format")
-        return v
+        return _validate_email(value)
+
+
+class PasswordForgotRequest(BaseModel):
+    """Dados recebidos para iniciar a recuperação da palavra-passe."""
+
+    # Endereço de e-mail associado à conta
+    email: str
+
+    @field_validator("email")
+    def validate_email(cls, value: str) -> str:
+        """Valida formato básico do e-mail."""
+        return _validate_email(value)
+
+
+class PasswordResetRequest(BaseModel):
+    """Dados necessários para concluir a redefinição da palavra-passe."""
+
+    # Token recebido por e-mail
+    token: str
+    # Nova palavra-passe escolhida
+    new_password: str
+
+    @field_validator("token")
+    def validate_token(cls, value: str) -> str:
+        """Garante que o token não vem vazio."""
+        if not value.strip():
+            raise ValueError("Token is required")
+        return value
+
+    @field_validator("new_password")
+    def validate_new_password(cls, value: str) -> str:
+        """Garante que a palavra-passe tem pelo menos 6 caracteres."""
+        if len(value) < 6:
+            raise ValueError("Password too short (>= 6)")
+        return value
+
+
+class AccountConfirmationRequest(BaseModel):
+    """Dados necessários para confirmar uma conta recém-criada."""
+
+    # Token de confirmação recebido no e-mail
+    token: str
+
+    @field_validator("token")
+    def validate_token(cls, value: str) -> str:
+        """Garante que o token não vem vazio."""
+        if not value.strip():
+            raise ValueError("Token is required")
+        return value
