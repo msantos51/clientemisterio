@@ -97,10 +97,10 @@ export default function HomePage() {
       {/* Secção introdutória com texto informativo sobre Cliente Mistério */}
       <section className="p-4">
         {/* Caixa branca translúcida contendo o texto explicativo */}
-        <div className="mx-auto w-full max-w-3xl rounded-lg bg-white/40 p-8 text-white">
+        <div className="mx-auto w-full max-w-3xl rounded-lg bg-white/40 p-8 text-center text-white">
           {/* Texto introdutório em negrito fornecido pelo utilizador */}
           <p className="font-bold">
-            Avalia marcas, recebe dinheiro e acumula produtos.
+            Avalia marcas, recebe dinheiro e acumula produtos — oportunidades abertas por falta de clientes mistério certificados em Portugal.
           </p>
         </div>
       </section>

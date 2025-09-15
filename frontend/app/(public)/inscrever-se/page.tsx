@@ -3,6 +3,7 @@
 // Página com formulário de registo para o curso
 import { FormEvent, useState } from 'react'
 import { registerUser } from '@/lib/api'
+import PasswordInput from '@/components/PasswordInput'
 
 export default function RegisterPage() {
   // Estado local para armazenar os dados do formulário
@@ -62,10 +63,9 @@ export default function RegisterPage() {
           <label className="label">Email</label>
         </div>
 
-        {/* Campo da palavra-passe */}
+        {/* Campo da palavra-passe com botão para mostrar o valor */}
         <div className="input-field">
-          <input
-            type="password"
+          <PasswordInput
             className="input"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
