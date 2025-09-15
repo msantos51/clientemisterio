@@ -95,6 +95,15 @@ async function request<T>(
   })
 
   const contentType = res.headers.get('Content-Type') || ''
+
+  // Determina se existe corpo na resposta (evita parse em respostas 204/205/304)
+  const hasBody = ![204, 205, 304].includes(res.status)
+
+  // Respostas sem corpo devolvem undefined para evitar erros de parse
+  if (!hasBody) {
+    return undefined as T
+  }
+
   const parseBody = async () =>
     contentType.includes('application/json') ? res.json() : res.text()
 
