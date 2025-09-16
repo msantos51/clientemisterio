@@ -1,5 +1,3 @@
-"""Conexão e ferramentas de sessão para a base de dados PostgreSQL."""
-
 import os
 from sqlalchemy import create_engine, inspect, text
 from sqlalchemy.orm import sessionmaker, declarative_base
@@ -63,6 +61,11 @@ def ensure_has_paid_column() -> None:
     if "reset_token_expires_at" not in columns:
         statements.append(
             "ALTER TABLE users ADD COLUMN IF NOT EXISTS reset_token_expires_at TIMESTAMPTZ"
+        )
+
+    if "is_admin" not in columns:
+        statements.append(
+            "ALTER TABLE users ADD COLUMN IF NOT EXISTS is_admin BOOLEAN NOT NULL DEFAULT FALSE"
         )
 
     if statements:
