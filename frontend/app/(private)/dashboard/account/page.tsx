@@ -2,6 +2,15 @@
 
 import { useState, type ChangeEvent, type FormEvent } from 'react'
 
+import { requestAccountDeletion } from '@/lib/api'
+
+// Estrutura para guardar mensagens de feedback do pedido de eliminação
+type DeleteAlert = {
+  type: 'success' | 'error'
+  message: string
+}
+
+
 // Palavra-chave que o utilizador precisa de escrever para confirmar a eliminação
 const DELETE_KEYWORD = 'delete'
 
@@ -13,17 +22,20 @@ export default function AccountPage() {
   const [deleteInputValue, setDeleteInputValue] = useState('')
   // Estado que indica se estamos a processar a eliminação (para desativar botões)
   const [isDeletingAccount, setIsDeletingAccount] = useState(false)
-  // Estado para mostrar feedback ao utilizador após a ação
-  const [deleteFeedbackMessage, setDeleteFeedbackMessage] = useState('')
+
+  // Estado que armazena mensagens de sucesso ou erro após o pedido
+  const [deleteAlert, setDeleteAlert] = useState<DeleteAlert | null>(null)
+
 
   // Validação que confirma se o utilizador escreveu corretamente a palavra-chave exigida
   const isDeleteKeywordValid = deleteInputValue.trim().toLowerCase() === DELETE_KEYWORD
 
-  // Abre o fluxo de eliminação e limpa mensagens ou valores anteriores
+
+  // Abre o fluxo de eliminação e limpa valores anteriores
   const handleOpenDeletePrompt = () => {
     setIsDeletePromptVisible(true)
     setDeleteInputValue('')
-    setDeleteFeedbackMessage('')
+
   }
 
   // Fecha o fluxo de eliminação caso o utilizador desista
@@ -45,14 +57,26 @@ export default function AccountPage() {
       return
     }
 
+
+    setIsDeletingAccount(true)
+
     try {
-      setIsDeletingAccount(true)
-      // Aqui será integrada a chamada real para apagar a conta quando a API estiver disponível
-      setDeleteFeedbackMessage('Pedido de eliminação registado. Entraremos em contacto com mais detalhes.')
-    } finally {
-      setIsDeletingAccount(false)
+      const response = await requestAccountDeletion()
+      const message =
+        response?.message ??
+        'Pedido de eliminação registado. Entraremos em contacto com mais detalhes.'
+      setDeleteAlert({ type: 'success', message })
       setIsDeletePromptVisible(false)
       setDeleteInputValue('')
+    } catch (error) {
+      const fallbackMessage =
+        'Não foi possível registar o pedido de eliminação. Tenta novamente mais tarde.'
+      const message =
+        error instanceof Error && error.message ? error.message : fallbackMessage
+      setDeleteAlert({ type: 'error', message })
+    } finally {
+      setIsDeletingAccount(false)
+
     }
   }
 
@@ -124,8 +148,16 @@ export default function AccountPage() {
         )}
 
         {/* Mensagem final com feedback para o utilizador */}
-        {deleteFeedbackMessage && (
-          <p className="text-sm text-emerald-200">{deleteFeedbackMessage}</p>
+
+        {deleteAlert && (
+          <p
+            className={`text-sm ${
+              deleteAlert.type === 'success' ? 'text-emerald-200' : 'text-red-200'
+            }`}
+          >
+            {deleteAlert.message}
+          </p>
+
         )}
       </div>
     </section>

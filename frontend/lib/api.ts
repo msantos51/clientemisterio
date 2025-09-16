@@ -201,6 +201,11 @@ export async function updatePaymentStatus(data: {
   return request<ApiUser>('/auth/me/payment', { method: 'PUT', json: data })
 }
 
+// Solicita a eliminação da conta e informa o suporte
+export async function requestAccountDeletion(): Promise<{ message: string }> {
+  return request<{ message: string }>('/auth/me/delete-request', { method: 'POST' })
+}
+
 export async function requestPasswordReset(data: { email: string }): Promise<{ message: string }> {
 
   return request<{ message: string }>('/auth/password/forgot', { json: data, auth: false })

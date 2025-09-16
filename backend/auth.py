@@ -53,6 +53,9 @@ from settings import (
 # ───────────────────────────── Router ─────────────────────────────
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
+# Endereço de suporte utilizado para receber pedidos sensíveis
+SUPPORT_EMAIL = "clientemisterio.suporte@gmail.com"
+
 # ─────────────── Segurança / Configuração ─────────────
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -103,6 +106,23 @@ def send_password_reset_email(user: User) -> None:
         "Se não reconhece este pedido, ignore este e-mail."
     )
     send_email(subject=subject, body=body, to=user.email)
+
+
+def send_account_deletion_request_email(user: User) -> None:
+    """Envia para o suporte o aviso de que o utilizador pediu para eliminar a conta."""
+
+    body = (
+        "Foi recebido um pedido para eliminar a conta de um utilizador.\n\n"
+        f"ID do utilizador: {user.id}\n"
+        f"Nome: {user.name}\n"
+        f"Email: {user.email}\n"
+    )
+
+    send_email(
+        subject="Pedido de eliminação de conta",
+        body=body,
+        to=SUPPORT_EMAIL,
+    )
 
 
 class OAuth2EmailRequestForm:
@@ -195,6 +215,19 @@ def set_auth_cookie(response: Response, access_token: str, max_age_seconds: int)
 def clear_auth_cookie(response: Response) -> None:
     """Remove o cookie de autenticação do cliente."""
     response.delete_cookie("access_token", path="/")
+
+
+def delete_user_account(db: Session, user: User | int) -> None:
+    """Remove definitivamente a conta do utilizador e confirma a operação na base de dados."""
+
+    # Aceita o objeto completo ou apenas o identificador numérico
+    instance = user if isinstance(user, User) else db.get(User, int(user))
+
+    if not instance:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Utilizador não encontrado")
+
+    db.delete(instance)
+    db.commit()
 
 
 def authenticate_credentials(db: Session, email: str, password: str) -> User:
@@ -403,6 +436,22 @@ def update_my_payment_status(
     db.commit()
     db.refresh(current_user)
     return current_user
+
+
+@router.post("/me/delete-request", status_code=status.HTTP_202_ACCEPTED)
+def request_account_deletion(current_user: User = Depends(get_current_user)) -> dict[str, str]:
+    """Envia um e-mail ao suporte a informar que o utilizador pediu eliminar a conta."""
+
+    try:
+        send_account_deletion_request_email(current_user)
+    except Exception as exc:
+        print(f"Erro ao enviar email de eliminação: {exc}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Não foi possível enviar o pedido de eliminação. Tente novamente mais tarde.",
+        ) from exc
+
+    return {"message": "Pedido de eliminação registado. Entraremos em contacto em breve."}
 
 
 @router.put("/users/{user_id}/payment", response_model=UserRead)
