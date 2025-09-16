@@ -158,6 +158,7 @@ def update_deletion_request(
 @router.delete("/users/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_user_by_id(
     user_id: int,
+
     admin_secret: str | None = Header(default=None, alias="X-Admin-Secret"),
     db: Session = Depends(get_db),
     current_admin: User | None = Depends(get_current_admin_optional),
@@ -166,12 +167,14 @@ def delete_user_by_id(
 
     ensure_deletion_permission(current_admin, admin_secret)
 
+
     delete_user_account(db, user_id)
 
 
 @router.delete("/users/by-email/{email}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_user_by_email(
     email: str,
+
     admin_secret: str | None = Header(default=None, alias="X-Admin-Secret"),
     db: Session = Depends(get_db),
     current_admin: User | None = Depends(get_current_admin_optional),
@@ -179,6 +182,7 @@ def delete_user_by_email(
     """Elimina definitivamente um utilizador com base no endereço de e-mail fornecido."""
 
     ensure_deletion_permission(current_admin, admin_secret)
+
 
     normalized_email = email.strip().lower()
     user = db.query(User).filter(User.email == normalized_email).first()
