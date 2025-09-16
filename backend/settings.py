@@ -24,6 +24,9 @@ ALGORITHM = "HS256"
 # Duração do token em minutos
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60"))
 
+# Segredo opcional usado para autorizar operações administrativas sem token OAuth
+ADMIN_API_SECRET = (os.getenv("ADMIN_API_SECRET") or "").strip()
+
 # ────────────────────── Configuração Web ──────────────────────
 # URL opcional do frontend para CORS
 FRONTEND_URL = (os.getenv("FRONTEND_URL") or "").strip()
