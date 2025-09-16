@@ -53,15 +53,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ─────────────────────────── Health ───────────────────────────
+# ──────────── Rota principal para verificação rápida ────────────
 @app.get("/")
 def read_root():
     return {"message": "API is running"}
-
-@app.get("/health")
-def health():
-    """Endpoint para verificação de vida utilizado pelo Render."""
-    return {"ok": True}
 
 # ─────────────────────── Rotas de autenticação ───────────────────────
 # O router já tem prefixo "/auth" no próprio ficheiro; não repetir aqui.
