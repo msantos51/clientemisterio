@@ -27,6 +27,8 @@ except Exception as e:
 allowed_origins = [
     "https://clientemisterio.com",
     "https://www.clientemisterio.com",
+    # Domínio de produção alojado no Vercel
+    "https://clientemisterio.vercel.app",
     # Domínio legado alojado no Render (mantido para compatibilidade)
     "https://clientemisterio-frontend.onrender.com",
 ]
