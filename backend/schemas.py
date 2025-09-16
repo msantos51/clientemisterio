@@ -1,10 +1,13 @@
-"""Esquemas Pydantic usados para validação de dados."""
-
 import re
+from datetime import datetime
+
 from pydantic import BaseModel, field_validator
 
 # Expressão regular partilhada para validação de emails
 EMAIL_PATTERN = re.compile(r"^[\w\.-]+@[\w\.-]+\.[a-zA-Z]{2,}$")
+
+# Conjunto de estados válidos para os pedidos de eliminação de conta
+ACCOUNT_DELETION_ALLOWED_STATUSES = {"pending", "in_progress", "completed", "rejected"}
 
 
 def _validate_email(value: str) -> str:
@@ -43,6 +46,8 @@ class UserRead(BaseModel):
     has_paid: bool
     # Indica se o e-mail do utilizador já foi confirmado
     is_confirmed: bool
+    # Indica se o utilizador tem privilégios administrativos
+    is_admin: bool
 
     class Config:
         # Permitir conversão a partir de objetos ORM
@@ -161,4 +166,53 @@ class AccountConfirmationRequest(BaseModel):
         """Garante que o token não vem vazio."""
         if not value.strip():
             raise ValueError("Token is required")
+        return value
+
+
+class AccountDeletionRequestRead(BaseModel):
+    """Representação dos pedidos de eliminação de conta para o painel administrativo."""
+
+    # Identificador interno do pedido
+    id: int
+    # Identificador do utilizador associado (None se a conta já foi removida)
+    user_id: int | None
+    # Identificador original do utilizador guardado para auditoria
+    user_id_snapshot: int
+    # Nome registado no momento do pedido
+    user_name_snapshot: str
+    # E-mail registado no momento do pedido
+    user_email_snapshot: str
+    # Estado atual do pedido
+    status: str
+    # Instante de criação do pedido
+    created_at: datetime
+    # Instante em que o pedido foi processado (quando aplicável)
+    processed_at: datetime | None
+    # Identificador do administrador que tratou o pedido
+    processed_by_user_id: int | None
+    # Notas internas associadas ao pedido
+    admin_notes: str | None
+
+    class Config:
+        # Permitir conversão a partir de objetos ORM
+        from_attributes = True
+
+
+class AccountDeletionRequestAdminUpdate(BaseModel):
+    """Dados enviados pelo administrador para atualizar um pedido de eliminação."""
+
+    # Novo estado pretendido (opcional)
+    status: str | None = None
+    # Notas a registar (opcional)
+    admin_notes: str | None = None
+    # Indica se o utilizador deve ser eliminado imediatamente
+    delete_user: bool = False
+
+    @field_validator("status")
+    def validate_status(cls, value: str | None) -> str | None:
+        """Garante que o estado fornecido pertence à lista permitida."""
+        if value is None:
+            return value
+        if value not in ACCOUNT_DELETION_ALLOWED_STATUSES:
+            raise ValueError("Invalid status")
         return value
