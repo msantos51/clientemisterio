@@ -26,6 +26,7 @@ class User(Base):
     deletion_requests = relationship(
         "AccountDeletionRequest",
         back_populates="user",
+
         passive_deletes=True,
     )
 
