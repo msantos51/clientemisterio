@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from database import Base, engine, ensure_has_paid_column
 from auth import router as auth_router
 from contact import router as contact_router
+from admin import router as admin_router
 
 # Importa configuração partilhada
 from settings import FRONTEND_URL, IS_DEV
@@ -17,7 +18,7 @@ app = FastAPI(title="Cliente Mistério API")
 # (temporário até usares Alembic) criar tabelas no arranque
 try:
     Base.metadata.create_all(bind=engine)  # cria tabelas se não existirem
-    ensure_has_paid_column()  # garante a coluna has_paid
+    ensure_has_paid_column()  # garante colunas adicionais em falta
 except Exception as e:
     print(f"⚠️ Erro ao criar tabelas: {e}")
 
@@ -26,10 +27,9 @@ except Exception as e:
 allowed_origins = [
     "https://clientemisterio.com",
     "https://www.clientemisterio.com",
+    # Domínio legado alojado no Render (mantido para compatibilidade)
+    "https://clientemisterio-frontend.onrender.com",
 ]
-
-# Se ainda precisares do front antigo no Render, mantém esta linha:
-# allowed_origins.append("https://clientemisterio-frontend.onrender.com")
 
 # Adiciona a FRONTEND_URL se definida
 if FRONTEND_URL:
@@ -66,6 +66,10 @@ def health():
 # ─────────────────────── Rotas de autenticação ───────────────────────
 # O router já tem prefixo "/auth" no próprio ficheiro; não repetir aqui.
 app.include_router(auth_router, tags=["Auth"])
+
+# ─────────────────────── Rotas administrativas ───────────────────────
+# Permite gerir pedidos internos como pedidos de eliminação de conta
+app.include_router(admin_router, tags=["Admin"])
 
 # ───────────────────────── Rotas de contacto ─────────────────────────
 # Lida com mensagens enviadas através do formulário de contacto
