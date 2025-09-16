@@ -29,7 +29,7 @@ from fastapi.security import OAuth2PasswordBearer
 # Importa utilitários e modelos internos
 from database import SessionLocal
 from email_utils import send_email
-from models import User
+from models import User, AccountDeletionRequest
 from schemas import (
     UserCreate,
     UserRead,
@@ -39,6 +39,7 @@ from schemas import (
     PasswordForgotRequest,
     PasswordResetRequest,
     AccountConfirmationRequest,
+    ACCOUNT_DELETION_ALLOWED_STATUSES,
 )
 
 # Importa configuração partilhada
@@ -64,6 +65,9 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token", auto_error=False)
 
 # Tempo padrão de expiração do token de recuperação de password
 PASSWORD_RESET_TOKEN_EXPIRE_MINUTES = 60
+
+# Conjunto de estados ativos que impedem novos pedidos de eliminação
+ACTIVE_DELETION_STATUSES = ACCOUNT_DELETION_ALLOWED_STATUSES.intersection({"pending", "in_progress"})
 
 # URL base do frontend utilizada para construir links enviados nos e-mails
 _frontend_env = (FRONTEND_URL or "").strip()
@@ -217,7 +221,7 @@ def clear_auth_cookie(response: Response) -> None:
     response.delete_cookie("access_token", path="/")
 
 
-def delete_user_account(db: Session, user: User | int) -> None:
+def delete_user_account(db: Session, user: User | int, *, commit: bool = True) -> None:
     """Remove definitivamente a conta do utilizador e confirma a operação na base de dados."""
 
     # Aceita o objeto completo ou apenas o identificador numérico
@@ -226,8 +230,18 @@ def delete_user_account(db: Session, user: User | int) -> None:
     if not instance:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Utilizador não encontrado")
 
+    # Desassocia pedidos de eliminação para manter o histórico após remover a conta
+    db.query(AccountDeletionRequest).filter(AccountDeletionRequest.user_id == instance.id).update(
+        {"user_id": None},
+        synchronize_session=False,
+    )
+
     db.delete(instance)
-    db.commit()
+
+    if commit:
+        db.commit()
+    else:
+        db.flush()
 
 
 def authenticate_credentials(db: Session, email: str, password: str) -> User:
@@ -303,6 +317,16 @@ def get_current_user(
         )
 
     return user
+
+
+def get_current_admin(current_user: User = Depends(get_current_user)) -> User:
+    """Garante que o utilizador autenticado tem privilégios de administrador."""
+    if not current_user.is_admin:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Acesso reservado a administradores",
+        )
+    return current_user
 
 # ───────────────────────────── Rotas ──────────────────────────────
 @router.post("/register", response_model=UserRead, status_code=status.HTTP_201_CREATED)
@@ -439,19 +463,50 @@ def update_my_payment_status(
 
 
 @router.post("/me/delete-request", status_code=status.HTTP_202_ACCEPTED)
-def request_account_deletion(current_user: User = Depends(get_current_user)) -> dict[str, str]:
-    """Envia um e-mail ao suporte a informar que o utilizador pediu eliminar a conta."""
+def request_account_deletion(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> dict[str, str]:
+    """Regista o pedido de eliminação de conta e notifica o suporte."""
+
+    # Verifica se o utilizador já tem um pedido ativo
+    existing_request = (
+        db.query(AccountDeletionRequest)
+        .filter(
+            AccountDeletionRequest.user_id == current_user.id,
+            AccountDeletionRequest.status.in_(ACTIVE_DELETION_STATUSES),
+        )
+        .first()
+    )
+    if existing_request:
+        return {
+            "message": "Já existe um pedido de eliminação em análise. Receberá novidades em breve."
+        }
+
+    deletion_request = AccountDeletionRequest(
+        user_id=current_user.id,
+        user_id_snapshot=current_user.id,
+        user_name_snapshot=current_user.name.strip(),
+        user_email_snapshot=current_user.email.strip(),
+    )
+    db.add(deletion_request)
 
     try:
+        db.flush()
         send_account_deletion_request_email(current_user)
     except Exception as exc:
+        db.rollback()
         print(f"Erro ao enviar email de eliminação: {exc}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Não foi possível enviar o pedido de eliminação. Tente novamente mais tarde.",
         ) from exc
 
+    db.commit()
+    db.refresh(deletion_request)
+
     return {"message": "Pedido de eliminação registado. Entraremos em contacto em breve."}
+
 
 
 @router.put("/users/{user_id}/payment", response_model=UserRead)
