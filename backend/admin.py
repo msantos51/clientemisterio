@@ -123,3 +123,36 @@ def update_deletion_request(
     db.refresh(deletion_request)
 
     return deletion_request
+
+
+@router.delete("/users/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_user_by_id(
+    user_id: int,
+    db: Session = Depends(get_db),
+    current_admin: User = Depends(get_current_admin),
+) -> None:
+    """Elimina definitivamente um utilizador específico através do respetivo ID."""
+
+    # A dependência garante que apenas administradores executam esta operação
+    _ = current_admin
+
+    delete_user_account(db, user_id)
+
+
+@router.delete("/users/by-email/{email}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_user_by_email(
+    email: str,
+    db: Session = Depends(get_db),
+    current_admin: User = Depends(get_current_admin),
+) -> None:
+    """Elimina definitivamente um utilizador com base no endereço de e-mail fornecido."""
+
+    # A dependência garante que apenas administradores executam esta operação
+    _ = current_admin
+
+    normalized_email = email.strip().lower()
+    user = db.query(User).filter(User.email == normalized_email).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Utilizador não encontrado")
+
+    delete_user_account(db, user)
