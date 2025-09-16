@@ -6,55 +6,80 @@ from sqlalchemy.orm import relationship
 from database import Base
 
 
-# Modelo que representa a tabela de utilizadores
+# ───────────────────────────── User ─────────────────────────────
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True, index=True)   # identificador único
-    name = Column(String, nullable=False)                # nome do utilizador
-    email = Column(String, unique=True, index=True, nullable=False)  # e-mail
-    password_hash = Column(String, nullable=False)       # hash da palavra-passe
-    has_paid = Column(Boolean, default=False, nullable=False)  # indica se o curso foi pago
-    is_confirmed = Column(Boolean, default=True, nullable=False)  # indica se o e-mail foi confirmado
-    confirmation_token = Column(String, nullable=True)   # token temporário para confirmar conta
-    confirmation_sent_at = Column(DateTime(timezone=True), nullable=True)  # data de envio do e-mail de confirmação
-    reset_token = Column(String, nullable=True)          # token temporário para redefinição da palavra-passe
-    reset_token_expires_at = Column(DateTime(timezone=True), nullable=True)  # expiração do token de redefinição
-    is_admin = Column(Boolean, default=False, nullable=False)  # indica se o utilizador é administrador
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    email = Column(String, unique=True, index=True, nullable=False)
+    password_hash = Column(String, nullable=False)
+    has_paid = Column(Boolean, default=False, nullable=False)
+    is_confirmed = Column(Boolean, default=True, nullable=False)
+    confirmation_token = Column(String, nullable=True)
+    confirmation_sent_at = Column(DateTime(timezone=True), nullable=True)
+    reset_token = Column(String, nullable=True)
+    reset_token_expires_at = Column(DateTime(timezone=True), nullable=True)
+    is_admin = Column(Boolean, default=False, nullable=False)
 
-    # Relacionamento com pedidos de eliminação efetuados pelo utilizador (sem eliminar registos históricos)
+    # Pedidos FEITOS por este utilizador (usa a FK: AccountDeletionRequest.user_id)
     deletion_requests = relationship(
         "AccountDeletionRequest",
         back_populates="user",
-
+        foreign_keys="AccountDeletionRequest.user_id",   # 👈 remove a ambiguidade
         passive_deletes=True,
+        lazy="selectin",
+    )
+
+    # Pedidos PROCESSADOS por este utilizador (admin) (usa a FK: AccountDeletionRequest.processed_by_user_id)
+    processed_deletion_requests = relationship(
+        "AccountDeletionRequest",
+        back_populates="processed_by",
+        foreign_keys="AccountDeletionRequest.processed_by_user_id",  # 👈 relação distinta
+        passive_deletes=True,
+        lazy="selectin",
     )
 
 
-# Modelo que guarda pedidos de eliminação de conta
+# ─────────────── AccountDeletionRequest ───────────────
 class AccountDeletionRequest(Base):
     __tablename__ = "account_deletion_requests"
 
-    id = Column(Integer, primary_key=True, index=True)  # identificador único do pedido
-    user_id = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"), nullable=True)  # FK (pode ficar a NULL após eliminação)
-    user_id_snapshot = Column(Integer, nullable=False)  # identificador do utilizador no momento do pedido
-    user_name_snapshot = Column(String, nullable=False)  # nome registado no momento do pedido
-    user_email_snapshot = Column(String, nullable=False)  # e-mail registado no momento do pedido
-    status = Column(String, nullable=False, default="pending")  # estado atual do pedido
+    id = Column(Integer, primary_key=True, index=True)
+    # pode ficar a NULL após eliminação do user (manténs o snapshot)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
+
+    user_id_snapshot = Column(Integer, nullable=False)
+    user_name_snapshot = Column(String, nullable=False)
+    user_email_snapshot = Column(String, nullable=False)
+
+    status = Column(String, nullable=False, default="pending")
     created_at = Column(
         DateTime(timezone=True),
         nullable=False,
         default=lambda: datetime.now(timezone.utc),
-    )  # instante em que o pedido foi criado
-    processed_at = Column(DateTime(timezone=True), nullable=True)  # instante em que o pedido foi tratado
+    )
+    processed_at = Column(DateTime(timezone=True), nullable=True)
+
     processed_by_user_id = Column(
         Integer,
         ForeignKey("users.id", ondelete="SET NULL"),
         nullable=True,
-    )  # administrador responsável
-    admin_notes = Column(Text, nullable=True)  # notas internas sobre o pedido
+    )
+    admin_notes = Column(Text, nullable=True)
 
-    # Relacionamento com o utilizador que fez o pedido
-    user = relationship("User", back_populates="deletion_requests", foreign_keys=[user_id])
-    # Relacionamento com o administrador que tratou o pedido
-    processed_by = relationship("User", foreign_keys=[processed_by_user_id])
+    # Quem FEZ o pedido
+    user = relationship(
+        "User",
+        back_populates="deletion_requests",
+        foreign_keys=[user_id],
+        lazy="selectin",
+    )
+
+    # Quem PROCESSOU o pedido (admin)
+    processed_by = relationship(
+        "User",
+        back_populates="processed_deletion_requests",
+        foreign_keys=[processed_by_user_id],
+        lazy="selectin",
+    )
