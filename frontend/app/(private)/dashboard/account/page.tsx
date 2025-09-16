@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, type ChangeEvent, type FormEvent } from 'react'
+
 import { requestAccountDeletion } from '@/lib/api'
 
 // Estrutura para guardar mensagens de feedback do pedido de eliminação
@@ -8,6 +9,7 @@ type DeleteAlert = {
   type: 'success' | 'error'
   message: string
 }
+
 
 // Palavra-chave que o utilizador precisa de escrever para confirmar a eliminação
 const DELETE_KEYWORD = 'delete'
@@ -20,16 +22,20 @@ export default function AccountPage() {
   const [deleteInputValue, setDeleteInputValue] = useState('')
   // Estado que indica se estamos a processar a eliminação (para desativar botões)
   const [isDeletingAccount, setIsDeletingAccount] = useState(false)
+
   // Estado que armazena mensagens de sucesso ou erro após o pedido
   const [deleteAlert, setDeleteAlert] = useState<DeleteAlert | null>(null)
 
+
   // Validação que confirma se o utilizador escreveu corretamente a palavra-chave exigida
   const isDeleteKeywordValid = deleteInputValue.trim().toLowerCase() === DELETE_KEYWORD
+
 
   // Abre o fluxo de eliminação e limpa valores anteriores
   const handleOpenDeletePrompt = () => {
     setIsDeletePromptVisible(true)
     setDeleteInputValue('')
+
   }
 
   // Fecha o fluxo de eliminação caso o utilizador desista
@@ -51,6 +57,7 @@ export default function AccountPage() {
       return
     }
 
+
     setIsDeletingAccount(true)
 
     try {
@@ -69,6 +76,7 @@ export default function AccountPage() {
       setDeleteAlert({ type: 'error', message })
     } finally {
       setIsDeletingAccount(false)
+
     }
   }
 
@@ -140,6 +148,7 @@ export default function AccountPage() {
         )}
 
         {/* Mensagem final com feedback para o utilizador */}
+
         {deleteAlert && (
           <p
             className={`text-sm ${
@@ -148,6 +157,7 @@ export default function AccountPage() {
           >
             {deleteAlert.message}
           </p>
+
         )}
       </div>
     </section>
