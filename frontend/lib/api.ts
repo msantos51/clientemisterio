@@ -132,15 +132,19 @@ async function request<T>(
     // Extrai mensagem de erro devolvida pelo backend
     const msg = extractError(data, `${res.status} ${res.statusText}`)
 
-    // Em caso de 401, limpa sessão e notifica a aplicação
-    if (res.status === 401 && typeof window !== 'undefined') {
-      try {
-        localStorage.removeItem('cm_session')
-      } catch {
-        // ignora falhas ao aceder ao localStorage
+    if (res.status === 401) {
+      // Em pedidos autenticados limpa a sessão local e notifica a aplicação
+      if (auth && typeof window !== 'undefined') {
+        try {
+          localStorage.removeItem('cm_session')
+        } catch {
+          // ignora falhas ao aceder ao localStorage
+        }
+        window.dispatchEvent(new Event('cm-session'))
       }
-      window.dispatchEvent(new Event('cm-session'))
-      throw new Error('Sessão expirada. Faça login novamente.')
+
+      // Devolve a mensagem específica enviada pelo backend (ex.: credenciais inválidas)
+      throw new Error(msg)
     }
 
     // Para outros erros, lança a mensagem obtida
