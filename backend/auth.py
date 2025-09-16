@@ -1,6 +1,7 @@
 """Funções e rotas relacionadas com autenticação de utilizadores."""
 
 # Importa módulos padrão de tempo
+
 from datetime import datetime, timedelta, timezone
 import secrets
 from urllib.parse import urljoin
@@ -221,6 +222,53 @@ def clear_auth_cookie(response: Response) -> None:
     response.delete_cookie("access_token", path="/")
 
 
+def resolve_current_user(
+    request: Request,
+    db: Session,
+    authorization: str | None,
+    token: str | None,
+    *,
+    allow_missing: bool,
+) -> User | None:
+    """Resolve o utilizador autenticado, permitindo ausência de token quando configurado."""
+
+    raw_token = token or extract_bearer(authorization) or request.cookies.get("access_token")
+
+    if not raw_token:
+        if allow_missing:
+            return None
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token não encontrado",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    payload = decode_access_token(raw_token)
+    user_id: str | None = payload.get("sub")
+    if not user_id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token sem subject",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    user = db.get(User, int(user_id))
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Utilizador não existe",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    if not user.is_confirmed:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Conta ainda não confirmada. Verifique o e-mail enviado no registo.",
+        )
+
+    return user
+
+
 def delete_user_account(db: Session, user: User | int, *, commit: bool = True) -> None:
     """Remove definitivamente a conta do utilizador e confirma a operação na base de dados."""
 
@@ -285,38 +333,34 @@ def get_current_user(
       1) Header: Authorization: Bearer <token>
       2) Cookie: access_token
     """
-    token = token or extract_bearer(authorization) or request.cookies.get("access_token")
-    if not token:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token não encontrado",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
 
-    payload = decode_access_token(token)
-    user_id: str | None = payload.get("sub")
-    if not user_id:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token sem subject",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
+    user = resolve_current_user(
+        request=request,
+        db=db,
+        authorization=authorization,
+        token=token,
+        allow_missing=False,
+    )
 
-    user = db.get(User, int(user_id))
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Utilizador não existe",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-
-    if not user.is_confirmed:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Conta ainda não confirmada. Verifique o e-mail enviado no registo.",
-        )
-
+    assert user is not None
     return user
+
+
+def get_current_user_optional(
+    request: Request,
+    db: Session = Depends(get_db),
+    authorization: str | None = Header(default=None),
+    token: str | None = Depends(oauth2_scheme),
+) -> User | None:
+    """Versão permissiva que devolve None quando não existe token fornecido."""
+
+    return resolve_current_user(
+        request=request,
+        db=db,
+        authorization=authorization,
+        token=token,
+        allow_missing=True,
+    )
 
 
 def get_current_admin(current_user: User = Depends(get_current_user)) -> User:
@@ -326,6 +370,23 @@ def get_current_admin(current_user: User = Depends(get_current_user)) -> User:
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Acesso reservado a administradores",
         )
+    return current_user
+
+
+def get_current_admin_optional(
+    current_user: User | None = Depends(get_current_user_optional),
+) -> User | None:
+    """Permite acesso opcional e valida privilégios apenas quando o utilizador existe."""
+
+    if current_user is None:
+        return None
+
+    if not current_user.is_admin:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Acesso reservado a administradores",
+        )
+
     return current_user
 
 # ───────────────────────────── Rotas ──────────────────────────────

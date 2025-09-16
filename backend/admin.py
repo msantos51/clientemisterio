@@ -2,16 +2,22 @@
 
 from datetime import datetime, timezone
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Header, Query, status
 from sqlalchemy.orm import Session
 
-from auth import get_db, get_current_admin, delete_user_account
+from auth import (
+    get_db,
+    get_current_admin,
+    get_current_admin_optional,
+    delete_user_account,
+)
 from models import AccountDeletionRequest, User
 from schemas import (
     AccountDeletionRequestRead,
     AccountDeletionRequestAdminUpdate,
     ACCOUNT_DELETION_ALLOWED_STATUSES,
 )
+from settings import ADMIN_API_SECRET
 
 # Conjunto de estados finais onde o pedido deixa de estar ativo
 FINAL_DELETION_STATUSES = {"completed", "rejected"}
@@ -19,6 +25,30 @@ FINAL_DELETION_STATUSES = {"completed", "rejected"}
 ACTIVE_DELETION_STATUSES = ACCOUNT_DELETION_ALLOWED_STATUSES - FINAL_DELETION_STATUSES
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
+
+
+def ensure_deletion_permission(current_admin: User | None, admin_secret: str | None) -> None:
+    """Permite eliminar contas com token de administrador ou com o cabeçalho secreto."""
+
+    configured_secret = ADMIN_API_SECRET
+
+    if current_admin is not None:
+        return
+
+    if configured_secret and admin_secret and admin_secret == configured_secret:
+        return
+
+    detail = (
+        "É necessário token de administrador válido ou cabeçalho X-Admin-Secret correto"
+        if configured_secret
+        else "É necessário token de administrador válido"
+    )
+
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail=detail,
+        headers={"WWW-Authenticate": "Bearer"},
+    )
 
 
 @router.get("/deletion-requests", response_model=list[AccountDeletionRequestRead])
@@ -123,3 +153,36 @@ def update_deletion_request(
     db.refresh(deletion_request)
 
     return deletion_request
+
+
+@router.delete("/users/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_user_by_id(
+    user_id: int,
+    admin_secret: str | None = Header(default=None, alias="X-Admin-Secret"),
+    db: Session = Depends(get_db),
+    current_admin: User | None = Depends(get_current_admin_optional),
+) -> None:
+    """Elimina definitivamente um utilizador específico através do respetivo ID."""
+
+    ensure_deletion_permission(current_admin, admin_secret)
+
+    delete_user_account(db, user_id)
+
+
+@router.delete("/users/by-email/{email}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_user_by_email(
+    email: str,
+    admin_secret: str | None = Header(default=None, alias="X-Admin-Secret"),
+    db: Session = Depends(get_db),
+    current_admin: User | None = Depends(get_current_admin_optional),
+) -> None:
+    """Elimina definitivamente um utilizador com base no endereço de e-mail fornecido."""
+
+    ensure_deletion_permission(current_admin, admin_secret)
+
+    normalized_email = email.strip().lower()
+    user = db.query(User).filter(User.email == normalized_email).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Utilizador não encontrado")
+
+    delete_user_account(db, user)
