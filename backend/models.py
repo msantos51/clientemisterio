@@ -26,7 +26,7 @@ class User(Base):
     deletion_requests = relationship(
         "AccountDeletionRequest",
         back_populates="user",
-        foreign_keys="AccountDeletionRequest.user_id",  # evita ambiguidade porque a tabela tem 2 FKs para users
+
         passive_deletes=True,
     )
 
