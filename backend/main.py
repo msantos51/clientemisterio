@@ -27,10 +27,9 @@ except Exception as e:
 allowed_origins = [
     "https://clientemisterio.com",
     "https://www.clientemisterio.com",
+    # Domínio legado alojado no Render (mantido para compatibilidade)
+    "https://clientemisterio-frontend.onrender.com",
 ]
-
-# Se ainda precisares do front antigo no Render, mantém esta linha:
-# allowed_origins.append("https://clientemisterio-frontend.onrender.com")
 
 # Adiciona a FRONTEND_URL se definida
 if FRONTEND_URL:
