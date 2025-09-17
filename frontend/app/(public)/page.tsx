@@ -144,11 +144,11 @@ export default function HomePage() {
             key={index}
             className="mx-auto flex w-full flex-col items-center rounded-lg bg-white/40 p-6 text-center"
           >
-            {/* Símbolo representativo da característica */}
+            {/* Símbolo representativo da característica com animação cíclica */}
             <feature.Icon
               role="img"
               aria-label={feature.label}
-              className="mb-4 h-12 w-12 text-white"
+              className="feature-icon mb-4 h-12 w-12 text-white"
             />
             {/* Texto descritivo da característica */}
             <p className="text-base font-bold">{feature.text}</p>
