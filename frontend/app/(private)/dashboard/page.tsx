@@ -94,7 +94,7 @@ export default function DashboardPage() {
                 width: '100%',
                 height: '100%',
               }}
-              src="https://view.genially.com/68c2fc398c5abdf14fbb9cb7"
+              src="https://view.genially.com/68c929b840aac825bca87b1d"
               allowFullScreen
               scrolling="yes"
             />
