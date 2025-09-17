@@ -186,3 +186,19 @@ p {
   padding-right: 5px;
 }
 
+/* Animação suave que roda os ícones informativos a cada 3 segundos */
+@keyframes feature-icon-rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Classe aplicada aos ícones para executar a animação de rotação contínua */
+.feature-icon {
+  animation: feature-icon-rotation 3s linear infinite;
+  will-change: transform;
+}
+
