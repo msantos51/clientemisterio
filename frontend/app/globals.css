@@ -212,6 +212,7 @@ p {
 .feature-icon {
   animation: feature-icon-vibration 1.5s ease-in-out infinite;
   transform-origin: center;
+
   will-change: transform;
 }
 

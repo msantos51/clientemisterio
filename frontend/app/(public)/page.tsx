@@ -144,7 +144,9 @@ export default function HomePage() {
             key={index}
             className="mx-auto flex w-full flex-col items-center rounded-lg bg-white/40 p-6 text-center"
           >
+
             {/* Símbolo representativo da característica com animação de vibração */}
+
             <feature.Icon
               role="img"
               aria-label={feature.label}
