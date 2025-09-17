@@ -3,45 +3,45 @@
 // Layout do dashboard com menu lateral simplificado
 import { ReactNode } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { ProtectedClient } from '../../../components/ProtectedClient'
 
+// Lista com todas as secções disponíveis no menu lateral
+const navigationItems = [
+  { href: '/dashboard/personal', label: 'Dados Pessoas' },
+  { href: '/dashboard/opportunities', label: 'Oportunidades & Carreira' },
+  { href: '/dashboard/account', label: 'Conta' },
+]
+
 export default function DashboardLayout({ children }: { children: ReactNode }) {
-  // Renderiza o layout com o menu e o conteúdo principal
+  // Obtém a rota atual para destacar o item de menu correspondente
+  const pathname = usePathname()
+
+  // Renderiza o layout com o menu lateral e o conteúdo principal
   return (
     <ProtectedClient>
       <div className="flex min-h-screen">
         {/* Menu lateral com as opções essenciais do dashboard */}
         <aside className="w-72 border-r border-white/30 bg-white/5 p-4">
-          <nav className="space-y-6">
-            {/* Ligações principais para gerir os dados do utilizador */}
-            <div className="space-y-3">
-              <Link
-                href="/dashboard/personal"
-                className="block rounded-full border border-white/40 px-4 py-2 text-center text-sm font-semibold uppercase text-white transition hover:bg-white/10"
-              >
-                Dados Pessoais
-              </Link>
-              <Link
-                href="/dashboard/opportunities"
-                className="block rounded-full border border-white/40 px-4 py-2 text-center text-sm font-semibold uppercase text-white transition hover:bg-white/10"
-              >
-                Oportunidades &amp; Carreira
-              </Link>
-            </div>
+          <nav className="space-y-3">
+            {/* Apresenta apenas os itens definidos na lista navigationItems */}
+            {navigationItems.map((item) => {
+              const isActive = pathname?.startsWith(item.href)
 
-            {/* Menu dedicado à gestão de conta com botão destacado para eliminar */}
-            <div className="rounded-lg border border-red-200/40 bg-red-500/10 p-4 text-center">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-red-100">Conta</h2>
-              <p className="mt-2 text-sm text-red-50/80">
-                Gestione as definições sensíveis da sua conta Cliente Mistério.
-              </p>
-              <Link
-                href="/dashboard/account"
-                className="mt-4 block rounded-full bg-white px-4 py-2 text-center text-sm font-bold uppercase text-[#EC6F66] transition hover:bg-white/90"
-              >
-                Apagar Conta
-              </Link>
-            </div>
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`block rounded-full border px-4 py-2 text-center text-sm font-semibold uppercase transition ${
+                    isActive
+                      ? 'border-white/80 bg-white/20 text-white'
+                      : 'border-white/40 text-white hover:bg-white/10'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              )
+            })}
           </nav>
         </aside>
         {/* Área principal onde o conteúdo das páginas é apresentado */}
