@@ -186,19 +186,33 @@ p {
   padding-right: 5px;
 }
 
-/* Animação suave que roda os ícones informativos a cada 3 segundos */
-@keyframes feature-icon-rotation {
+/* Animação suave que faz os ícones informativos vibrarem sem rodar */
+@keyframes feature-icon-vibration {
   0% {
-    transform: rotate(0deg);
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  20% {
+    transform: translate3d(-2px, 1px, 0) scale(1.02);
+  }
+  40% {
+    transform: translate3d(2px, -1px, 0) scale(1);
+  }
+  60% {
+    transform: translate3d(-1px, 0, 0) scale(0.98);
+  }
+  80% {
+    transform: translate3d(1px, -1px, 0) scale(1.01);
   }
   100% {
-    transform: rotate(360deg);
+    transform: translate3d(0, 0, 0) scale(1);
   }
 }
 
-/* Classe aplicada aos ícones para executar a animação de rotação contínua */
+/* Classe aplicada aos ícones para executar a animação de vibração contínua */
 .feature-icon {
-  animation: feature-icon-rotation 3s linear infinite;
+  animation: feature-icon-vibration 1.5s ease-in-out infinite;
+  transform-origin: center;
+
   will-change: transform;
 }
 
