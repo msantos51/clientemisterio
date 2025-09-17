@@ -57,6 +57,14 @@ function ClockIcon(props: SVGProps<SVGSVGElement>) {
   )
 }
 
+// Tipo que descreve cada bloco informativo apresentado na secção inferior
+type Feature = {
+  Icon: (props: SVGProps<SVGSVGElement>) => JSX.Element
+  label: string
+  text: string
+  delay: number
+}
+
 // Página inicial com título destacado e texto informativo
 export default function HomePage() {
   // Estado que indica se o utilizador está autenticado
@@ -73,22 +81,25 @@ export default function HomePage() {
     }
   }, [])
 
-  // Lista de caixas a apresentar na secção informativa
-  const features = [
+  // Lista de caixas a apresentar na secção informativa, incluindo o atraso da animação
+  const features: Feature[] = [
     {
       Icon: ShieldIcon,
       label: 'escudo',
       text: 'Equipa experiente',
+      delay: 0,
     },
     {
       Icon: PhoneIcon,
       label: 'telemóvel',
       text: '100% online',
+      delay: 0.5,
     },
     {
       Icon: ClockIcon,
       label: 'relógio',
       text: 'Aprendizagem ao seu ritmo',
+      delay: 1,
     },
   ]
 
@@ -139,16 +150,17 @@ export default function HomePage() {
 
       {/* Secção informativa com três caixas e símbolos associados */}
       <section className="mx-auto mt-12 grid gap-8 p-4 text-white max-w-3xl md:grid-cols-3">
-        {features.map((feature, index) => (
+        {features.map((feature) => (
           <div
-            key={index}
+            key={feature.label}
             className="mx-auto flex w-full flex-col items-center rounded-lg bg-white/40 p-6 text-center"
           >
-            {/* Símbolo representativo da característica */}
+            {/* Símbolo representativo da característica com animação de vibração e atraso individual */}
             <feature.Icon
               role="img"
               aria-label={feature.label}
-              className="mb-4 h-12 w-12 text-white"
+              className="feature-icon mb-4 h-12 w-12 text-white"
+              style={{ animationDelay: `${feature.delay}s` }}
             />
             {/* Texto descritivo da característica */}
             <p className="text-base font-bold">{feature.text}</p>
