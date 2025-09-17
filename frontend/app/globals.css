@@ -208,7 +208,7 @@ p {
   }
 }
 
-/* Classe aplicada aos ícones para executar a animação de vibração contínua */
+/* Classe aplicada aos ícones para executar a animação de vibração contínua; o atraso é definido inline para alternar o efeito */
 .feature-icon {
   animation: feature-icon-vibration 1.5s ease-in-out infinite;
   transform-origin: center;
