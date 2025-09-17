@@ -155,12 +155,16 @@ export default function HomePage() {
             key={feature.label}
             className="mx-auto flex w-full flex-col items-center rounded-lg bg-white/40 p-6 text-center"
           >
+
             {/* Símbolo representativo da característica com animação de vibração e atraso individual */}
+
             <feature.Icon
               role="img"
               aria-label={feature.label}
               className="feature-icon mb-4 h-12 w-12 text-white"
+
               style={{ animationDelay: `${feature.delay}s` }}
+
             />
             {/* Texto descritivo da característica */}
             <p className="text-base font-bold">{feature.text}</p>
