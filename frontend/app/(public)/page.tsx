@@ -3,6 +3,22 @@
 import Link from 'next/link'
 import { useEffect, useState, type SVGProps } from 'react'
 
+// Conjunto de palavras utilizadas no efeito de escrita do texto principal
+const typingWords = ['dinheiro', 'produtos', 'ofertas', 'descontos'] as const
+
+// Palavra mais longa usada para reservar espaço fixo no efeito de escrita
+const LONGEST_TYPING_WORD = typingWords.reduce(
+  (longestWord, currentWord) =>
+    currentWord.length > longestWord.length ? currentWord : longestWord,
+  typingWords[0]
+)
+
+// Intervalo entre cada letra escrita em milissegundos
+const TYPING_SPEED = 120
+
+// Pausa antes de iniciar a próxima palavra em milissegundos
+const TYPING_PAUSE = 1500
+
 // Ícone de escudo representado apenas com linhas brancas
 function ShieldIcon(props: SVGProps<SVGSVGElement>) {
   return (
@@ -62,13 +78,18 @@ type Feature = {
   Icon: (props: SVGProps<SVGSVGElement>) => JSX.Element
   label: string
   text: string
-
 }
 
 // Página inicial com título destacado e texto informativo
 export default function HomePage() {
   // Estado que indica se o utilizador está autenticado
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  // Estado que guarda o índice da palavra atual do efeito de escrita
+  const [currentWordIndex, setCurrentWordIndex] = useState(0)
+
+  // Estado que armazena a porção já escrita da palavra atual
+  const [typedText, setTypedText] = useState('')
 
   // Ao montar, verifica no localStorage se existe sessão ativa
   useEffect(() => {
@@ -81,25 +102,41 @@ export default function HomePage() {
     }
   }, [])
 
+  // Controla o efeito de escrita letra a letra para o texto principal
+  useEffect(() => {
+    const currentWord = typingWords[currentWordIndex]
+
+    if (typedText.length < currentWord.length) {
+      const typingTimeout = window.setTimeout(() => {
+        setTypedText(currentWord.slice(0, typedText.length + 1))
+      }, TYPING_SPEED)
+
+      return () => window.clearTimeout(typingTimeout)
+    }
+
+    const pauseTimeout = window.setTimeout(() => {
+      setTypedText('')
+      setCurrentWordIndex((previousIndex) => (previousIndex + 1) % typingWords.length)
+    }, TYPING_PAUSE)
+
+    return () => window.clearTimeout(pauseTimeout)
+  }, [currentWordIndex, typedText])
 
   const features: Feature[] = [
     {
       Icon: ShieldIcon,
       label: 'escudo',
       text: 'Equipa experiente',
-      delay: 0,
     },
     {
       Icon: PhoneIcon,
       label: 'telemóvel',
       text: '100% online',
-      delay: 0.5,
     },
     {
       Icon: ClockIcon,
       label: 'relógio',
       text: 'Aprendizagem ao seu ritmo',
-      delay: 1,
     },
   ]
 
@@ -109,9 +146,23 @@ export default function HomePage() {
       <section className="p-4">
         {/* Caixa branca translúcida contendo o texto explicativo */}
         <div className="mx-auto w-full max-w-3xl rounded-lg bg-white/40 p-8 text-center text-white">
-          {/* Texto introdutório em negrito fornecido pelo utilizador */}
-          <p className="font-bold">
-            Avalia marcas, recebe dinheiro e acumula produtos — oportunidades abertas por falta de clientes mistério certificados em Portugal.
+          {/* Texto principal com efeito de escrita nas palavras finais */}
+          <p className="font-bold text-center">
+            Avalia marcas, recebe{' '}
+            <span className="relative inline-flex whitespace-nowrap">
+              {/* Reserva espaço invisível para manter o início da palavra alinhado */}
+              <span aria-hidden="true" className="invisible">
+                {LONGEST_TYPING_WORD}
+              </span>
+              {/* Escreve a palavra atual sempre encostada ao espaço anterior */}
+              <span aria-live="polite" className="absolute left-0 top-0">
+                {typedText}
+              </span>
+            </span>
+          </p>
+          {/* Mensagem adicional apresentada logo abaixo */}
+          <p className="mt-2 text-center">
+            Há falta de clientes mistério certificados em Portugal, aproveita já!
           </p>
         </div>
       </section>
@@ -149,20 +200,16 @@ export default function HomePage() {
       </section>
 
       {/* Secção informativa com três caixas e símbolos associados */}
-      <section className="mx-auto mt-12 grid gap-8 p-4 text-white max-w-3xl md:grid-cols-3">
+      <section className="mx-auto mt-12 grid max-w-3xl gap-8 p-4 text-white md:grid-cols-3">
         {features.map((feature) => (
           <div
             key={feature.label}
             className="mx-auto flex w-full flex-col items-center rounded-lg bg-white/40 p-6 text-center"
           >
-
             <feature.Icon
               role="img"
               aria-label={feature.label}
-              className="feature-icon mb-4 h-12 w-12 text-white"
-
-              style={{ animationDelay: `${feature.delay}s` }}
-
+              className="mb-4 h-12 w-12 text-white"
             />
             {/* Texto descritivo da característica */}
             <p className="text-base font-bold">{feature.text}</p>
