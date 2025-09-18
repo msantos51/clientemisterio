@@ -6,8 +6,6 @@ import { useEffect, useState, type SVGProps } from 'react'
 // Conjunto de palavras utilizadas no efeito de escrita do texto principal
 const typingWords = ['dinheiro', 'produtos', 'ofertas', 'descontos'] as const
 
-
-
 // Intervalo entre cada letra escrita em milissegundos
 const TYPING_SPEED = 120
 
@@ -139,22 +137,21 @@ export default function HomePage() {
   ]
 
   return (
-    <main>
+    // Container principal com espaçamento uniforme entre secções
+    <main className="space-y-12">
       {/* Secção introdutória com texto informativo sobre Cliente Mistério */}
       <section className="p-4">
         {/* Caixa branca translúcida contendo o texto explicativo */}
         <div className="mx-auto w-full max-w-3xl rounded-lg bg-white/40 p-8 text-center text-white">
-          {/* Texto principal com efeito de escrita nas palavras finais */}
-          <p className="font-bold text-center">
+          {/* Texto principal com efeito de escrita nas palavras finais e tamanho destacado */}
+          <p className="text-2xl font-extrabold text-center leading-tight md:text-4xl">
             Avalia marcas, recebe{' '}
-
             <span
               aria-live="polite"
               className="inline-block whitespace-nowrap align-baseline"
               style={{ minWidth: TYPING_PLACEHOLDER_MIN_WIDTH, textAlign: 'left' }}
             >
               {typedText}
-
             </span>
           </p>
           {/* Mensagem adicional apresentada logo abaixo */}
@@ -197,7 +194,7 @@ export default function HomePage() {
       </section>
 
       {/* Secção informativa com três caixas e símbolos associados */}
-      <section className="mx-auto mt-12 grid max-w-3xl gap-8 p-4 text-white md:grid-cols-3">
+      <section className="mx-auto grid max-w-3xl gap-8 p-4 text-white md:grid-cols-3">
         {features.map((feature) => (
           <div
             key={feature.label}
