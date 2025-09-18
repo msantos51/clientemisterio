@@ -151,7 +151,7 @@ export default function HomePage() {
             <span
               aria-live="polite"
               className="inline-block whitespace-nowrap align-baseline"
-              style={{ minWidth: TYPING_PLACEHOLDER_MIN_WIDTH }}
+              style={{ minWidth: TYPING_PLACEHOLDER_MIN_WIDTH, textAlign: 'left' }}
             >
               {typedText}
 
