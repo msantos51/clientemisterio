@@ -14,6 +14,9 @@ const TYPING_SPEED = 120
 // Pausa antes de iniciar a próxima palavra em milissegundos
 const TYPING_PAUSE = 1500
 
+// Largura mínima do espaço reservado para evitar alterações bruscas no layout
+const TYPING_PLACEHOLDER_MIN_WIDTH = `${Math.max(...typingWords.map((word) => word.length))}ch`
+
 // Ícone de escudo representado apenas com linhas brancas
 function ShieldIcon(props: SVGProps<SVGSVGElement>) {
   return (
