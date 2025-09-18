@@ -132,7 +132,7 @@ export default function HomePage() {
     {
       Icon: ClockIcon,
       label: 'relógio',
-      text: 'Aprendizagem ao seu ritmo',
+      text: 'Ao teu ritmo',
     },
   ]
 
@@ -148,7 +148,7 @@ export default function HomePage() {
             Avalia marcas, recebe{' '}
             <span
               aria-live="polite"
-              className="inline-block whitespace-nowrap align-baseline font-extrabold text-[#F3A183]"
+              className="inline-block whitespace-nowrap align-baseline font-extrabold text-[#ec6f66]"
               style={{ minWidth: TYPING_PLACEHOLDER_MIN_WIDTH, textAlign: 'left' }}
             >
               {typedText}
