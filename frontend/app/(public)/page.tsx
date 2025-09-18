@@ -6,6 +6,7 @@ import { useEffect, useState, type SVGProps } from 'react'
 // Conjunto de palavras utilizadas no efeito de escrita do texto principal
 const typingWords = ['dinheiro', 'produtos', 'ofertas', 'descontos'] as const
 
+
 // Intervalo entre cada letra escrita em milissegundos
 const TYPING_SPEED = 120
 
@@ -142,8 +143,17 @@ export default function HomePage() {
           {/* Texto principal com efeito de escrita nas palavras finais */}
           <p className="font-bold text-center">
             Avalia marcas, recebe{' '}
-            <span className="inline-block min-w-[10ch]">
-              {typedText}
+
+            <span className="relative inline-flex whitespace-nowrap">
+              {/* Reserva espaço invisível para manter o início da palavra alinhado */}
+              <span aria-hidden="true" className="invisible">
+                {LONGEST_TYPING_WORD}
+              </span>
+              {/* Escreve a palavra atual sempre encostada ao espaço anterior */}
+              <span aria-live="polite" className="absolute left-0 top-0">
+                {typedText}
+              </span>
+
             </span>
           </p>
           {/* Mensagem adicional apresentada logo abaixo */}
