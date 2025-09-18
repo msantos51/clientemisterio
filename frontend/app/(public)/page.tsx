@@ -7,6 +7,7 @@ import { useEffect, useState, type SVGProps } from 'react'
 const typingWords = ['dinheiro', 'produtos', 'ofertas', 'descontos'] as const
 
 
+
 // Intervalo entre cada letra escrita em milissegundos
 const TYPING_SPEED = 120
 
@@ -144,15 +145,12 @@ export default function HomePage() {
           <p className="font-bold text-center">
             Avalia marcas, recebe{' '}
 
-            <span className="relative inline-flex whitespace-nowrap">
-              {/* Reserva espaço invisível para manter o início da palavra alinhado */}
-              <span aria-hidden="true" className="invisible">
-                {LONGEST_TYPING_WORD}
-              </span>
-              {/* Escreve a palavra atual sempre encostada ao espaço anterior */}
-              <span aria-live="polite" className="absolute left-0 top-0">
-                {typedText}
-              </span>
+            <span
+              aria-live="polite"
+              className="inline-block whitespace-nowrap align-baseline"
+              style={{ minWidth: TYPING_PLACEHOLDER_MIN_WIDTH }}
+            >
+              {typedText}
 
             </span>
           </p>
