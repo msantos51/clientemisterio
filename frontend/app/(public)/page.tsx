@@ -6,12 +6,6 @@ import { useEffect, useState, type SVGProps } from 'react'
 // Conjunto de palavras utilizadas no efeito de escrita do texto principal
 const typingWords = ['dinheiro', 'produtos', 'ofertas', 'descontos'] as const
 
-// Palavra mais longa usada para reservar espaço fixo no efeito de escrita
-const LONGEST_TYPING_WORD = typingWords.reduce(
-  (longestWord, currentWord) =>
-    currentWord.length > longestWord.length ? currentWord : longestWord,
-  typingWords[0]
-)
 
 // Intervalo entre cada letra escrita em milissegundos
 const TYPING_SPEED = 120
@@ -149,6 +143,7 @@ export default function HomePage() {
           {/* Texto principal com efeito de escrita nas palavras finais */}
           <p className="font-bold text-center">
             Avalia marcas, recebe{' '}
+
             <span className="relative inline-flex whitespace-nowrap">
               {/* Reserva espaço invisível para manter o início da palavra alinhado */}
               <span aria-hidden="true" className="invisible">
@@ -158,6 +153,7 @@ export default function HomePage() {
               <span aria-live="polite" className="absolute left-0 top-0">
                 {typedText}
               </span>
+
             </span>
           </p>
           {/* Mensagem adicional apresentada logo abaixo */}
