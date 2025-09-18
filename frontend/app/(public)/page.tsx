@@ -137,18 +137,18 @@ export default function HomePage() {
   ]
 
   return (
-    // Container principal com espaçamento uniforme entre secções
-    <main className="space-y-12">
+    // Container principal com espaçamento uniforme de 1rem entre secções
+    <main className="space-y-4">
       {/* Secção introdutória com texto informativo sobre Cliente Mistério */}
       <section className="p-4">
         {/* Caixa branca translúcida contendo o texto explicativo */}
         <div className="mx-auto w-full max-w-3xl rounded-lg bg-white/40 p-8 text-center text-white">
-          {/* Texto principal com efeito de escrita nas palavras finais e tamanho destacado */}
+          {/* Texto principal com efeito de escrita nas palavras finais, destacado a negrito e com a cor do fundo */}
           <p className="text-2xl font-extrabold text-center leading-tight md:text-4xl">
             Avalia marcas, recebe{' '}
             <span
               aria-live="polite"
-              className="inline-block whitespace-nowrap align-baseline"
+              className="inline-block whitespace-nowrap align-baseline font-extrabold text-[#F3A183]"
               style={{ minWidth: TYPING_PLACEHOLDER_MIN_WIDTH, textAlign: 'left' }}
             >
               {typedText}
