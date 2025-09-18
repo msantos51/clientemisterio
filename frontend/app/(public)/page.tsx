@@ -62,7 +62,7 @@ type Feature = {
   Icon: (props: SVGProps<SVGSVGElement>) => JSX.Element
   label: string
   text: string
-  delay: number
+
 }
 
 // Página inicial com título destacado e texto informativo
@@ -81,7 +81,7 @@ export default function HomePage() {
     }
   }, [])
 
-  // Lista de caixas a apresentar na secção informativa, incluindo o atraso da animação
+
   const features: Feature[] = [
     {
       Icon: ShieldIcon,
@@ -155,8 +155,6 @@ export default function HomePage() {
             key={feature.label}
             className="mx-auto flex w-full flex-col items-center rounded-lg bg-white/40 p-6 text-center"
           >
-
-            {/* Símbolo representativo da característica com animação de vibração e atraso individual */}
 
             <feature.Icon
               role="img"
