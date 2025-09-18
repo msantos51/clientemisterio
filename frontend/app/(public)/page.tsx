@@ -57,6 +57,13 @@ function ClockIcon(props: SVGProps<SVGSVGElement>) {
   )
 }
 
+// Tipo que descreve cada bloco informativo apresentado na secção inferior
+type Feature = {
+  Icon: (props: SVGProps<SVGSVGElement>) => JSX.Element
+  label: string
+  text: string
+}
+
 // Página inicial com título destacado e texto informativo
 export default function HomePage() {
   // Estado que indica se o utilizador está autenticado
@@ -74,7 +81,7 @@ export default function HomePage() {
   }, [])
 
   // Lista de caixas a apresentar na secção informativa
-  const features = [
+  const features: Feature[] = [
     {
       Icon: ShieldIcon,
       label: 'escudo',
@@ -139,12 +146,12 @@ export default function HomePage() {
 
       {/* Secção informativa com três caixas e símbolos associados */}
       <section className="mx-auto mt-12 grid gap-8 p-4 text-white max-w-3xl md:grid-cols-3">
-        {features.map((feature, index) => (
+        {features.map((feature) => (
           <div
-            key={index}
+            key={feature.label}
             className="mx-auto flex w-full flex-col items-center rounded-lg bg-white/40 p-6 text-center"
           >
-            {/* Símbolo representativo da característica */}
+            {/* Símbolo representativo da característica sem animações aplicadas */}
             <feature.Icon
               role="img"
               aria-label={feature.label}
