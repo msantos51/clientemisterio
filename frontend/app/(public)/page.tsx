@@ -154,8 +154,9 @@ export default function HomePage() {
               {typedText}
             </span>
           </p>
-          {/* Mensagem adicional apresentada logo abaixo, justificada em ecrãs pequenos e centrada em ecrãs maiores */}
-          <p className="mt-2 text-justify md:text-center">
+          {/* Mensagem adicional apresentada logo abaixo com hifenização automática para manter espaçamento natural em ecrãs pequenos */}
+          <p lang="pt-PT" className="mt-2 text-justify text-pretty md:text-center md:hyphens-none">
+
             Há falta de clientes mistério certificados em Portugal, aproveita já!
           </p>
         </div>
