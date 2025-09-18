@@ -62,6 +62,7 @@ type Feature = {
   Icon: (props: SVGProps<SVGSVGElement>) => JSX.Element
   label: string
   text: string
+
 }
 
 // Página inicial com título destacado e texto informativo
@@ -80,22 +81,25 @@ export default function HomePage() {
     }
   }, [])
 
-  // Lista de caixas a apresentar na secção informativa
+
   const features: Feature[] = [
     {
       Icon: ShieldIcon,
       label: 'escudo',
       text: 'Equipa experiente',
+      delay: 0,
     },
     {
       Icon: PhoneIcon,
       label: 'telemóvel',
       text: '100% online',
+      delay: 0.5,
     },
     {
       Icon: ClockIcon,
       label: 'relógio',
       text: 'Aprendizagem ao seu ritmo',
+      delay: 1,
     },
   ]
 
@@ -151,11 +155,14 @@ export default function HomePage() {
             key={feature.label}
             className="mx-auto flex w-full flex-col items-center rounded-lg bg-white/40 p-6 text-center"
           >
-            {/* Símbolo representativo da característica sem animações aplicadas */}
+
             <feature.Icon
               role="img"
               aria-label={feature.label}
-              className="mb-4 h-12 w-12 text-white"
+              className="feature-icon mb-4 h-12 w-12 text-white"
+
+              style={{ animationDelay: `${feature.delay}s` }}
+
             />
             {/* Texto descritivo da característica */}
             <p className="text-base font-bold">{feature.text}</p>
