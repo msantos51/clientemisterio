@@ -148,7 +148,7 @@ export default function HomePage() {
             Avalia marcas, recebe{' '}
             <span
               aria-live="polite"
-              className="inline-block whitespace-nowrap align-baseline font-extrabold text-[#FFD54F]"
+              className="inline-block whitespace-nowrap align-baseline font-extrabold text-[#00E2E0]"
               style={{ minWidth: TYPING_PLACEHOLDER_MIN_WIDTH, textAlign: 'left' }}
             >
               {typedText}
