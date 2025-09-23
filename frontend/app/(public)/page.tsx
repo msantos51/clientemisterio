@@ -143,12 +143,12 @@ export default function HomePage() {
       <section className="p-4">
         {/* Caixa branca translúcida contendo o texto explicativo */}
         <div className="mx-auto w-full max-w-3xl rounded-lg bg-white/40 p-8 text-center text-white">
-          {/* Texto principal com efeito de escrita nas palavras finais, destacado a negrito e com a cor do fundo */}
+          {/* Texto principal com efeito de escrita nas palavras finais, destacado a negrito e com a cor solicitada */}
           <p className="text-2xl font-extrabold text-center leading-tight md:text-4xl">
             Avalia marcas, recebe{' '}
             <span
               aria-live="polite"
-              className="inline-block whitespace-nowrap align-baseline font-extrabold text-[#ec6f66]"
+              className="inline-block whitespace-nowrap align-baseline font-extrabold text-[#FFD54F]"
               style={{ minWidth: TYPING_PLACEHOLDER_MIN_WIDTH, textAlign: 'left' }}
             >
               {typedText}
