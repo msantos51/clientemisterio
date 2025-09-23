@@ -74,8 +74,10 @@ html, body {
   /* Garante altura mínima sem bloquear a rolagem */
   min-height: 100vh;
 
-  /* Define a cor de fundo uniforme solicitada */
-  background-color: #787CFE;
+  /* Define uma cor de fundo de reserva caso o gradiente não seja suportado */
+  background-color: #172d9d;
+  /* Aplica o gradiente radial com a paleta solicitada */
+  background: radial-gradient(circle, #00a9f2, #008be2, #006dcf, #004eb8, #172d9d);
   /* Impede rolagem horizontal mantendo a vertical */
   overflow-x: hidden;
   overflow-y: auto;
