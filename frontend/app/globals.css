@@ -75,10 +75,9 @@ html, body {
   min-height: 100vh;
 
 
-  /* Define o gradiente de fundo vertical com cores quentes */
-  background: #EC6F66;  /* fallback para navegadores antigos */
-  background: -webkit-linear-gradient(to bottom, #F3A183, #EC6F66);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to bottom, #F3A183, #EC6F66); /* Compatível com navegadores modernos */
+  /* Define o gradiente de fundo radial com a nova paleta */
+  background: #6D5CCF; /* Fallback para navegadores antigos */
+  background: radial-gradient(circle, rgba(109, 92, 207, 0.79) 0%, rgba(109, 92, 207, 1) 41%);
 
   /* Ajusta o tamanho do fundo para cobrir todo o ecrã */
   background-size: cover;
