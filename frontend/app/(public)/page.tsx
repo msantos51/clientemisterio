@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
@@ -22,10 +23,10 @@ export default function HomePage() {
   return (
     // Container principal com espaçamento vertical de 1rem entre secções
     <main className="space-y-4">
-      {/* Secção principal do curso com alinhamento à esquerda e sem caixa translúcida */}
-      <section className="flex flex-col gap-8 p-4 text-white">
-        {/* Bloco limitado a 3xl para facilitar a leitura em ecrãs largos */}
-        <div className="w-full max-w-3xl space-y-8 text-left">
+      {/* Secção principal do curso com layout responsivo em duas colunas */}
+      <section className="flex flex-col items-center gap-12 px-4 py-8 text-white md:flex-row md:items-center md:justify-between">
+        {/* Bloco de texto limitado a 3xl para facilitar a leitura em ecrãs largos */}
+        <div className="w-full max-w-3xl space-y-8 text-left md:max-w-xl">
           {/* Título principal com a fonte Saira Stencil One */}
           <h1 className="logo-font text-3xl font-bold leading-none md:text-7xl">
             <span className="block">CURSO</span>
@@ -47,6 +48,18 @@ export default function HomePage() {
           <Link href={isLoggedIn ? '/dashboard' : '/inscrever-se'} className="btn self-start">
             Adere já!
           </Link>
+        </div>
+
+        {/* Imagem decorativa alinhada à direita para reforçar o tema tecnológico */}
+        <div className="w-full max-w-2xl">
+          <Image
+            src="/images/home-hero.svg"
+            alt="Livro aberto encostado a um computador portátil com iluminação néon"
+            width={800}
+            height={600}
+            priority
+            className="h-auto w-full drop-shadow-2xl"
+          />
         </div>
       </section>
     </main>
