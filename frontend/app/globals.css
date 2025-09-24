@@ -74,10 +74,18 @@ html, body {
   /* Garante altura mínima sem bloquear a rolagem */
   min-height: 100vh;
 
-  /* Define uma cor de fundo de reserva caso o gradiente não seja suportado */
-  background-color: #172d9d;
-  /* Aplica o gradiente radial com a paleta solicitada */
-  background: radial-gradient(circle, #00a9f2, #008be2, #006dcf, #004eb8, #172d9d);
+  /* Define uma cor base caso o gradiente não seja suportado */
+  background-color: hsla(256, 94%, 65%, 1);
+  /* Garante a mesma cor de base para motores que não interpretam gradientes */
+  background: hsla(256, 94%, 65%, 1);
+  /* Aplica o gradiente para navegadores baseados em Mozilla antigos */
+  background: -moz-linear-gradient(135deg, hsla(256, 94%, 65%, 1) 40%, hsla(273, 100%, 75%, 1) 100%);
+  /* Aplica o gradiente para navegadores WebKit mais antigos */
+  background: -webkit-linear-gradient(135deg, hsla(256, 94%, 65%, 1) 40%, hsla(273, 100%, 75%, 1) 100%);
+  /* Aplica o gradiente padrão diagonal solicitado para navegadores modernos */
+  background: linear-gradient(135deg, hsla(256, 94%, 65%, 1) 40%, hsla(273, 100%, 75%, 1) 100%);
+  /* Fornece compatibilidade com versões antigas do Internet Explorer */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#7D50FA", endColorstr="#C47DFF", GradientType=1);
   /* Impede rolagem horizontal mantendo a vertical */
   overflow-x: hidden;
   overflow-y: auto;
