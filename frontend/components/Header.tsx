@@ -137,23 +137,26 @@ export function Header() {
     <header className="sticky top-0 z-50 bg-transparent text-white">
       {/* Contêiner com largura máxima e itens dispostos numa única linha */}
       <div className="relative mx-auto flex max-w-6xl items-center justify-between p-4 md:p-6">
-        {/* Logótipo com slogan, alinhado à esquerda */}
-        <Link
-          href="/"
-          className="flex flex-col leading-none text-white"
-          aria-label="Página inicial"
-        >
-          {/* Sigla principal do site */}
-          <span className="logo-font text-5xl font-bold">CM</span>
-        </Link>
+        {/* Agrupamento do logótipo e das ligações principais alinhado à esquerda */}
+        <div className="flex flex-1 items-center gap-12">
+          {/* Logótipo com slogan, alinhado à esquerda */}
+          <Link
+            href="/"
+            className="flex flex-col leading-none text-white"
+            aria-label="Página inicial"
+          >
+            {/* Sigla principal do site */}
+            <span className="logo-font text-5xl font-bold">CM</span>
+          </Link>
 
-        {/* Menu principal alinhado ao centro, visível apenas em ecrãs médios ou maiores */}
-        <nav className="hidden flex-1 justify-center space-x-8 md:flex">
-          <MainLinks linkClass="text-lg font-bold hover:underline" />
-        </nav>
+          {/* Menu principal alinhado imediatamente após o logótipo */}
+          <nav className="hidden items-center gap-12 md:flex">
+            <MainLinks linkClass="text-lg font-bold hover:underline" />
+          </nav>
+        </div>
 
-        {/* Área de ações no canto superior direito */}
-        <div className="flex items-center space-x-4">
+        {/* Área de ações posicionada à direita do cabeçalho */}
+        <div className="flex items-center gap-4 md:gap-6">
           {isLoggedIn ? (
             <>
               {/* Liga o aluno ao dashboard pessoal quando não está já lá */}
