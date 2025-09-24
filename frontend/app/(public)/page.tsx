@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState, type SVGProps } from 'react'
 
@@ -139,8 +140,9 @@ export default function HomePage() {
   return (
     // Container principal com espaçamento uniforme de 1rem entre secções
     <main className="space-y-4">
-      {/* Secção introdutória com texto informativo sobre Cliente Mistério */}
+      {/* Secção que agrupa as duas primeiras caixas do lado esquerdo e a imagem decorativa à direita */}
       <section className="p-4">
+
         {/* Caixa branca translúcida contendo o texto explicativo */}
         <div className="mx-auto w-full max-w-3xl rounded-lg bg-white/40 p-8 text-center text-white">
           {/* Texto principal com efeito de escrita nas palavras finais, destacado a negrito e com a cor solicitada */}
@@ -186,6 +188,7 @@ export default function HomePage() {
             <Link href={isLoggedIn ? '/dashboard' : '/inscrever-se'} className="btn">
               Adere já!
             </Link>
+
           </div>
         </div>
       </section>
