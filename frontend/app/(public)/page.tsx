@@ -53,7 +53,7 @@ export default function HomePage() {
         {/* Imagem decorativa alinhada à direita para reforçar o tema tecnológico */}
         <div className="w-full max-w-2xl">
           <Image
-            src="/images/20250924_1521_Líquido Roxo Flutuante_remix_01k5y1dwn5fh4b4z565bp0hmq2.png"
+            src="mulher-jovem-usa-smartphone-e-laptop-no-conceito-de-ferias-de-cafe.jpg"
             alt="Livro aberto encostado a um computador portátil com iluminação néon"
             width={800}
             height={600}
