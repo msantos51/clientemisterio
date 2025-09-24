@@ -156,13 +156,12 @@ export default function HomePage() {
           </p>
           {/* Mensagem adicional apresentada logo abaixo com hifenização automática para manter espaçamento natural em ecrãs pequenos */}
           <p lang="pt-PT" className="mt-2 text-justify text-pretty md:text-center md:hyphens-none">
-
             Há falta de clientes mistério certificados em Portugal, aproveita já!
           </p>
         </div>
       </section>
 
-      {/* Secção inicial com título e botão de adesão */}
+      {/* Secção inicial com título, preço e botão de adesão */}
       <section className="flex flex-col items-center gap-8 p-4 text-center text-white">
         {/* Caixa branca translúcida que se ajusta ao tamanho do conteúdo */}
         <div className="mx-auto w-full max-w-3xl rounded-lg bg-white/40 p-8">
@@ -184,10 +183,7 @@ export default function HomePage() {
             </p>
 
             {/* Botão de adesão direciona para registo ou dashboard conforme sessão */}
-            <Link
-              href={isLoggedIn ? '/dashboard' : '/inscrever-se'}
-              className="btn"
-            >
+            <Link href={isLoggedIn ? '/dashboard' : '/inscrever-se'} className="btn">
               Adere já!
             </Link>
           </div>
@@ -214,4 +210,3 @@ export default function HomePage() {
     </main>
   )
 }
-
