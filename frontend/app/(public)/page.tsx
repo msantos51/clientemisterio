@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState, type SVGProps } from 'react'
 
@@ -139,57 +140,71 @@ export default function HomePage() {
   return (
     // Container principal com espaçamento uniforme de 1rem entre secções
     <main className="space-y-4">
-      {/* Secção introdutória com texto informativo sobre Cliente Mistério */}
+      {/* Secção que agrupa as duas primeiras caixas do lado esquerdo e a imagem decorativa à direita */}
       <section className="p-4">
-        {/* Caixa branca translúcida contendo o texto explicativo */}
-        <div className="mx-auto w-full max-w-3xl rounded-lg bg-white/40 p-8 text-center text-white">
-          {/* Texto principal com efeito de escrita nas palavras finais, destacado a negrito e com a cor solicitada */}
-          <p className="text-2xl font-extrabold text-center leading-tight md:text-4xl">
-            Avalia marcas, recebe{' '}
-            <span
-              aria-live="polite"
-              className="inline-block whitespace-nowrap align-baseline font-extrabold text-[#00E2E0]"
-              style={{ minWidth: TYPING_PLACEHOLDER_MIN_WIDTH, textAlign: 'left' }}
-            >
-              {typedText}
-            </span>
-          </p>
-          {/* Mensagem adicional apresentada logo abaixo com hifenização automática para manter espaçamento natural em ecrãs pequenos */}
-          <p lang="pt-PT" className="mt-2 text-justify text-pretty md:text-center md:hyphens-none">
-
-            Há falta de clientes mistério certificados em Portugal, aproveita já!
-          </p>
-        </div>
-      </section>
-
-      {/* Secção inicial com título e botão de adesão */}
-      <section className="flex flex-col items-center gap-8 p-4 text-center text-white">
-        {/* Caixa branca translúcida que se ajusta ao tamanho do conteúdo */}
-        <div className="mx-auto w-full max-w-3xl rounded-lg bg-white/40 p-8">
-          {/* Bloco com o título principal e botão de adesão */}
-          <div className="flex flex-col items-center justify-center space-y-8">
-            {/* Título principal com a fonte Saira Stencil One e tamanho ajustado */}
-            <h1 className="logo-font text-3xl font-bold leading-none md:text-7xl">
-              <span className="block">CURSO</span>
-              <span className="block">COMPLETO</span>
-            </h1>
-            {/* Mostra o preço antigo riscado e o preço atual */}
-            <div className="text-2xl">
-              <span className="mr-2 line-through">59,99€</span>
-              <span className="font-bold">34,99€</span>
+        {/* Layout responsivo que muda de coluna (mobile) para linha (desktop) */}
+        <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 md:flex-row md:items-stretch">
+          {/* Coluna esquerda com o texto introdutório e a secção do curso */}
+          <div className="flex flex-1 flex-col gap-6">
+            {/* Caixa branca translúcida contendo o texto explicativo */}
+            <div className="w-full rounded-lg bg-white/40 p-8 text-left text-white">
+              {/* Texto principal com efeito de escrita nas palavras finais, destacado a negrito e com a cor solicitada */}
+              <p className="text-left text-2xl font-extrabold leading-tight md:text-4xl">
+                Avalia marcas, recebe{' '}
+                <span
+                  aria-live="polite"
+                  className="inline-block whitespace-nowrap align-baseline font-extrabold text-[#00E2E0]"
+                  style={{ minWidth: TYPING_PLACEHOLDER_MIN_WIDTH, textAlign: 'left' }}
+                >
+                  {typedText}
+                </span>
+              </p>
+              {/* Mensagem adicional apresentada logo abaixo com hifenização automática para manter espaçamento natural em ecrãs pequenos */}
+              <p lang="pt-PT" className="mt-2 text-left text-pretty">
+                Há falta de clientes mistério certificados em Portugal, aproveita já!
+              </p>
             </div>
-            {/* Frase descritiva colocada abaixo do título */}
-            <p className="text-base">
-              O preço do curso é recuperado logo nas primeiras avaliações.
-            </p>
 
-            {/* Botão de adesão direciona para registo ou dashboard conforme sessão */}
-            <Link
-              href={isLoggedIn ? '/dashboard' : '/inscrever-se'}
-              className="btn"
-            >
-              Adere já!
-            </Link>
+            {/* Secção inicial com título, preço e botão de adesão */}
+            <div className="w-full rounded-lg bg-white/40 p-8 text-left text-white">
+              {/* Bloco com o título principal e botão de adesão */}
+              <div className="flex flex-col items-start justify-center space-y-8">
+                {/* Título principal com a fonte Saira Stencil One e tamanho ajustado */}
+                <h1 className="logo-font text-3xl font-bold leading-none md:text-7xl">
+                  <span className="block">CURSO</span>
+                  <span className="block">COMPLETO</span>
+                </h1>
+                {/* Mostra o preço antigo riscado e o preço atual */}
+                <div className="text-2xl">
+                  <span className="mr-2 line-through">59,99€</span>
+                  <span className="font-bold">34,99€</span>
+                </div>
+                {/* Frase descritiva colocada abaixo do título */}
+                <p className="text-base">
+                  O preço do curso é recuperado logo nas primeiras avaliações.
+                </p>
+
+                {/* Botão de adesão direciona para registo ou dashboard conforme sessão */}
+                <Link
+                  href={isLoggedIn ? '/dashboard' : '/inscrever-se'}
+                  className="btn"
+                >
+                  Adere já!
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Coluna direita com a imagem decorativa alinhada ao topo das secções */}
+          <div className="flex w-full justify-center md:w-auto md:justify-end">
+            <Image
+              src="/images/document-icon.svg"
+              alt="Ícone decorativo de documento sobre fundo violeta"
+              width={320}
+              height={320}
+              className="h-auto w-56 md:w-64 lg:w-72"
+              priority
+            />
           </div>
         </div>
       </section>

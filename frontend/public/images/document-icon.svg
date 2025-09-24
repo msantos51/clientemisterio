@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Ícone vetorial criado para ilustrar o documento fornecido pelo cliente mistério -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <!-- Gradiente radial para dar profundidade ao círculo principal -->
+    <radialGradient id="circleGradient" cx="38%" cy="32%" r="70%">
+      <stop offset="0%" stop-color="#B182FF" />
+      <stop offset="45%" stop-color="#9D63FF" />
+      <stop offset="100%" stop-color="#6C3DFF" />
+    </radialGradient>
+    <!-- Gradiente linear suave aplicado ao documento branco -->
+    <linearGradient id="paperGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#E7E8FF" />
+    </linearGradient>
+  </defs>
+
+  <!-- Círculo principal que replica o botão violeta -->
+  <circle cx="256" cy="256" r="240" fill="url(#circleGradient)" />
+
+  <!-- Destaque semicircular que simula iluminação superior -->
+  <path
+    d="M256,32c78.6,0,148.5,41.1,188.2,102.9C405,90,335.2,56,256,56S107,90,67.8,134.9C107.5,73.1,177.4,32,256,32Z"
+    fill="#D7C6FF"
+    opacity="0.35"
+  />
+
+  <!-- Documento central com cantos arredondados -->
+  <path
+    d="M188 132h136a28 28 0 0 1 28 28v192a28 28 0 0 1-28 28H188a28 28 0 0 1-28-28V160a28 28 0 0 1 28-28z"
+    fill="url(#paperGradient)"
+  />
+
+  <!-- Dobra superior direita do documento -->
+  <path
+    d="M324 132v60a12 12 0 0 0 12 12h60z"
+    fill="#E6E7FF"
+  />
+
+  <!-- Linhas horizontais que representam texto no documento -->
+  <rect x="204" y="220" width="104" height="20" rx="10" fill="#C3C6FF" />
+  <rect x="204" y="268" width="152" height="20" rx="10" fill="#C3C6FF" />
+  <rect x="204" y="316" width="120" height="20" rx="10" fill="#C3C6FF" />
+
+  <!-- Sombra suave por baixo do ícone para reforçar o efeito 3D -->
+  <ellipse cx="256" cy="420" rx="150" ry="26" fill="#3C1FAA" opacity="0.25" />
+</svg>
