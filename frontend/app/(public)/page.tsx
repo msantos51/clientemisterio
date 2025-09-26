@@ -23,9 +23,9 @@ export default function HomePage() {
   return (
     // Container principal com espaçamento vertical de 1rem entre secções
     <main className="space-y-4">
-      {/* Secção principal do curso com layout responsivo em duas colunas */}
-      <section className="flex flex-col items-center gap-12 px-4 py-8 text-white md:flex-row md:items-center md:justify-between">
-        {/* Bloco de texto limitado a 3xl para facilitar a leitura em ecrãs largos */}
+      {/* Secção principal do curso alinhada com o cabeçalho e responsiva em duas colunas */}
+      <section className="mx-auto flex w-full max-w-6xl flex-col items-center gap-12 px-4 py-8 text-white md:flex-row md:items-center md:justify-between md:px-6">
+        {/* Bloco de texto alinhado com o cabeçalho e largura controlada para leitura confortável */}
         <div className="w-full max-w-3xl space-y-8 text-left md:max-w-xl">
           {/* Título principal com a fonte Saira Stencil One */}
           <h1 className="logo-font text-3xl font-bold leading-none md:text-7xl">
@@ -50,15 +50,15 @@ export default function HomePage() {
           </Link>
         </div>
 
-        {/* Imagem decorativa alinhada à direita para reforçar o tema tecnológico */}
-        <div className="w-full max-w-2xl">
+        {/* Imagem decorativa ampliada e alinhada ao limite direito do cabeçalho */}
+        <div className="flex w-full justify-end md:flex-1">
           <Image
             src="/images/20250925_1000_Figura Peluda com Laptop_remix_01k601k0d4ekgapmarhdhhrh26.png"
             alt="Livro aberto encostado a um computador portátil com iluminação néon"
-            width={800}
-            height={600}
+            width={1200}
+            height={900}
             priority
-            className="h-auto w-full drop-shadow-2xl"
+            className="h-auto w-full max-w-[720px] drop-shadow-2xl"
           />
         </div>
       </section>
