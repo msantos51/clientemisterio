@@ -50,15 +50,15 @@ export default function HomePage() {
           </Link>
         </div>
 
-        {/* Imagem decorativa ampliada e alinhada ao limite direito do cabeçalho */}
-        <div className="flex w-full justify-end md:flex-1">
+        {/* Imagem decorativa agora com destaque significativamente maior */}
+        <div className="flex w-full justify-end md:flex-[1.35]">
           <Image
             src="/images/20250925_1000_Figura Peluda com Laptop_remix_01k601k0d4ekgapmarhdhhrh26.png"
             alt="Livro aberto encostado a um computador portátil com iluminação néon"
-            width={1200}
-            height={900}
+            width={1600}
+            height={1200}
             priority
-            className="h-auto w-full max-w-[720px] drop-shadow-2xl"
+            className="h-auto w-full max-w-[960px] drop-shadow-2xl md:max-w-[1400px]"
           />
         </div>
       </section>
