@@ -50,6 +50,7 @@ export default function HomePage() {
           </Link>
         </div>
 
+
         {/* Imagem decorativa dimensionada para igualar a largura da coluna de texto */}
         <div className="flex w-full justify-center md:flex-1 md:max-w-xl">
           <Image
@@ -59,6 +60,7 @@ export default function HomePage() {
             height={1200}
             priority
             className="h-auto w-full drop-shadow-2xl"
+
           />
         </div>
       </section>
