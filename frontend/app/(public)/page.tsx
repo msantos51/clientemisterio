@@ -26,7 +26,7 @@ export default function HomePage() {
       {/* Secção principal do curso alinhada com o cabeçalho e responsiva em duas colunas */}
       <section className="mx-auto flex w-full max-w-6xl flex-col items-center gap-12 px-4 py-8 text-white md:flex-row md:items-center md:justify-between md:px-6">
         {/* Bloco de texto alinhado com o cabeçalho e largura controlada para leitura confortável */}
-        <div className="w-full max-w-3xl space-y-8 text-left md:max-w-xl">
+        <div className="w-full max-w-3xl space-y-8 text-left md:flex-1 md:max-w-xl">
           {/* Título principal com a fonte Saira Stencil One */}
           <h1 className="logo-font text-3xl font-bold leading-none md:text-7xl">
             <span className="block">CURSO</span>
@@ -50,15 +50,17 @@ export default function HomePage() {
           </Link>
         </div>
 
-        {/* Imagem decorativa agora com destaque significativamente maior */}
-        <div className="flex w-full justify-end md:flex-[1.35]">
+
+        {/* Imagem decorativa dimensionada para igualar a largura da coluna de texto */}
+        <div className="flex w-full justify-center md:flex-1 md:max-w-xl">
           <Image
             src="/images/20250925_1000_Figura Peluda com Laptop_remix_01k601k0d4ekgapmarhdhhrh26.png"
             alt="Livro aberto encostado a um computador portátil com iluminação néon"
-            width={1600}
+            width={1200}
             height={1200}
             priority
-            className="h-auto w-full max-w-[960px] drop-shadow-2xl md:max-w-[1400px]"
+            className="h-auto w-full drop-shadow-2xl"
+
           />
         </div>
       </section>
