@@ -314,6 +314,51 @@ def get_current_admin_optional(
 
     return current_user
 
+
+def delete_user_account(db: Session, user_or_id: User | int, *, commit: bool = True) -> None:
+    """
+    Remove definitivamente um utilizador e elimina referências diretas nos pedidos de eliminação.
+
+    Argumentos:
+    - db: sessão de base de dados ativa.
+    - user_or_id: instância do utilizador ou respetivo ID.
+    - commit: quando True confirma a transação imediatamente (padrão); quando False deixa o controlo ao chamador.
+    """
+
+    # Obtém a instância do utilizador a partir do ID ou aceita o objeto diretamente
+    user = user_or_id if isinstance(user_or_id, User) else db.query(User).filter(User.id == user_or_id).first()
+
+    # Caso o utilizador não exista, devolve erro claro
+    if user is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Utilizador não encontrado")
+
+    # Atualiza pedidos de eliminação ligados ao utilizador para preservar snapshots e remover FKs
+    deletion_requests = (
+        db.query(AccountDeletionRequest)
+        .filter(AccountDeletionRequest.user_id == user.id)
+        .all()
+    )
+
+    for request in deletion_requests:
+        # Garante que os campos de auditoria ficam preenchidos
+        request.user_id_snapshot = request.user_id_snapshot or user.id
+        request.user_name_snapshot = request.user_name_snapshot or user.name
+        request.user_email_snapshot = request.user_email_snapshot or user.email
+
+        # Limpa referências diretas para permitir a eliminação do utilizador
+        request.user_id = None
+        if request.processed_by_user_id == user.id:
+            request.processed_by_user_id = None
+
+        db.add(request)
+
+    # Remove o utilizador em si
+    db.delete(user)
+
+    # Confirma ou deixa a transação em aberto conforme configurado
+    if commit:
+        db.commit()
+
 # ───────────────────────────── Rotas ──────────────────────────────
 @router.post("/register", response_model=UserRead, status_code=status.HTTP_201_CREATED)
 def register(user_in: UserCreate, db: Session = Depends(get_db)):
