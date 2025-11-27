@@ -3,6 +3,7 @@
 import os
 import smtplib
 import ssl
+import time
 from email.message import EmailMessage
 from typing import Iterable
 
@@ -45,11 +46,28 @@ SMTP_FROM = _raw_from or (SMTP_USER if "@" in SMTP_USER else "no-reply@clientemi
 SMTP_USE_SSL = _get_env_flag("SMTP_USE_SSL", False)
 SMTP_USE_TLS = _get_env_flag("SMTP_USE_TLS", True)
 
+def _get_positive_int(name: str, default: int, minimum: int = 1) -> int:
+    """Lê um inteiro positivo de uma variável de ambiente, aplicando um mínimo aceitável."""
+
+    raw_value = os.getenv(name, str(default)).strip()
+    try:
+        value = int(raw_value)
+    except ValueError as exc:
+        raise EmailDeliveryError(f"Valor inválido para {name}; defina um número inteiro.") from exc
+
+    if value < minimum:
+        raise EmailDeliveryError(
+            f"O valor de {name} deve ser pelo menos {minimum}; recebido {value}."
+        )
+
+    return value
+
+
 # Tempo-limite aumentado para tolerar latências em serviços externos como o Brevo.
-try:
-    SMTP_TIMEOUT = int(os.getenv("SMTP_TIMEOUT", "30"))
-except ValueError as exc:
-    raise EmailDeliveryError("Valor inválido para SMTP_TIMEOUT; defina um número inteiro.") from exc
+SMTP_TIMEOUT = _get_positive_int("SMTP_TIMEOUT", default=60, minimum=5)
+
+# Número máximo de tentativas para envio de e-mail em caso de falhas transitórias.
+SMTP_MAX_RETRIES = _get_positive_int("SMTP_MAX_RETRIES", default=2, minimum=1)
 
 
 def _ensure_configuration() -> None:
@@ -92,6 +110,7 @@ def build_email_message(
 
 def _open_smtp_connection() -> smtplib.SMTP:
     """Cria a ligação SMTP com suporte a SSL ou STARTTLS consoante configuração."""
+
     context = ssl.create_default_context()
 
     if SMTP_USE_SSL:
@@ -111,19 +130,35 @@ def _open_smtp_connection() -> smtplib.SMTP:
     return smtp_client
 
 
+def _send_message_with_retry(message: EmailMessage) -> None:
+    """Tenta enviar a mensagem com tentativas adicionais para mitigar timeouts transitórios."""
+
+    last_error: Exception | None = None
+
+    for attempt in range(1, SMTP_MAX_RETRIES + 1):
+        try:
+            with _open_smtp_connection() as smtp:
+                smtp.send_message(message)
+            return
+        except (smtplib.SMTPException, OSError, TimeoutError) as exc:
+            last_error = exc
+
+            # Atraso incremental simples para dar oportunidade à rede/serviço recuperar
+            if attempt < SMTP_MAX_RETRIES:
+                time.sleep(attempt * 2)
+
+    # Se todas as tentativas falharem, converte a última exceção num erro controlado
+    error_name = last_error.__class__.__name__ if last_error else "ErroDesconhecido"
+    raise EmailDeliveryError(
+        "Falha ao entregar o e-mail através do servidor SMTP: "
+        f"{error_name}: {last_error}"
+    ) from last_error
+
+
 def send_email(
     *, subject: str, body: str, to: str | Iterable[str], reply_to: str | None = None
 ) -> None:
     """Envia um e-mail através do servidor SMTP configurado."""
     _ensure_configuration()
     message = build_email_message(subject=subject, body=body, to=to, reply_to=reply_to)
-
-    try:
-        with _open_smtp_connection() as smtp:
-            smtp.send_message(message)
-    except (smtplib.SMTPException, OSError) as exc:
-        # Converte qualquer falha de rede ou SMTP num erro controlado
-        raise EmailDeliveryError(
-            "Falha ao entregar o e-mail através do servidor SMTP: "
-            f"{exc.__class__.__name__}: {exc}"
-        ) from exc
+    _send_message_with_retry(message)
