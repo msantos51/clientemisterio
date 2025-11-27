@@ -1,7 +1,6 @@
 """Funções e rotas relacionadas com autenticação de utilizadores."""
 
-# Importa módulos padrão de tempo
-
+# Importa módulos padrão de tempo e utilitários
 from datetime import datetime, timedelta, timezone
 import secrets
 from urllib.parse import urljoin
@@ -29,7 +28,7 @@ from fastapi.security import OAuth2PasswordBearer
 
 # Importa utilitários e modelos internos
 from database import SessionLocal
-from email_utils import send_email
+from email_utils import EmailDeliveryError, send_email
 from models import User, AccountDeletionRequest
 from schemas import (
     UserCreate,
@@ -198,185 +197,95 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None) -> s
 
 
 def decode_access_token(token: str) -> dict:
-    """Decodifica e valida um token JWT retornando o payload."""
+    """Decodifica um token JWT e valida a assinatura e expiração."""
     try:
         return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-    except JWTError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token inválido ou expirado",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
+    except JWTError as exc:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(exc)) from exc
 
 
-def extract_bearer(authorization: str | None) -> str | None:
-    """Extrai o token do cabeçalho Authorization se for do tipo Bearer."""
-    if authorization and authorization.lower().startswith("bearer "):
-        return authorization.split(" ", 1)[1].strip()
-    return None
-
-
-def set_auth_cookie(response: Response, access_token: str, max_age_seconds: int) -> None:
-    """
-    Configura cookie cross-site em PROD e permissivo em DEV.
-    - Em PROD: Secure + SameSite=None (requer HTTPS)
-    - Em DEV:  Secure=False + SameSite=Lax (para localhost http)
-    """
-    response.set_cookie(
-        key="access_token",
-        value=access_token,
-        httponly=True,
-        secure=not IS_DEV,                          # True em PROD, False em DEV
-        samesite="none" if not IS_DEV else "lax",   # None em PROD, Lax em DEV
-        max_age=max_age_seconds,
-        path="/",
-    )
-
-
-def clear_auth_cookie(response: Response) -> None:
-    """Remove o cookie de autenticação do cliente."""
-    response.delete_cookie("access_token", path="/")
-
-
-def resolve_current_user(
-    request: Request,
-    db: Session,
-    authorization: str | None,
-    token: str | None,
-    *,
-    allow_missing: bool,
-) -> User | None:
-    """Resolve o utilizador autenticado, permitindo ausência de token quando configurado."""
-
-    raw_token = token or extract_bearer(authorization) or request.cookies.get("access_token")
-
-    if not raw_token:
-        if allow_missing:
-            return None
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token não encontrado",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-
-    payload = decode_access_token(raw_token)
-    user_id: str | None = payload.get("sub")
-    if not user_id:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token sem subject",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-
-    user = db.get(User, int(user_id))
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Utilizador não existe",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-
-    if not user.is_confirmed:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Conta ainda não confirmada. Verifique o e-mail enviado no registo.",
-        )
-
-    return user
-
-
-def delete_user_account(db: Session, user: User | int, *, commit: bool = True) -> None:
-    """Remove definitivamente a conta do utilizador e confirma a operação na base de dados."""
-
-    # Aceita o objeto completo ou apenas o identificador numérico
-    instance = user if isinstance(user, User) else db.get(User, int(user))
-
-    if not instance:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Utilizador não encontrado")
-
-    # Desassocia pedidos de eliminação para manter o histórico após remover a conta
-    db.query(AccountDeletionRequest).filter(AccountDeletionRequest.user_id == instance.id).update(
-        {"user_id": None},
-        synchronize_session=False,
-    )
-
-    db.delete(instance)
-
-    if commit:
-        db.commit()
-    else:
-        db.flush()
+def get_user_by_email(db: Session, email: str) -> User | None:
+    """Procura utilizador pelo e-mail em lowercase."""
+    return db.query(User).filter(User.email == email.lower()).first()
 
 
 def authenticate_credentials(db: Session, email: str, password: str) -> User:
-    """Valida credenciais e devolve o utilizador autenticado."""
-    email = email.strip().lower()
-    user = db.query(User).filter(User.email == email).first()
-    if not user or not verify_password(password, user.password_hash):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Credenciais inválidas",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
+    """Valida e devolve utilizador autenticado ou lança erro 400."""
+    user = get_user_by_email(db, email)
+    if user is None or not verify_password(password, user.password_hash):
+        raise HTTPException(status_code=400, detail="Credenciais inválidas")
+
     if not user.is_confirmed:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Conta ainda não confirmada. Verifique o e-mail de confirmação.",
-        )
+        raise HTTPException(status_code=403, detail="Conta ainda não confirmada")
+
     return user
 
 
 def create_login_response(user: User, response: Response) -> dict:
-    """Gera token e configura cookie para o utilizador autenticado."""
-    expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token({"sub": str(user.id)}, expires)
-    set_auth_cookie(response, access_token, max_age_seconds=int(expires.total_seconds()))
+    """Gera token JWT + refresh cookie (se necessário)."""
+
+    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": str(user.id), "email": user.email}, expires_delta=access_token_expires
+    )
+
+    clear_auth_cookie(response)
+    response.set_cookie(
+        key="access_token",
+        value=access_token,
+        httponly=True,
+        max_age=int(access_token_expires.total_seconds()),
+        secure=not IS_DEV,
+        samesite="lax",
+    )
+
     return {
         "access_token": access_token,
         "token_type": "bearer",
-        "expires_in": int(expires.total_seconds()),
+        "expires_in": int(access_token_expires.total_seconds()),
     }
 
-# ───────────── Dependência de utilizador autenticado ──────────────
-def get_current_user(
-    request: Request,
-    db: Session = Depends(get_db),
-    authorization: str | None = Header(default=None),
-    token: str | None = Depends(oauth2_scheme),
-) -> User:
-    """
-    Aceita token via:
-      1) Header: Authorization: Bearer <token>
-      2) Cookie: access_token
-    """
 
-    user = resolve_current_user(
-        request=request,
-        db=db,
-        authorization=authorization,
-        token=token,
-        allow_missing=False,
+def clear_auth_cookie(response: Response) -> None:
+    """Remove cookie de autenticação (para logout)."""
+    response.delete_cookie(key="access_token")
+
+
+def get_current_user(db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)) -> User:
+    """Obtém utilizador autenticado a partir do token JWT."""
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Credenciais inválidas",
+        headers={"WWW-Authenticate": "Bearer"},
     )
 
-    assert user is not None
+    if token is None:
+        raise credentials_exception
+
+    payload = decode_access_token(token)
+    user_id: str | None = payload.get("sub")
+    if user_id is None:
+        raise credentials_exception
+
+    user = db.query(User).filter(User.id == int(user_id)).first()
+    if user is None:
+        raise credentials_exception
+
     return user
 
 
 def get_current_user_optional(
-    request: Request,
-    db: Session = Depends(get_db),
-    authorization: str | None = Header(default=None),
-    token: str | None = Depends(oauth2_scheme),
+    db: Session = Depends(get_db), token: str | None = Depends(oauth2_scheme)
 ) -> User | None:
-    """Versão permissiva que devolve None quando não existe token fornecido."""
-
-    return resolve_current_user(
-        request=request,
-        db=db,
-        authorization=authorization,
-        token=token,
-        allow_missing=True,
-    )
+    """Obtém o utilizador autenticado se existir, caso contrário devolve None."""
+    if token is None:
+        return None
+    try:
+        return get_current_user(db, token)
+    except HTTPException as exc:
+        if exc.status_code == status.HTTP_401_UNAUTHORIZED:
+            return None
+        raise
 
 
 def get_current_admin(current_user: User = Depends(get_current_user)) -> User:
@@ -404,6 +313,51 @@ def get_current_admin_optional(
         )
 
     return current_user
+
+
+def delete_user_account(db: Session, user_or_id: User | int, *, commit: bool = True) -> None:
+    """
+    Remove definitivamente um utilizador e elimina referências diretas nos pedidos de eliminação.
+
+    Argumentos:
+    - db: sessão de base de dados ativa.
+    - user_or_id: instância do utilizador ou respetivo ID.
+    - commit: quando True confirma a transação imediatamente (padrão); quando False deixa o controlo ao chamador.
+    """
+
+    # Obtém a instância do utilizador a partir do ID ou aceita o objeto diretamente
+    user = user_or_id if isinstance(user_or_id, User) else db.query(User).filter(User.id == user_or_id).first()
+
+    # Caso o utilizador não exista, devolve erro claro
+    if user is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Utilizador não encontrado")
+
+    # Atualiza pedidos de eliminação ligados ao utilizador para preservar snapshots e remover FKs
+    deletion_requests = (
+        db.query(AccountDeletionRequest)
+        .filter(AccountDeletionRequest.user_id == user.id)
+        .all()
+    )
+
+    for request in deletion_requests:
+        # Garante que os campos de auditoria ficam preenchidos
+        request.user_id_snapshot = request.user_id_snapshot or user.id
+        request.user_name_snapshot = request.user_name_snapshot or user.name
+        request.user_email_snapshot = request.user_email_snapshot or user.email
+
+        # Limpa referências diretas para permitir a eliminação do utilizador
+        request.user_id = None
+        if request.processed_by_user_id == user.id:
+            request.processed_by_user_id = None
+
+        db.add(request)
+
+    # Remove o utilizador em si
+    db.delete(user)
+
+    # Confirma ou deixa a transação em aberto conforme configurado
+    if commit:
+        db.commit()
 
 # ───────────────────────────── Rotas ──────────────────────────────
 @router.post("/register", response_model=UserRead, status_code=status.HTTP_201_CREATED)
@@ -436,12 +390,20 @@ def register(user_in: UserCreate, db: Session = Depends(get_db)):
     try:
         db.flush()
         send_confirmation_email(user)
-    except Exception as exc:  # em caso de falha no envio cancela o registo
+    except EmailDeliveryError as exc:
+        # Em caso de falha no envio cancela o registo para manter consistência
         db.rollback()
         print(f"Erro ao enviar email de confirmação: {exc}")
         raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Não foi possível enviar o e-mail de confirmação. Tente novamente mais tarde.",
+        )
+    except Exception as exc:  # garante rollback em erros inesperados
+        db.rollback()
+        print(f"Erro inesperado ao registar utilizador: {exc}")
+        raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Não foi possível enviar o e-mail de confirmação. Tente novamente.",
+            detail="Ocorreu um erro ao registar o utilizador.",
         )
 
     db.commit()
@@ -522,155 +484,171 @@ def update_me(
     return current_user
 
 
-@router.put("/me/payment", response_model=UserRead)
-def update_my_payment_status(
-    payment_in: PaymentStatusUpdate,
-    current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db),
-):
-    """Atualiza o estado de pagamento do utilizador autenticado."""
-    # Define o novo estado de pagamento com base na informação recebida
-    current_user.has_paid = payment_in.has_paid
+@router.post("/password/forgot")
+def password_forgot(request_in: PasswordForgotRequest, db: Session = Depends(get_db)):
+    """Recebe um email, gera token de recuperação e envia instruções."""
+    user = get_user_by_email(db, request_in.email)
+    if user is None:
+        raise HTTPException(status_code=400, detail="Email não encontrado")
 
-    # Guarda a alteração na base de dados
-    db.add(current_user)
-    db.commit()
-    db.refresh(current_user)
-    return current_user
-
-
-@router.post("/me/delete-request", status_code=status.HTTP_202_ACCEPTED)
-def request_account_deletion(
-    current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db),
-) -> dict[str, str]:
-    """Regista o pedido de eliminação de conta e notifica o suporte."""
-
-    # Verifica se o utilizador já tem um pedido ativo
-    existing_request = (
-        db.query(AccountDeletionRequest)
-        .filter(
-            AccountDeletionRequest.user_id == current_user.id,
-            AccountDeletionRequest.status.in_(ACTIVE_DELETION_STATUSES),
-        )
-        .first()
+    user.reset_token = generate_secure_token()
+    user.reset_token_expire_at = datetime.now(timezone.utc) + timedelta(
+        minutes=PASSWORD_RESET_TOKEN_EXPIRE_MINUTES
     )
-    if existing_request:
-        return {
-            "message": "Já existe um pedido de eliminação em análise. Receberá novidades em breve."
-        }
-
-    deletion_request = AccountDeletionRequest(
-        user_id=current_user.id,
-        user_id_snapshot=current_user.id,
-        user_name_snapshot=current_user.name.strip(),
-        user_email_snapshot=current_user.email.strip(),
-    )
-    db.add(deletion_request)
-
-    try:
-        db.flush()
-        send_account_deletion_request_email(current_user)
-    except Exception as exc:
-        db.rollback()
-        print(f"Erro ao enviar email de eliminação: {exc}")
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Não foi possível enviar o pedido de eliminação. Tente novamente mais tarde.",
-        ) from exc
-
-    db.commit()
-    db.refresh(deletion_request)
-
-    return {"message": "Pedido de eliminação registado. Entraremos em contacto em breve."}
-
-
-
-@router.put("/users/{user_id}/payment", response_model=UserRead)
-def update_payment_status(
-    user_id: int,
-    payment_in: PaymentStatusUpdate,
-    current_user: User = Depends(get_current_user),
-    db: Session = Depends(get_db),
-):
-    """Altera manualmente o estado de pagamento de um utilizador."""
-    # Procura o utilizador pelo identificador fornecido
-    user = db.get(User, user_id)
-    if not user:
-        raise HTTPException(status_code=404, detail="Utilizador não encontrado")
-
-    # Atualiza o campo de pagamento com o novo valor
-    user.has_paid = payment_in.has_paid
-
-    # Guarda a alteração na base de dados
     db.add(user)
     db.commit()
     db.refresh(user)
-    return user
 
-
-@router.post("/password/forgot", status_code=status.HTTP_202_ACCEPTED)
-def request_password_reset(
-    payload: PasswordForgotRequest, db: Session = Depends(get_db)
-) -> dict[str, str]:
-    """Gera um token de redefinição e envia o respetivo e-mail."""
-    email = payload.email.strip().lower()
-    user = db.query(User).filter(User.email == email).first()
-
-    if user and user.is_confirmed:
-        user.reset_token = generate_secure_token()
-        user.reset_token_expires_at = datetime.now(timezone.utc) + timedelta(
-            minutes=PASSWORD_RESET_TOKEN_EXPIRE_MINUTES
-        )
-        db.add(user)
-        db.commit()
-        try:
-            send_password_reset_email(user)
-        except Exception as exc:
-            print(f"Erro ao enviar email de recuperação: {exc}")
-            # Mesmo que o envio falhe, mantém o token para permitir nova tentativa
-
-    # Resposta neutra para evitar divulgar existência da conta
-    return {"message": "Se o email existir, receberá instruções para redefinir a password."}
+    send_password_reset_email(user)
+    return {"message": "Instruções enviadas para o e-mail"}
 
 
 @router.post("/password/reset")
-def reset_password(
-    payload: PasswordResetRequest, db: Session = Depends(get_db)
-) -> dict[str, str]:
-    """Valida o token recebido e atualiza a palavra-passe do utilizador."""
-    user = db.query(User).filter(User.reset_token == payload.token).first()
-    if not user:
+def password_reset(request_in: PasswordResetRequest, db: Session = Depends(get_db)):
+    """Valida token de recuperação e define nova password."""
+
+    user = db.query(User).filter(User.reset_token == request_in.token).first()
+    if user is None:
         raise HTTPException(status_code=400, detail="Token inválido")
 
-    if not user.reset_token_expires_at:
-        raise HTTPException(status_code=400, detail="Token inválido")
-
-    if user.reset_token_expires_at < datetime.now(timezone.utc):
+    if user.reset_token_expire_at is None or user.reset_token_expire_at < datetime.now(timezone.utc):
         raise HTTPException(status_code=400, detail="Token expirado")
 
-    user.password_hash = get_password_hash(payload.new_password)
+    user.password_hash = get_password_hash(request_in.password)
     user.reset_token = None
-    user.reset_token_expires_at = None
+    user.reset_token_expire_at = None
+
     db.add(user)
     db.commit()
-    return {"message": "Password atualizada com sucesso."}
+    db.refresh(user)
+
+    return {"message": "Password atualizada"}
 
 
-@router.post("/confirm", response_model=UserRead)
-def confirm_account(
-    payload: AccountConfirmationRequest, db: Session = Depends(get_db)
-):
-    """Confirma a conta associada ao token enviado por e-mail."""
-    token = payload.token.strip()
-    user = db.query(User).filter(User.confirmation_token == token).first()
-    if not user:
+@router.post("/confirm")
+def confirm_account(data: AccountConfirmationRequest, db: Session = Depends(get_db)):
+    """Confirma a conta utilizando o token enviado por e-mail."""
+    user = db.query(User).filter(User.confirmation_token == data.token).first()
+    if user is None:
         raise HTTPException(status_code=400, detail="Token inválido")
 
     user.is_confirmed = True
     user.confirmation_token = None
-    user.confirmation_sent_at = None
+    user.confirmed_at = datetime.now(timezone.utc)
+
     db.add(user)
     db.commit()
     db.refresh(user)
+
+    return {"message": "Conta confirmada"}
+
+
+@router.get("/admin/users", response_model=list[UserRead])
+def list_users(db: Session = Depends(get_db), current_user: User = Depends(get_current_admin)):
+    """Lista todos os utilizadores (apenas para administradores)."""
+    return db.query(User).all()
+
+
+@router.put("/admin/users/{user_id}/payment-status")
+def update_payment_status(
+    user_id: int,
+    data: PaymentStatusUpdate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_admin),
+):
+    """Atualiza estado do pagamento de um utilizador (apenas admin)."""
+
+    user = db.query(User).filter(User.id == user_id).first()
+    if user is None:
+        raise HTTPException(status_code=404, detail="Utilizador não encontrado")
+
+    user.payment_status = data.payment_status
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+
     return user
+
+
+@router.get("/deletion/status")
+def get_deletion_status(current_user: User = Depends(get_current_user)):
+    """Devolve o estado atual do pedido de eliminação de conta."""
+
+    request = (
+        current_user.account_deletion_requests[-1]
+        if current_user.account_deletion_requests
+        else None
+    )
+
+    if request is None:
+        return {"status": "none"}
+
+    if request.status in ACTIVE_DELETION_STATUSES:
+        return {"status": request.status}
+
+    return {"status": "completed"}
+
+
+@router.post("/deletion/request")
+def request_account_deletion(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    """Cria um pedido de eliminação de conta e notifica o suporte."""
+
+    if current_user.account_deletion_requests:
+        last_request = current_user.account_deletion_requests[-1]
+        if last_request.status in ACTIVE_DELETION_STATUSES:
+            raise HTTPException(
+                status_code=400,
+                detail="Já existe um pedido de eliminação em processamento",
+            )
+
+    deletion_request = AccountDeletionRequest(user_id=current_user.id, status="pending")
+
+    db.add(deletion_request)
+    db.commit()
+    db.refresh(deletion_request)
+
+    send_account_deletion_request_email(current_user)
+
+    return deletion_request
+
+
+@router.post("/deletion/cancel")
+def cancel_account_deletion(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    """Cancela o pedido de eliminação ativo, se existir."""
+
+    if not current_user.account_deletion_requests:
+        raise HTTPException(status_code=400, detail="Não existe pedido de eliminação para cancelar")
+
+    last_request = current_user.account_deletion_requests[-1]
+    if last_request.status not in ACTIVE_DELETION_STATUSES:
+        raise HTTPException(status_code=400, detail="Não existe pedido de eliminação ativo")
+
+    last_request.status = "cancelled"
+
+    db.add(last_request)
+    db.commit()
+    db.refresh(last_request)
+
+    return last_request
+
+
+@router.put("/admin/deletion/{request_id}")
+def update_account_deletion(
+    request_id: int,
+    data: PaymentStatusUpdate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_admin),
+):
+    """Atualiza estado de pedidos de eliminação de conta (apenas admin)."""
+
+    deletion_request = db.query(AccountDeletionRequest).filter(AccountDeletionRequest.id == request_id).first()
+    if deletion_request is None:
+        raise HTTPException(status_code=404, detail="Pedido não encontrado")
+
+    deletion_request.status = data.payment_status
+
+    db.add(deletion_request)
+    db.commit()
+    db.refresh(deletion_request)
+
+    return deletion_request
