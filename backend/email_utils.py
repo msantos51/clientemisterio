@@ -5,6 +5,11 @@ import smtplib
 from email.message import EmailMessage
 from typing import Iterable
 
+
+class EmailDeliveryError(Exception):
+    """Erro personalizado para sinalizar falhas no envio de e-mails."""
+
+
 # Lê configurações do servidor SMTP a partir de variáveis de ambiente
 SMTP_HOST = os.getenv("SMTP_HOST", "smtp.gmail.com")
 SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
@@ -51,8 +56,13 @@ def send_email(
 
     message = build_email_message(subject=subject, body=body, to=to, reply_to=reply_to)
 
-    with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as smtp:
-        # Estabelece ligação segura e autentica com o servidor
-        smtp.starttls()
-        smtp.login(SMTP_USER, SMTP_PASSWORD)
-        smtp.send_message(message)
+    try:
+        # Define um timeout curto para evitar bloqueios quando não há rede
+        with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=10) as smtp:
+            # Estabelece ligação segura e autentica com o servidor
+            smtp.starttls()
+            smtp.login(SMTP_USER, SMTP_PASSWORD)
+            smtp.send_message(message)
+    except (smtplib.SMTPException, OSError) as exc:
+        # Converte qualquer falha de rede ou SMTP num erro controlado
+        raise EmailDeliveryError("Falha ao entregar o e-mail através do servidor SMTP.") from exc
