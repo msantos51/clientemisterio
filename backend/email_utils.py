@@ -28,8 +28,10 @@ def _get_smtp_port() -> int:
         raise EmailDeliveryError("Valor inválido para SMTP_PORT; defina um número inteiro.") from exc
 
 
-# Lê configurações do servidor SMTP a partir de variáveis de ambiente
-SMTP_HOST = os.getenv("SMTP_HOST", "smtp.gmail.com").strip()
+# Lê configurações do servidor SMTP a partir de variáveis de ambiente.
+# As predefinições assumem o serviço Brevo (smtp-relay.brevo.com)
+# para evitar depender de contas Gmail com políticas de segurança restritivas.
+SMTP_HOST = os.getenv("SMTP_HOST", "smtp-relay.brevo.com").strip()
 SMTP_PORT = _get_smtp_port()
 SMTP_USER = (os.getenv("SMTP_USER") or "").strip()
 SMTP_PASSWORD = (os.getenv("SMTP_PASSWORD") or "").strip()
