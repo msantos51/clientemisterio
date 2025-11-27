@@ -35,10 +35,21 @@ SMTP_HOST = os.getenv("SMTP_HOST", "smtp-relay.brevo.com").strip()
 SMTP_PORT = _get_smtp_port()
 SMTP_USER = (os.getenv("SMTP_USER") or "").strip()
 SMTP_PASSWORD = (os.getenv("SMTP_PASSWORD") or "").strip()
-SMTP_FROM = (os.getenv("SMTP_FROM") or SMTP_USER or "no-reply@clientemisterio.com").strip()
+
+# Define o remetente apresentado nos e-mails, priorizando uma variável dedicada ou,
+# na ausência de um valor válido, utilizando um endereço neutro do domínio.
+_raw_from = (os.getenv("SMTP_FROM") or "").strip()
+SMTP_FROM = _raw_from or (SMTP_USER if "@" in SMTP_USER else "no-reply@clientemisterio.com")
+
+# Configura opções de transporte para o servidor SMTP.
 SMTP_USE_SSL = _get_env_flag("SMTP_USE_SSL", False)
 SMTP_USE_TLS = _get_env_flag("SMTP_USE_TLS", True)
-SMTP_TIMEOUT = int(os.getenv("SMTP_TIMEOUT", "10"))
+
+# Tempo-limite aumentado para tolerar latências em serviços externos como o Brevo.
+try:
+    SMTP_TIMEOUT = int(os.getenv("SMTP_TIMEOUT", "30"))
+except ValueError as exc:
+    raise EmailDeliveryError("Valor inválido para SMTP_TIMEOUT; defina um número inteiro.") from exc
 
 
 def _ensure_configuration() -> None:
