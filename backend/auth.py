@@ -74,6 +74,9 @@ ACTIVE_DELETION_STATUSES = ACCOUNT_DELETION_ALLOWED_STATUSES.intersection({"pend
 _frontend_env = (FRONTEND_URL or "").strip()
 FRONTEND_BASE_URL = _frontend_env.rstrip("/") if _frontend_env else "https://clientemisterio.com"
 
+# Número máximo de bytes suportados pelo bcrypt (limite de segurança da biblioteca)
+MAX_BCRYPT_PASSWORD_BYTES = 72
+
 
 def generate_secure_token() -> str:
     """Gera um token aleatório seguro para confirmação ou redefinição."""
@@ -163,13 +166,26 @@ def get_db():
         db.close()
 
 # ───────────────────────────── Helpers ─────────────────────────────
+def ensure_password_length(password: str) -> None:
+    """Garante que a palavra-passe não excede o limite de 72 bytes imposto pelo bcrypt."""
+
+    # Converte para bytes UTF-8 para contabilizar corretamente acentos e caracteres especiais
+    if len(password.encode("utf-8")) > MAX_BCRYPT_PASSWORD_BYTES:
+        raise HTTPException(
+            status_code=400,
+            detail="Password demasiado longa (máximo 72 bytes). Reduza o tamanho ou simplifique caracteres acentuados.",
+        )
+
+
 def get_password_hash(password: str) -> str:
     """Gera o hash para a palavra-passe fornecida."""
+    ensure_password_length(password)
     return pwd_context.hash(password)
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     """Compara palavra-passe em texto com o respetivo hash."""
+    ensure_password_length(plain_password)
     return pwd_context.verify(plain_password, hashed_password)
 
 
