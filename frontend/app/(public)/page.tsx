@@ -1,10 +1,9 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
-// Página inicial com destaque para o curso disponível
+// Página inicial dedicada à apresentação do painel inteligente
 export default function HomePage() {
   // Estado que indica se o utilizador está autenticado
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -21,47 +20,25 @@ export default function HomePage() {
   }, [])
 
   return (
-    // Container principal com espaçamento vertical de 1rem entre secções
-    <main className="space-y-4">
-      {/* Secção principal do curso alinhada com o cabeçalho e responsiva em duas colunas */}
-      <section className="mx-auto flex w-full max-w-6xl flex-col items-center gap-12 px-4 py-8 text-white md:flex-row md:items-center md:justify-between md:px-6">
-        {/* Bloco de texto alinhado com o cabeçalho e largura controlada para leitura confortável */}
-        <div className="w-full max-w-3xl space-y-8 text-left md:flex-1 md:max-w-xl">
-          {/* Título principal com a fonte Saira Stencil One */}
-          <h1 className="logo-font text-3xl font-bold leading-none md:text-7xl">
-            <span className="block">CURSO</span>
-            <span className="block">COMPLETO</span>
-          </h1>
+    // Container principal com espaçamento uniforme
+    <main className="flex justify-center">
+      {/* Secção de destaque sem elementos visuais de fundo */}
+      <section className="mx-auto w-full max-w-5xl rounded-3xl bg-white/10 px-6 py-12 text-white shadow-2xl backdrop-blur-md md:px-12">
+        {/* Título principal do painel */}
+        <h1 className="logo-font text-4xl font-bold leading-tight md:text-6xl">
+          O painel inteligente para estudos e recrutamento
+        </h1>
 
-          {/* Mostra o preço antigo riscado e o preço atual */}
-          <div className="flex items-baseline gap-2 text-2xl">
-            <span className="line-through">59,99€</span>
-            <span className="font-bold">34,99€</span>
-          </div>
+        {/* Subtítulo descritivo da plataforma */}
+        <p className="mt-6 max-w-3xl text-lg leading-relaxed">
+          Uma plataforma completa para segmentar perfis, gerir projetos e validar participantes num só lugar.
+        </p>
 
-          {/* Frase descritiva colocada abaixo do título */}
-          <p className="text-base">
-            O preço do curso é recuperado logo nas primeiras avaliações.
-          </p>
-
-          {/* Botão de adesão direciona para registo ou dashboard conforme sessão */}
-          <Link href={isLoggedIn ? '/dashboard' : '/inscrever-se'} className="btn self-start">
-            Adere já!
+        {/* Botão de chamada à ação ajustado ao estado do utilizador */}
+        <div className="mt-10">
+          <Link href={isLoggedIn ? '/dashboard' : '/inscrever-se'} className="btn">
+            Explorar plataforma
           </Link>
-        </div>
-
-
-        {/* Imagem decorativa dimensionada para igualar a largura da coluna de texto */}
-        <div className="flex w-full justify-center md:flex-1 md:max-w-xl">
-          <Image
-            src="/images/20250925_1000_Figura Peluda com Laptop_remix_01k601k0d4ekgapmarhdhhrh26.png"
-            alt="Livro aberto encostado a um computador portátil com iluminação néon"
-            width={1200}
-            height={1200}
-            priority
-            className="h-auto w-full drop-shadow-2xl"
-
-          />
         </div>
       </section>
     </main>
