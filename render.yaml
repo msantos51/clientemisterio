@@ -13,6 +13,21 @@ services:
       # domínio permitido nas chamadas CORS do backend
       - key: FRONTEND_URL
         value: https://clientemisterio-frontend.onrender.com
+      # configuração de SMTP (Brevo)
+      - key: SMTP_HOST
+        value: smtp-relay.brevo.com
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        fromSecret: SMTP_USER
+      - key: SMTP_PASSWORD
+        fromSecret: SMTP_PASSWORD
+      - key: SMTP_FROM
+        value: no-reply@clientemisterio.com
+      - key: SMTP_USE_TLS
+        value: "true"
+      - key: SMTP_USE_SSL
+        value: "false"
 
   # Serviço frontend com Next.js
   - type: web
