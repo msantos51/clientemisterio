@@ -21,7 +21,7 @@ export default function RegisterPage() {
 
     try {
       await registerUser({ name, email, password })
-      setSuccess('Conta criada. Verifique o e-mail para confirmar a conta antes de iniciar sessão.')
+      setSuccess('Conta criada com sucesso. Já pode iniciar sessão com os dados de registo.')
       setName('')
       setEmail('')
       setPassword('')

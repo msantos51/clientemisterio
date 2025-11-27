@@ -228,9 +228,6 @@ def authenticate_credentials(db: Session, email: str, password: str) -> User:
     if user is None or not verify_password(password, user.password_hash):
         raise HTTPException(status_code=400, detail="Credenciais inválidas")
 
-    if not user.is_confirmed:
-        raise HTTPException(status_code=403, detail="Conta ainda não confirmada")
-
     return user
 
 
@@ -381,7 +378,6 @@ def register(user_in: UserCreate, db: Session = Depends(get_db)):
       - email em lowercase
       - password >= 6 chars
       - email único
-      - envio obrigatório de e-mail de confirmação
     """
     email = user_in.email.strip().lower()
     if db.query(User).filter(User.email == email).first():
@@ -394,21 +390,13 @@ def register(user_in: UserCreate, db: Session = Depends(get_db)):
         name=user_in.name.strip(),
         email=email,
         password_hash=get_password_hash(user_in.password),
-        is_confirmed=False,
-        confirmation_token=generate_secure_token(),
-        confirmation_sent_at=datetime.now(timezone.utc),
+        is_confirmed=True,
+        confirmation_token=None,
+        confirmation_sent_at=None,
     )
     db.add(user)
-
     try:
         db.flush()
-        send_confirmation_email(user)
-    except EmailDeliveryError as exc:
-        handle_email_failure(
-            exc,
-            db=db,
-            detail="Não foi possível enviar o e-mail de confirmação. Tente novamente mais tarde.",
-        )
     except Exception as exc:  # garante rollback em erros inesperados
         db.rollback()
         print(f"Erro inesperado ao registar utilizador: {exc}")
