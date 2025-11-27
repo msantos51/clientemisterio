@@ -39,14 +39,27 @@ O ficheiro `render.yaml` define dois webservices: um para o backend e outro para
 - **Backend**
   - `FRONTEND_URL`: domínio autorizado nas chamadas CORS (ex.: `https://clientemisterio-frontend.onrender.com`).
   - `SECRET_KEY`: chave usada para assinar os tokens JWT.
-  - `SMTP_HOST`: host do servidor SMTP (ex.: `smtp.gmail.com`).
+  - `SMTP_HOST`: host do servidor SMTP (ex.: `smtp-relay.brevo.com`).
   - `SMTP_PORT`: porto do servidor SMTP (ex.: `587` para STARTTLS ou `465` para SSL).
   - `SMTP_USER`: utilizador autenticado no servidor SMTP.
   - `SMTP_PASSWORD`: palavra-passe do utilizador SMTP (idealmente um app password).
-  - `SMTP_FROM`: endereço a usar como remetente visível; por omissão assume `SMTP_USER`.
-  - `SMTP_USE_TLS`: ativa STARTTLS quando `true` (padrão); desative se estiver a usar SSL puro.
+  - `SMTP_FROM`: endereço a usar como remetente visível; por omissão usa `no-reply@clientemisterio.com` (define-o explicitamente com o endereço verificado no Brevo).
+  - `SMTP_USE_TLS`: ativa STARTTLS quando `true` (padrão recomendado para o Brevo).
   - `SMTP_USE_SSL`: ativa ligação SSL direta (padrão `false`); use apenas quando o servidor exigir SSL no porto configurado.
-  - `SMTP_TIMEOUT`: tempo-limite da ligação SMTP em segundos (padrão `10`).
+  - `SMTP_TIMEOUT`: tempo-limite da ligação SMTP em segundos (padrão `30` para tolerar latência do Brevo).
 - **Frontend**
   - `NEXT_PUBLIC_API_URL`: URL base da API (ex.: `https://clientemisterio-backend.onrender.com`).
+
+### Configuração recomendada para o Brevo (Render)
+
+Utiliza os valores abaixo para minimizar erros de timeouts ao registar utilizadores:
+
+- `SMTP_HOST=smtp-relay.brevo.com`
+- `SMTP_PORT=587`
+- `SMTP_USE_TLS=true`
+- `SMTP_USE_SSL=false`
+- `SMTP_TIMEOUT=30`
+- `SMTP_USER=<utilizador fornecido pelo Brevo>`
+- `SMTP_PASSWORD=<palavra-passe SMTP do Brevo>`
+- `SMTP_FROM=<remetente verificado no Brevo, por ex.: noreply@clientemisterio.com>`
 
