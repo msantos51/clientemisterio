@@ -2,6 +2,8 @@ fastapi
 uvicorn[standard]
 sqlalchemy
 passlib[bcrypt]
+# Fixação de versão para garantir compatibilidade do passlib com o backend do bcrypt atual.
+bcrypt>=3.2.2,<4
 python-jose[cryptography]
 psycopg2-binary
 pydantic[email]
