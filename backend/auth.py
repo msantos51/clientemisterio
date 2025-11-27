@@ -132,6 +132,19 @@ def send_account_deletion_request_email(user: User) -> None:
     )
 
 
+def handle_email_failure(exc: EmailDeliveryError, *, db: Session | None, detail: str) -> None:
+    """Centraliza a gestão de falhas no envio de e-mails e aplica rollback quando necessário."""
+
+    if db is not None:
+        db.rollback()
+
+    print(f"Erro ao enviar e-mail: {exc}")
+    raise HTTPException(
+        status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+        detail=detail,
+    ) from exc
+
+
 class OAuth2EmailRequestForm:
     """Formulário OAuth2 que utiliza o campo 'email' em vez de 'username'."""
 
@@ -391,11 +404,9 @@ def register(user_in: UserCreate, db: Session = Depends(get_db)):
         db.flush()
         send_confirmation_email(user)
     except EmailDeliveryError as exc:
-        # Em caso de falha no envio cancela o registo para manter consistência
-        db.rollback()
-        print(f"Erro ao enviar email de confirmação: {exc}")
-        raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+        handle_email_failure(
+            exc,
+            db=db,
             detail="Não foi possível enviar o e-mail de confirmação. Tente novamente mais tarde.",
         )
     except Exception as exc:  # garante rollback em erros inesperados
@@ -496,10 +507,19 @@ def password_forgot(request_in: PasswordForgotRequest, db: Session = Depends(get
         minutes=PASSWORD_RESET_TOKEN_EXPIRE_MINUTES
     )
     db.add(user)
+    try:
+        db.flush()
+        send_password_reset_email(user)
+    except EmailDeliveryError as exc:
+        handle_email_failure(
+            exc,
+            db=db,
+            detail="Não foi possível enviar o e-mail de recuperação. Tente novamente mais tarde.",
+        )
+
     db.commit()
     db.refresh(user)
 
-    send_password_reset_email(user)
     return {"message": "Instruções enviadas para o e-mail"}
 
 
@@ -604,10 +624,18 @@ def request_account_deletion(current_user: User = Depends(get_current_user), db:
     deletion_request = AccountDeletionRequest(user_id=current_user.id, status="pending")
 
     db.add(deletion_request)
+    try:
+        db.flush()
+        send_account_deletion_request_email(current_user)
+    except EmailDeliveryError as exc:
+        handle_email_failure(
+            exc,
+            db=db,
+            detail="Não foi possível notificar o suporte sobre o pedido de eliminação. Tente novamente mais tarde.",
+        )
+
     db.commit()
     db.refresh(deletion_request)
-
-    send_account_deletion_request_email(current_user)
 
     return deletion_request
 
