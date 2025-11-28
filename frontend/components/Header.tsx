@@ -136,11 +136,11 @@ export function Header() {
   return (
     // Cabeçalho fixo no topo com fundo transparente e texto branco
     <header className="sticky top-0 z-50 bg-transparent text-white">
-      {/* Contêiner com largura máxima e itens dispostos numa única linha */}
-      <div className="relative mx-auto flex max-w-6xl items-center justify-between p-4 md:p-6">
-        {/* Agrupamento do logótipo e das ligações principais alinhado à esquerda */}
-        <div className="flex flex-1 items-center gap-8">
-          {/* Logótipo com slogan, alinhado à esquerda */}
+      {/* Contêiner a toda a largura para posicionar o logótipo à esquerda e ações à direita */}
+      <div className="relative flex w-full items-center justify-between p-4 md:p-6">
+        {/* Agrupamento do logótipo e das ligações principais alinhado ao canto superior esquerdo */}
+        <div className="flex items-center gap-8">
+          {/* Logótipo com slogan, alinhado à esquerda do ecrã */}
           <Link
             href="/"
             className="flex flex-col leading-none text-white"
@@ -156,8 +156,8 @@ export function Header() {
           </nav>
         </div>
 
-        {/* Área de ações posicionada à direita do cabeçalho */}
-        <div className="ml-6 flex flex-shrink-0 items-center gap-4 md:gap-6">
+        {/* Área de ações posicionada no canto superior direito do cabeçalho */}
+        <div className="flex flex-shrink-0 items-center gap-4 md:gap-6">
           {isLoggedIn ? (
             <>
               {/* Liga o aluno ao dashboard pessoal quando não está já lá */}
