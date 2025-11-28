@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
@@ -23,53 +22,26 @@ export default function HomePage() {
   return (
     // Container principal com espaçamento uniforme
     <main className="flex flex-col items-center">
-      {/* Secção de destaque sem elementos visuais de fundo */}
-      <section className="mx-auto w-full max-w-5xl rounded-3xl bg-white/10 px-6 py-12 text-white shadow-2xl backdrop-blur-md md:px-12">
-        {/* Título principal do painel */}
+      {/* Secção de destaque sem elementos visuais de fundo, com conteúdo centralizado */}
+      <section className="mx-auto w-full max-w-5xl rounded-3xl bg-white/10 px-6 py-12 text-white text-center shadow-2xl backdrop-blur-md md:px-12">
+        {/* Título principal atualizado da plataforma, centrado horizontalmente */}
         <h1 className="logo-font text-4xl font-bold leading-tight md:text-6xl">
-          O painel inteligente para estudos e recrutamento
+          A plataforma inteligente para recolha e gestão de estudos
         </h1>
 
-        {/* Subtítulo descritivo da plataforma */}
-        <p className="mt-6 max-w-3xl text-lg leading-relaxed">
-          Uma plataforma completa para segmentar perfis, gerir projetos e validar participantes num só lugar.
+        {/* Subtítulo descritivo da plataforma, centrado e com largura máxima controlada */}
+        <p className="mt-6 mx-auto max-w-3xl text-lg leading-relaxed">
+          Recrutamento, formação e execução de projetos num só lugar — para empresas e avaliadores
         </p>
 
-        {/* Botão de chamada à ação ajustado ao estado do utilizador */}
-        <div className="mt-10">
-          <Link href={isLoggedIn ? '/dashboard' : '/inscrever-se'} className="btn">
-            Explorar plataforma
+        {/* Conjunto de botões de chamada à ação alinhados e centralizados, com ordem solicitada */}
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <Link href={isLoggedIn ? '/dashboard' : '/inscrever-se'} className="btn btn-outline">
+            Sou Cliente Mistério
           </Link>
-        </div>
-      </section>
-
-      {/* Nova secção informativa com imagem ilustrativa à direita */}
-      <section className="mx-auto mt-10 w-full max-w-5xl rounded-3xl bg-white/5 px-6 py-12 text-white shadow-2xl backdrop-blur-md md:mt-12 md:px-12">
-        <div className="grid items-center gap-10 md:grid-cols-2">
-          {/* Coluna esquerda com descrição detalhada da oferta */}
-          <div>
-            <h2 className="logo-font text-3xl font-semibold leading-tight md:text-4xl">
-              Encontre o público ideal para cada estudo
-            </h2>
-            <p className="mt-6 text-lg leading-relaxed">
-              Combine filtros avançados, gestão de projetos e validação de participantes numa interface desenhada para acelerar campanhas de investigação e recrutamento especializado.
-            </p>
-            <p className="mt-4 text-lg leading-relaxed">
-              Acompanhe métricas em tempo real, comunique-se com equipas e mantenha o controlo sobre cada etapa com total transparência.
-            </p>
-          </div>
-
-          {/* Coluna direita dedicada à ilustração da secção */}
-          <div className="flex justify-center md:justify-end">
-            <Image
-              src="/images/undraw_marketing_vz5j.svg"
-              alt="Ilustração de campanhas de marketing dirigidas"
-              width={520}
-              height={360}
-              className="max-w-full"
-              priority
-            />
-          </div>
+          <Link href="/enterprise" className="btn">
+            Sou Empresa
+          </Link>
         </div>
       </section>
     </main>
