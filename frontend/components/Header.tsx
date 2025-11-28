@@ -9,7 +9,8 @@ import { logout } from '@/lib/api'
 // Lista de ligações principais para o menu
 const mainLinks = [
   { href: '/', label: 'Início' },
-  { href: '/curso', label: 'Curso' },
+  { href: '/curso', label: 'Cursos e Formação' },
+  { href: '/sobre-nos', label: 'Sobre Nós' },
   { href: '/contacto', label: 'Contacto' },
   { href: '/faq', label: 'FAQs' },
   { href: '/enterprise', label: 'Enterprise' },
