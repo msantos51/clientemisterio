@@ -139,7 +139,7 @@ export function Header() {
       {/* Contêiner com largura máxima e itens dispostos numa única linha */}
       <div className="relative mx-auto flex max-w-6xl items-center justify-between p-4 md:p-6">
         {/* Agrupamento do logótipo e das ligações principais alinhado à esquerda */}
-        <div className="flex flex-1 items-center gap-12">
+        <div className="flex flex-1 items-center gap-8">
           {/* Logótipo com slogan, alinhado à esquerda */}
           <Link
             href="/"
@@ -151,13 +151,13 @@ export function Header() {
           </Link>
 
           {/* Menu principal alinhado imediatamente após o logótipo */}
-          <nav className="hidden items-center gap-12 md:flex">
+          <nav className="hidden flex-nowrap items-center gap-8 whitespace-nowrap md:flex">
             <MainLinks linkClass="text-lg font-bold hover:underline" />
           </nav>
         </div>
 
         {/* Área de ações posicionada à direita do cabeçalho */}
-        <div className="flex items-center gap-4 md:gap-6">
+        <div className="ml-6 flex flex-shrink-0 items-center gap-4 md:gap-6">
           {isLoggedIn ? (
             <>
               {/* Liga o aluno ao dashboard pessoal quando não está já lá */}
