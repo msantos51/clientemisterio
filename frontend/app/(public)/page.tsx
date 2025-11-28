@@ -22,12 +22,15 @@ export default function HomePage() {
   return (
     // Container principal com espaçamento uniforme
     <main className="flex flex-col items-center">
+
       {/* Secção de destaque sem elementos visuais de fundo, com conteúdo centralizado */}
       <section className="mx-auto w-full max-w-5xl rounded-3xl bg-white/10 px-6 py-12 text-white text-center shadow-2xl backdrop-blur-md md:px-12">
         {/* Título principal atualizado da plataforma, centrado horizontalmente */}
+
         <h1 className="logo-font text-4xl font-bold leading-tight md:text-6xl">
           A plataforma inteligente para recolha e gestão de estudos
         </h1>
+
 
         {/* Subtítulo descritivo da plataforma, centrado e com largura máxima controlada */}
         <p className="mt-6 mx-auto max-w-3xl text-lg leading-relaxed">
@@ -41,6 +44,7 @@ export default function HomePage() {
           </Link>
           <Link href="/enterprise" className="btn">
             Sou Empresa
+
           </Link>
         </div>
       </section>
