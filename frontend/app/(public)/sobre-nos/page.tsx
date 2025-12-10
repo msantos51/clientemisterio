@@ -2,7 +2,7 @@
 export default function AboutUsPage() {
   return (
     // Secção centralizada com largura controlada para facilitar leitura
-    <section className="mx-auto flex min-h-screen max-w-5xl flex-col gap-6 px-6 pb-20 pt-16 text-white md:pt-24">
+    <section className="mx-auto flex min-h-screen max-w-5xl flex-col gap-6 px-6 pb-20 pt-16 text-purple-700 md:pt-24">
       {/* Título principal da página */}
       <h1 className="logo-font text-4xl font-bold md:text-5xl">Sobre Nós</h1>
 

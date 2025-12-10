@@ -81,39 +81,39 @@ export default function PersonalPage() {
       {/* Formulário para alteração de nome e password */}
       <form onSubmit={handleUpdate} className="mt-4 max-w-md space-y-4">
         <div>
-          <label className="block text-sm font-medium text-white">Nome</label>
+          <label className="block text-sm font-medium text-purple-700">Nome</label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="mt-1 w-full rounded border border-white bg-black p-2 text-white"
+            className="mt-1 w-full rounded border border-purple-300 bg-white p-2 text-purple-700"
             required
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-white">Email</label>
+          <label className="block text-sm font-medium text-purple-700">Email</label>
           <input
             type="email"
             value={email}
             // Campo apenas para visualização, não permite alterações
             disabled
-            className="mt-1 w-full rounded border border-white bg-black p-2 text-white opacity-50"
+            className="mt-1 w-full rounded border border-purple-300 bg-white p-2 text-purple-700 opacity-70"
           />
         </div>
         <div className="relative">
-          <label className="block text-sm font-medium text-white">Password atual</label>
+          <label className="block text-sm font-medium text-purple-700">Password atual</label>
           <PasswordInput
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
-            className="mt-1 w-full rounded border border-white bg-black p-2 text-white"
+            className="mt-1 w-full rounded border border-purple-300 bg-white p-2 text-purple-700"
           />
         </div>
         <div className="relative">
-          <label className="block text-sm font-medium text-white">Nova password</label>
+          <label className="block text-sm font-medium text-purple-700">Nova password</label>
           <PasswordInput
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
-            className="mt-1 w-full rounded border border-white bg-black p-2 text-white"
+            className="mt-1 w-full rounded border border-purple-300 bg-white p-2 text-purple-700"
           />
         </div>
         {feedback && (

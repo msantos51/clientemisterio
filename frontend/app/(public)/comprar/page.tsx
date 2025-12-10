@@ -6,7 +6,7 @@ export default function BuyPage() {
       {/* Título da página */}
       <h2 className="text-3xl font-bold">Comprar curso</h2>
       {/* Explicação do processo de compra */}
-      <p className="mt-4 text-white">Pague com segurança através do Stripe.</p>
+      <p className="mt-4 text-purple-700">Pague com segurança através do Stripe.</p>
       {/* Link que abre o pagamento em nova aba */}
       <a
         href="https://buy.stripe.com/7sY7sE7Dk0XCc8L8vH4sE00"

@@ -22,7 +22,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     <ProtectedClient>
       <div className="flex min-h-screen">
         {/* Menu lateral com as opções essenciais do dashboard */}
-        <aside className="w-72 border-r border-white/30 bg-white/5 p-4">
+        <aside className="w-72 border-r border-purple-200 bg-white/90 p-4 text-purple-700">
           <nav className="space-y-3">
             {/* Apresenta apenas os itens definidos na lista navigationItems */}
             {navigationItems.map((item) => {
@@ -34,8 +34,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                   href={item.href}
                   className={`block rounded-full border px-4 py-2 text-center text-sm font-semibold uppercase transition ${
                     isActive
-                      ? 'border-white/80 bg-white/20 text-white'
-                      : 'border-white/40 text-white hover:bg-white/10'
+                      ? 'border-purple-400 bg-purple-50 text-purple-800'
+                      : 'border-purple-200 text-purple-700 hover:bg-purple-50'
                   }`}
                 >
                   {item.label}

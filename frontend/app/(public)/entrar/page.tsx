@@ -91,7 +91,7 @@ export default function LoginPage() {
         {/* Mensagem de erro, se existir */}
         {error && <p className="text-sm text-red-600">{error}</p>}
 
-        <div className="mt-4 text-sm text-white">
+        <div className="mt-4 text-sm text-purple-700">
           {/* Link para recuperação de password */}
           <Link href="/entrar/esqueci-password" className="hover:underline">
             Esqueci-me da password

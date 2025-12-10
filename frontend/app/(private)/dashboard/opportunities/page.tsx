@@ -46,7 +46,7 @@ export default function OpportunitiesPage() {
       {/* Informação sobre alertas de oportunidades */}
       <div>
         <h4 className="font-semibold">Alertas de oportunidades</h4>
-        <p className="text-sm text-white/80">
+        <p className="text-sm text-purple-700">
           Inscreva-se na nossa newsletter ou Telegram para receber novidades.
         </p>
       </div>

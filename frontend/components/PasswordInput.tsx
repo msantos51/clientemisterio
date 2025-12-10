@@ -19,7 +19,7 @@ export default function PasswordInput({ className, ...props }: InputHTMLAttribut
       <button
         type="button"
         onClick={() => setVisible((v) => !v)}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-white"
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-purple-700"
         aria-label={visible ? 'Esconder palavra-passe' : 'Mostrar palavra-passe'}
       >
         {visible ? 'Ocultar' : 'Mostrar'}
