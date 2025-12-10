@@ -3,9 +3,9 @@ import type { ReactNode } from "react"
 
 // Componente reutilizável para caixas translúcidas
 function TransparentBox({ children }: { children: ReactNode }) {
-  // Caixa com fundo branco semitransparente e texto branco
+  // Caixa com fundo branco semitransparente e texto violeta
   return (
-    <div className="bg-white/10 text-white p-6 rounded-lg backdrop-blur">
+    <div className="rounded-lg bg-white/90 p-6 text-purple-700 shadow">
       {children}
     </div>
   )
@@ -55,7 +55,7 @@ export default function EnterprisePage() {
 
   return (
     // Secção principal centrada e com espaçamento inferior
-    <section className="flex justify-center pb-20 text-white">
+    <section className="flex justify-center pb-20 text-purple-700">
       {/* Contentor com largura máxima e espaço vertical entre caixas */}
       <div className="max-w-3xl space-y-6">
         {/* Título principal e subtítulo */}

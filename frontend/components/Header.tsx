@@ -134,8 +134,8 @@ export function Header() {
   }
 
   return (
-    // Cabeçalho fixo no topo com fundo transparente e texto branco
-    <header className="sticky top-0 z-50 bg-transparent text-white">
+    // Cabeçalho fixo no topo com fundo transparente e texto violeta
+    <header className="sticky top-0 z-50 bg-transparent text-purple-700">
       {/* Contêiner a toda a largura para posicionar o logótipo à esquerda e ações à direita */}
       <div className="relative flex w-full items-center justify-between p-4 md:p-6">
         {/* Agrupamento do logótipo e das ligações principais alinhado ao canto superior esquerdo */}
@@ -143,7 +143,7 @@ export function Header() {
           {/* Logótipo com slogan, alinhado à esquerda do ecrã */}
           <Link
             href="/"
-            className="flex flex-col leading-none text-white"
+            className="flex flex-col leading-none text-purple-700"
             aria-label="Página inicial"
           >
             {/* Sigla principal do site */}
@@ -152,7 +152,7 @@ export function Header() {
 
           {/* Menu principal alinhado imediatamente após o logótipo */}
           <nav className="hidden flex-nowrap items-center gap-8 whitespace-nowrap md:flex">
-            <MainLinks linkClass="text-lg font-bold hover:underline" />
+            <MainLinks linkClass="text-lg font-bold text-purple-700 hover:underline" />
           </nav>
         </div>
 
@@ -200,7 +200,7 @@ export function Header() {
               onClick={() => setIsMenuOpen(false)}
             />
             {/* Menu móvel com fundo branco translúcido */}
-            <nav className="absolute left-0 top-full z-50 w-full bg-white/80 text-black md:hidden">
+            <nav className="absolute left-0 top-full z-50 w-full border border-purple-100 bg-white/95 text-purple-700 shadow md:hidden">
               <div className="flex flex-col items-center space-y-4 p-4">
                 <MainLinks
                   linkClass="text-lg font-bold hover:underline"

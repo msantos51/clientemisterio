@@ -25,7 +25,7 @@ export default function HomePage() {
     <main className="flex min-h-screen flex-col items-center">
 
       {/* Secção de destaque sem elementos visuais de fundo, com conteúdo centralizado */}
-      <section className="mx-auto mt-6 w-full max-w-5xl rounded-3xl bg-white/10 px-6 py-12 text-white text-center shadow-2xl backdrop-blur-md md:mt-10 md:px-12">
+      <section className="mx-auto mt-6 w-full max-w-5xl rounded-3xl bg-white/90 px-6 py-12 text-purple-700 text-center shadow-2xl backdrop-blur-md md:mt-10 md:px-12">
         {/* Título principal atualizado da plataforma, centrado horizontalmente */}
 
         <h1 className="logo-font text-4xl font-bold leading-tight md:text-6xl">
@@ -51,7 +51,7 @@ export default function HomePage() {
       </section>
 
       {/* Faixa inferior com as ilustrações alinhadas, reforçando visualmente a proposta */}
-      <section className="mt-10 w-full bg-gradient-to-t from-white/10 via-white/5 to-transparent px-4 py-12 md:mt-12">
+      <section className="mt-10 w-full bg-gradient-to-t from-purple-50 via-white to-transparent px-4 py-12 md:mt-12">
         <div className="mx-auto flex w-full max-w-6xl flex-wrap justify-center gap-8">
           <Image
             src="/images/undraw_presentation_4ik4.svg"

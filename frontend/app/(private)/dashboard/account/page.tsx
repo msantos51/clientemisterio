@@ -59,16 +59,16 @@ export default function AccountSettingsPage() {
       {/* Cabeçalho informativo sobre a secção de conta */}
       <header>
         <h1 className="text-3xl font-bold">Gestão da Conta</h1>
-        <p className="mt-2 text-sm text-white/80">
+        <p className="mt-2 text-sm text-purple-700">
           Nesta área pode solicitar a eliminação definitiva da sua conta Cliente Mistério. Após a
           confirmação será enviada uma notificação automática para a nossa equipa de suporte.
         </p>
       </header>
 
       {/* Cartão com aviso principal sobre as consequências da eliminação */}
-      <div className="rounded-2xl border border-red-200/60 bg-red-500/10 p-6 shadow-lg">
-        <h2 className="text-2xl font-semibold text-red-50">Apagar Conta</h2>
-        <p className="mt-4 text-sm text-red-50/90">
+      <div className="rounded-2xl border border-purple-200 bg-white/90 p-6 text-purple-800 shadow-lg">
+        <h2 className="text-2xl font-semibold">Apagar Conta</h2>
+        <p className="mt-4 text-sm">
           Se prosseguir com a eliminação, a sua conta e todos os dados associados serão apagados de
           forma permanente. Este processo não pode ser revertido e requer confirmação manual pela
           equipa de suporte.
@@ -80,8 +80,8 @@ export default function AccountSettingsPage() {
             role="alert"
             className={`mt-4 rounded-lg border px-4 py-3 text-sm font-semibold ${
               feedback.type === 'success'
-                ? 'border-emerald-300/60 bg-emerald-500/10 text-emerald-50'
-                : 'border-red-300/60 bg-red-500/10 text-red-50'
+                ? 'border-purple-300 bg-purple-50 text-purple-800'
+                : 'border-purple-400 bg-purple-100 text-purple-900'
             }`}
           >
             {feedback.message}
@@ -102,7 +102,7 @@ export default function AccountSettingsPage() {
         {/* Formulário de confirmação apresentado após clicar no botão */}
         {isConfirming && !requestCompleted && (
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-            <p className="text-sm text-red-50/80">
+            <p className="text-sm text-purple-700">
               Para confirmar que compreende as consequências desta ação escreva{' '}
               <span className="font-bold">delete</span> na caixa abaixo e de seguida carregue em{' '}
               <span className="font-bold">Confirmar eliminação</span>.
@@ -117,7 +117,7 @@ export default function AccountSettingsPage() {
                 }
               }}
               placeholder="Escreva delete para confirmar"
-              className="w-full rounded-lg border border-red-200/60 bg-white/20 px-4 py-2 text-base font-semibold text-white placeholder:text-red-100/70 focus:border-white focus:outline-none"
+              className="w-full rounded-lg border border-purple-300 bg-white px-4 py-2 text-base font-semibold text-purple-700 placeholder:text-purple-400 focus:border-purple-500 focus:outline-none"
             />
             <button
               type="submit"
@@ -131,7 +131,7 @@ export default function AccountSettingsPage() {
 
         {/* Informação final após submissão bem-sucedida */}
         {requestCompleted && (
-          <p className="mt-6 text-sm text-emerald-50/80">
+          <p className="mt-6 text-sm text-purple-700">
             Recebemos o seu pedido e a nossa equipa foi notificada automaticamente através do e-mail
             clientemisterio.suporte@gmail.com. Em breve entraremos em contacto para concluir o
             processo.

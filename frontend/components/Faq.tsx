@@ -46,20 +46,20 @@ export function Faq() {
   return (
     // Adiciona margem superior para afastar as FAQs da secção anterior
     <section className="mx-auto mt-10 max-w-3xl pb-20">
-        {/* Título das FAQs com texto branco */}
-        <h2 className="mb-8 text-center text-3xl font-bold text-white">FAQs</h2>
+        {/* Título das FAQs com texto violeta */}
+        <h2 className="mb-8 text-center text-3xl font-bold text-purple-700">FAQs</h2>
       {/* Lista de perguntas */}
       <div className="space-y-4">
         {faqItems.map((item) => (
           // Cada item expansível com fundo translúcido
           <details
             key={item.question}
-            className="rounded-lg bg-white/20 p-4 shadow"
+            className="rounded-lg bg-purple-50 p-4 shadow"
           >
               {/* Pergunta visível em negrito que pode ser clicada */}
-              <summary className="cursor-pointer font-bold text-white">{item.question}</summary>
-            {/* Resposta apresentada ao clicar na pergunta com texto branco */}
-            <p className="mt-2 text-white">{item.answer}</p>
+              <summary className="cursor-pointer font-bold text-purple-800">{item.question}</summary>
+            {/* Resposta apresentada ao clicar na pergunta com texto violeta */}
+            <p className="mt-2 text-purple-700">{item.answer}</p>
           </details>
         ))}
       </div>

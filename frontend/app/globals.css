@@ -19,20 +19,21 @@
   border: none;
   font-family: inherit;
   font-weight: 700; /* Texto dos botões sempre em negrito */
-  color: #6D5CCF; /* Texto com a cor principal solicitada */
-  background-color: white;
+  color: #ffffff; /* Texto branco para máximo contraste */
+  background-color: #6d5ccf; /* Fundo violeta principal */
 }
 
 /* Efeito ao pairar com sombra e movimento */
 .btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  background-color: #5f4fc0; /* Violeta ligeiramente mais escuro no hover */
 }
 
 /* Efeito ao clicar */
 .btn:active {
   transform: translateY(-1px);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
 }
 
 /* Pseudo-elemento para animação de expansão */
@@ -51,7 +52,7 @@
 
 /* Cor de fundo do pseudo-elemento */
 .btn::after {
-  background-color: #fff;
+  background-color: #6d5ccf;
 }
 
 /* Animação de desaparecimento ao pairar */
@@ -63,37 +64,32 @@
 @tailwind utilities;
 
 /* Estilos globais base */
-html, body {
+html,
+body {
   /* Aplica o tipo de letra Roboto em todo o site */
   font-family: 'Roboto', sans-serif;
   /* Define a cor padrão do texto em todo o site */
-  color: #ffffff;
+  color: #6d5ccf;
   /* Remove margens e preenchimentos padrão */
   margin: 0;
   padding: 0;
   /* Garante altura mínima sem bloquear a rolagem */
   min-height: 100vh;
 
-  /* Define uma cor base caso o gradiente não seja suportado */
-  background-color: hsla(256, 94%, 65%, 1);
-  /* Garante a mesma cor de base para motores que não interpretam gradientes */
-  background: hsla(256, 94%, 65%, 1);
-  /* Aplica o gradiente para navegadores baseados em Mozilla antigos */
-  background: -moz-linear-gradient(135deg, hsla(256, 94%, 65%, 1) 40%, hsla(273, 100%, 75%, 1) 100%);
-  /* Aplica o gradiente para navegadores WebKit mais antigos */
-  background: -webkit-linear-gradient(135deg, hsla(256, 94%, 65%, 1) 40%, hsla(273, 100%, 75%, 1) 100%);
-  /* Aplica o gradiente padrão diagonal solicitado para navegadores modernos */
-  background: linear-gradient(135deg, hsla(256, 94%, 65%, 1) 40%, hsla(273, 100%, 75%, 1) 100%);
-  /* Fornece compatibilidade com versões antigas do Internet Explorer */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#7D50FA", endColorstr="#C47DFF", GradientType=1);
+  /* Define uma cor base branca e um gradiente violeta suave de baixo para cima */
+  background-color: #ffffff;
+  background: #ffffff;
+  background: -moz-linear-gradient(0deg, rgba(228, 219, 255, 0.75) 0%, #ffffff 65%);
+  background: -webkit-linear-gradient(0deg, rgba(228, 219, 255, 0.75) 0%, #ffffff 65%);
+  background: linear-gradient(0deg, rgba(228, 219, 255, 0.75) 0%, #ffffff 65%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="#e4dbff", GradientType=0);
+
   /* Impede rolagem horizontal mantendo a vertical */
   overflow-x: hidden;
   overflow-y: auto;
 }
 
-
 /* Classe que aplica a fonte "Saira Stencil One" ao logótipo e títulos */
-
 .logo-font {
   font-family: 'Saira Stencil One', cursive;
 }
@@ -109,10 +105,10 @@ p {
   /* Move o formulário ligeiramente para cima */
   margin-top: -40px;
 
-  /* Fundo branco translúcido do formulário com transparência aumentada */
-  background-color: rgba(255, 255, 255, 0.2);
+  /* Fundo branco translúcido do formulário para contraste */
+  background-color: rgba(255, 255, 255, 0.75);
 
-  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.08);
   width: 100%;
   max-width: 400px;
   display: flex;
@@ -121,8 +117,8 @@ p {
   gap: 10px;
   padding: 25px;
   border-radius: 8px;
-  /* Garante texto branco dentro do formulário */
-  color: #ffffff;
+  /* Garante texto violeta dentro do formulário */
+  color: #5a4bb3;
 }
 
 /* Título do formulário */
@@ -147,17 +143,17 @@ p {
   border-radius: 8px;
   height: 45px;
 
-  border: 1.5px solid #ffffff;
-  background: transparent;
+  border: 1.5px solid #6d5ccf;
+  background: rgba(255, 255, 255, 0.85);
   padding-left: 10px;
-  /* Texto branco dentro dos campos */
-  color: #ffffff;
+  /* Texto violeta dentro dos campos */
+  color: #5a4bb3;
 }
 
 /* Realce do campo quando focado */
 .input:focus {
-  /* Mantém a borda branca ao focar */
-  border: 1.5px solid #ffffff;
+  /* Mantém a borda violeta ao focar */
+  border: 1.5px solid #5a4bb3;
 }
 
 /* Etiqueta posicionada sobre o campo */
@@ -165,8 +161,8 @@ p {
   position: absolute;
   top: 25px;
   left: 15px;
-  /* Texto branco para a etiqueta */
-  color: #ffffff;
+  /* Texto violeta para a etiqueta */
+  color: #5a4bb3;
   transition: all 0.3s ease;
   pointer-events: none;
   z-index: 2;
@@ -179,12 +175,11 @@ p {
   left: 5px;
   font-size: 12px;
 
-  /* Mantém o texto branco ao mover a etiqueta */
-  color: #ffffff;
+  /* Mantém o texto violeta ao mover a etiqueta */
+  color: #5a4bb3;
   /* Fundo translúcido para a etiqueta destacada com transparência aumentada */
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.9);
 
   padding-left: 5px;
   padding-right: 5px;
 }
-

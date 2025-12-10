@@ -72,7 +72,7 @@ export default function ForgotPasswordPage() {
           {submitting ? 'A enviar...' : 'Enviar instruções'}
         </button>
 
-        <div className="mt-4 text-center text-sm text-white">
+        <div className="mt-4 text-center text-sm text-purple-700">
           <Link href="/entrar" className="hover:underline">
             Voltar ao login
           </Link>

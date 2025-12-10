@@ -75,7 +75,7 @@ export default function ResetPasswordPage({ params }: { params: { token: string 
           {submitting ? 'A atualizar...' : 'Guardar nova password'}
         </button>
 
-        <div className="mt-4 text-center text-sm text-white">
+        <div className="mt-4 text-center text-sm text-purple-700">
           <Link href="/entrar" className="hover:underline">
             Voltar ao login
           </Link>

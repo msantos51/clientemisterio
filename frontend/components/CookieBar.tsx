@@ -24,7 +24,7 @@ export function CookieBar() {
   if (accepted) return null
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 border-t border-white bg-black p-4 text-center text-white">
+    <div className="fixed bottom-0 left-0 right-0 border-t border-purple-200 bg-white/95 p-4 text-center text-purple-700 shadow">
       {/* Mensagem informativa sobre cookies */}
       <p className="mb-2">Usamos cookies para melhorar a experiência.</p>
       <button
