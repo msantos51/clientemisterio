@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
@@ -21,10 +20,15 @@ export default function HomePage() {
   }, [])
 
   return (
-    // Container principal com espaçamento uniforme
-    <main className="flex min-h-screen flex-col items-center">
-      {/* Secção de destaque sem elementos visuais de fundo, com conteúdo centralizado */}
-      <section className="mx-auto mt-6 w-full max-w-5xl rounded-3xl bg-white/90 px-6 py-12 text-purple-700 text-center shadow-2xl backdrop-blur-md md:mt-10 md:px-12">
+
+    // Container principal que aplica o fundo em toda a página
+    <main
+      className="flex min-h-screen w-full flex-col items-center bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url('/images/banner_3.jpg')" }}
+    >
+      {/* Secção de destaque com cartão claro para legibilidade sobre o fundo */}
+      <section className="mx-auto mt-6 w-full max-w-5xl rounded-3xl bg-white/90 px-6 py-12 text-center text-purple-700 shadow-2xl backdrop-blur-md md:mt-10 md:px-12">
+
         {/* Título principal atualizado da plataforma, centrado horizontalmente */}
         <h1 className="logo-font text-4xl font-bold leading-tight md:text-6xl">
           A plataforma inteligente para recolha e gestão de estudos
@@ -46,19 +50,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Faixa inferior com banner único, ocupando toda a largura e centrado visualmente */}
-      <section className="mt-10 w-full md:mt-12">
-        <div className="relative h-64 w-full overflow-hidden shadow-2xl md:h-80">
-          <Image
-            src="/images/banner_3.jpg"
-            alt="Banner de destaque da plataforma"
-            fill
-            sizes="100vw"
-            className="object-cover"
-            priority
-          />
-        </div>
-      </section>
     </main>
   )
 }
