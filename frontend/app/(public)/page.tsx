@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
@@ -21,17 +20,17 @@ export default function HomePage() {
   }, [])
 
   return (
-    // Container principal com espaçamento uniforme
-    <main className="flex min-h-screen flex-col items-center">
-
-      {/* Secção de destaque sem elementos visuais de fundo, com conteúdo centralizado */}
-      <section className="mx-auto mt-6 w-full max-w-5xl rounded-3xl bg-white/90 px-6 py-12 text-purple-700 text-center shadow-2xl backdrop-blur-md md:mt-10 md:px-12">
+    // Container principal que aplica o fundo em toda a página
+    <main
+      className="flex min-h-screen w-full flex-col items-center bg-cover bg-center bg-no-repeat"
+      style={{ backgroundImage: "url('/images/banner_3.jpg')" }}
+    >
+      {/* Secção de destaque com cartão claro para legibilidade sobre o fundo */}
+      <section className="mx-auto mt-6 w-full max-w-5xl rounded-3xl bg-white/90 px-6 py-12 text-center text-purple-700 shadow-2xl backdrop-blur-md md:mt-10 md:px-12">
         {/* Título principal atualizado da plataforma, centrado horizontalmente */}
-
         <h1 className="logo-font text-4xl font-bold leading-tight md:text-6xl">
           A plataforma inteligente para recolha e gestão de estudos
         </h1>
-
 
         {/* Subtítulo descritivo da plataforma, centrado e com largura máxima controlada */}
         <p className="mt-6 mx-auto max-w-3xl text-lg leading-relaxed">
@@ -45,38 +44,7 @@ export default function HomePage() {
           </Link>
           <Link href="/enterprise" className="btn">
             Sou Empresa
-
           </Link>
-        </div>
-      </section>
-
-      {/* Faixa inferior com as ilustrações alinhadas, reforçando visualmente a proposta */}
-      <section className="mt-10 w-full bg-gradient-to-t from-purple-50 via-white to-transparent px-4 py-12 md:mt-12">
-        <div className="mx-auto flex w-full max-w-6xl flex-wrap justify-center gap-8">
-          <Image
-            src="/images/undraw_presentation_4ik4.svg"
-            alt="Ilustração de apresentação"
-            width={360}
-            height={240}
-            className="max-w-full drop-shadow-2xl"
-            priority
-          />
-          <Image
-            src="/images/undraw_referral_ihsd.svg"
-            alt="Ilustração de referência"
-            width={360}
-            height={240}
-            className="max-w-full drop-shadow-2xl"
-            priority
-          />
-          <Image
-            src="/images/undraw_visual-data_1eya.svg"
-            alt="Ilustração de dados visuais"
-            width={360}
-            height={240}
-            className="max-w-full drop-shadow-2xl"
-            priority
-          />
         </div>
       </section>
     </main>
