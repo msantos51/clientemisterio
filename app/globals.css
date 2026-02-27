@@ -31,6 +31,26 @@ body {
   font-family: var(--font-sans);
 }
 
+
+/* Aplica a fotografia como fundo no lado direito da homepage para reforçar o hero. */
+.hero-background {
+  background-image:
+    linear-gradient(to right, rgba(244, 244, 244, 1) 45%, rgba(244, 244, 244, 0.72) 68%, rgba(244, 244, 244, 0.32) 100%),
+    url("/images/hero-illustration.png");
+  background-position: left top, right bottom;
+  background-size: cover, min(46vw, 620px) auto;
+}
+
+@media (max-width: 1023px) {
+  .hero-background {
+    background-image:
+      linear-gradient(to bottom, rgba(244, 244, 244, 0.96) 56%, rgba(244, 244, 244, 0.82) 100%),
+      url("/images/hero-illustration.png");
+    background-position: left top, center bottom;
+    background-size: cover, min(80vw, 460px) auto;
+  }
+}
+
 /* Gira texto para orientação vertical usada na barra lateral do hero. */
 .vertical-text {
   writing-mode: vertical-rl;
