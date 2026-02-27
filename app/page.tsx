@@ -3,23 +3,23 @@ import Link from "next/link";
 export default function HomePage() {
   return (
     <section className="relative grid min-h-[calc(100vh-120px)] gap-8 overflow-hidden px-4 lg:grid-cols-[88px_1fr]">
-      {/* Cria uma camada visual fixa do lado direito para garantir que a imagem aparece sempre no hero. */}
+      {/* Cria uma camada visual fixa do lado direito para garantir que a nova foto aparece sempre no hero. */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-y-0 right-0 hidden w-[min(46vw,620px)] bg-contain bg-right-bottom bg-no-repeat lg:block"
         style={{
           backgroundImage:
-            "linear-gradient(to left, rgba(244, 244, 244, 0.15) 0%, rgba(244, 244, 244, 0.45) 24%, rgba(244, 244, 244, 0.88) 100%), url('/images/hero-illustration.svg')",
+            "linear-gradient(to left, rgba(244, 244, 244, 0.15) 0%, rgba(244, 244, 244, 0.45) 24%, rgba(244, 244, 244, 0.88) 100%), url('/images/IMG_2622.png')",
         }}
       />
 
-      {/* Adiciona uma versão mobile da imagem de fundo para manter destaque visual em ecrãs pequenos. */}
+      {/* Adiciona uma versão mobile da foto de fundo para manter destaque visual em ecrãs pequenos. */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 bottom-0 h-[46vh] bg-contain bg-center bg-no-repeat lg:hidden"
         style={{
           backgroundImage:
-            "linear-gradient(to top, rgba(244, 244, 244, 0.72) 18%, rgba(244, 244, 244, 0.92) 100%), url('/images/hero-illustration.svg')",
+            "linear-gradient(to top, rgba(244, 244, 244, 0.72) 18%, rgba(244, 244, 244, 0.92) 100%), url('/images/IMG_2622.png')",
         }}
       />
 
