@@ -13,16 +13,18 @@ export default function TopNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="hidden items-center gap-8 md:flex">
+    <nav className="hidden items-center gap-8 lg:flex">
       {navigationItems.map((item) => {
         const isActive = pathname === item.href;
 
         return (
-          // Mantém links sem peso visual excessivo para replicar a navegação discreta da referência.
+          // Mantém links em caixa alta para reproduzir a estética de revista da referência.
           <a
             key={item.href}
-            className={`text-sm font-medium transition ${
-              isActive ? "text-[#16152b]" : "text-slate-500 hover:text-[#16152b]"
+            className={`text-[11px] font-semibold uppercase tracking-[0.18em] transition ${
+              isActive
+                ? "text-[color:var(--accent)]"
+                : "text-[color:var(--foreground)] hover:text-[color:var(--accent)]"
             }`}
             href={item.href}
           >
