@@ -2,52 +2,57 @@ import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <section>
-      {/* Contém a secção principal centrada com largura confortável para o texto. */}
-      <div className="mx-auto w-full max-w-5xl">
-        {/* Cartão principal com proposta de valor e navegação rápida. */}
-        <article className="rounded-[32px] bg-[color:var(--surface)] p-8 shadow-[0_20px_50px_rgba(31,41,55,0.08)]">
-          <div className="flex flex-col gap-6">
-            {/* Título principal da página com destaque de marca. */}
-            <div>
-              <h1 className="page-title text-justify">A tua conta, dados e contacto num só lugar.</h1>
-            </div>
+    <section className="pt-6 md:pt-10">
+      {/* Estrutura principal da hero com tipografia e espaçamento inspirados no layout enviado. */}
+      <div className="grid items-center gap-14 md:grid-cols-[1fr_0.9fr]">
+        <article className="max-w-xl">
+          {/* Rótulo pequeno para introduzir o bloco principal da página. */}
+          <p className="section-label-uppercase text-[color:var(--primary)]">Nova plataforma</p>
 
-            {/* Botões de ação para orientar utilizadores novos e recorrentes. */}
-            <div className="flex flex-wrap items-center gap-4">
-              <Link
-                className="button-size-login bg-[color:var(--primary)] text-white shadow-sm transition hover:brightness-95"
-                href="/about"
-              >
-                Saber mais
-              </Link>
-              <Link
-                className="button-size-login border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:border-slate-300"
-                href="/dashboard"
-              >
-                Ir para dashboard
-              </Link>
-            </div>
+          {/* Mantém o conteúdo principal do site, ajustando apenas o estilo visual e hierarquia. */}
+          <h1 className="mt-4 text-5xl font-extrabold leading-[1.05] tracking-tight text-[#16152b] sm:text-6xl">
+            A tua conta, dados e contacto num só lugar.
+          </h1>
+
+          <p className="mt-6 max-w-md text-lg text-slate-500">
+            Gere informação pessoal, segurança e comunicação com a equipa através de uma experiência simples e
+            consistente.
+          </p>
+
+          {/* Ações principais com botão primário e secundário conforme organização da referência. */}
+          <div className="mt-9 flex flex-wrap items-center gap-4">
+            <Link
+              className="inline-flex items-center justify-center rounded-full bg-[color:var(--primary)] px-8 py-3 text-sm font-semibold uppercase tracking-wide text-white transition hover:brightness-95"
+              href="/about"
+            >
+              Saber mais
+            </Link>
+            <Link
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border-2 border-[color:var(--primary)] text-[color:var(--primary)] transition hover:bg-[color:var(--primary-soft)]"
+              href="/dashboard"
+            >
+              ▶
+            </Link>
           </div>
         </article>
 
-        {/* Secção informativa com os principais blocos disponíveis na plataforma. */}
-        <section className="mt-10 grid gap-6 md:grid-cols-3">
-          <article className="rounded-[24px] border border-slate-100 bg-white p-6 shadow-[0_12px_30px_rgba(15,23,42,0.08)]">
+        {/* Bloco lateral para preservar o conteúdo atual da home em formato de cartões resumidos. */}
+        <section className="grid gap-4 sm:grid-cols-2 md:grid-cols-1">
+          <article className="rounded-3xl border border-slate-100 bg-white p-6 shadow-[0_10px_24px_rgba(15,23,42,0.06)]">
             <h2 className="subsection-title">Conta pessoal</h2>
             <p className="mt-2 text-sm text-slate-600">
               Atualize os seus dados de perfil, preferências e informação essencial de acesso.
             </p>
           </article>
 
-          <article className="rounded-[24px] border border-slate-100 bg-white p-6 shadow-[0_12px_30px_rgba(15,23,42,0.08)]">
+          <article className="rounded-3xl border border-slate-100 bg-white p-6 shadow-[0_10px_24px_rgba(15,23,42,0.06)]">
             <h2 className="subsection-title">Segurança</h2>
             <p className="mt-2 text-sm text-slate-600">
               Altere a palavra-passe e mantenha a sua conta protegida com boas práticas de autenticação.
             </p>
           </article>
 
-          <article className="rounded-[24px] border border-slate-100 bg-white p-6 shadow-[0_12px_30px_rgba(15,23,42,0.08)]">
+          <article className="rounded-3xl border border-slate-100 bg-white p-6 shadow-[0_10px_24px_rgba(15,23,42,0.06)] sm:col-span-2 md:col-span-1">
             <h2 className="subsection-title">Contacto</h2>
             <p className="mt-2 text-sm text-slate-600">
               Fale com a equipa através do formulário de contacto para suporte e informações.
