@@ -13,7 +13,7 @@ type ResendConfig = {
   timeoutMs: number;
 };
 
-const defaultSender = "PubliQuestão <onboarding@resend.dev>";
+const defaultSender = "Cliente Mistério <onboarding@resend.dev>";
 const defaultApiUrl = "https://api.resend.com/emails";
 
 const getResendConfig = (): ResendConfig => {
