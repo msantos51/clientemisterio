@@ -1,25 +1,16 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function HomePage() {
   return (
     <section className="relative grid min-h-[calc(100vh-110px)] gap-8 overflow-hidden px-1 pb-8 pt-1 sm:px-3 lg:min-h-[calc(100vh-120px)] lg:grid-cols-[88px_1fr]">
-      {/* Cria uma camada visual fixa do lado direito para garantir que a nova foto aparece sempre no hero. */}
+      {/* Cria uma camada visual fixa do lado direito para garantir que a foto aparece no hero em desktop. */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-y-0 right-0 hidden w-[min(46vw,620px)] bg-contain bg-right-bottom bg-no-repeat lg:block"
         style={{
           backgroundImage:
             "linear-gradient(to left, rgba(244, 244, 244, 0.15) 0%, rgba(244, 244, 244, 0.45) 24%, rgba(244, 244, 244, 0.88) 100%), url('/images/IMG_2622.png')",
-        }}
-      />
-
-      {/* Adiciona uma versão mobile da foto de fundo para manter destaque visual em ecrãs pequenos. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[42vh] bg-contain bg-center bg-no-repeat sm:h-[46vh] lg:hidden"
-        style={{
-          backgroundImage:
-            "linear-gradient(to top, rgba(244, 244, 244, 0.72) 18%, rgba(244, 244, 244, 0.92) 100%), url('/images/IMG_2622.png')",
         }}
       />
 
@@ -37,8 +28,8 @@ export default function HomePage() {
       </aside>
 
       {/* Mantém o conteúdo textual em primeiro plano para legibilidade sobre a imagem de fundo. */}
-      <div className="relative z-10 grid items-center gap-10 pb-8">
-        <article className="max-w-md bg-white/86 p-4 backdrop-blur-[1px] sm:p-5 lg:ml-6 lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
+      <div className="relative z-10 grid items-start gap-8 pb-8 lg:items-center lg:gap-10">
+        <article className="max-w-md bg-white p-4 shadow-[0_0_0_1px_rgba(0,0,0,0.03)] sm:p-5 lg:ml-6 lg:bg-transparent lg:p-0 lg:shadow-none">
           <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[color:var(--accent)] sm:text-[11px] sm:tracking-[0.28em]">
             Novo Curso
           </p>
@@ -60,6 +51,18 @@ export default function HomePage() {
             </Link>
           </div>
         </article>
+
+        {/* Mostra a foto em bloco dedicado no mobile para evitar transparência e sobreposição com o texto. */}
+        <div className="relative mx-auto h-[320px] w-full max-w-[360px] lg:hidden">
+          <Image
+            alt="Cliente mistério em destaque"
+            className="object-contain object-bottom"
+            fill
+            priority
+            sizes="(max-width: 640px) 90vw, 360px"
+            src="/images/IMG_2622.png"
+          />
+        </div>
       </div>
     </section>
   );
