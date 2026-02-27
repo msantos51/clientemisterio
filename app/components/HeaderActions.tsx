@@ -20,23 +20,8 @@ export default function HeaderActions() {
     return "/dashboard";
   }, []);
 
-  const profileInitials = useMemo(() => {
-    if (!sessionUser?.fullName) {
-      return "VP";
-    }
-
-    const initials = sessionUser.fullName
-      .split(" ")
-      .filter(Boolean)
-      .slice(0, 2)
-      .map((word) => word[0]?.toUpperCase() ?? "")
-      .join("");
-
-    return initials || "VP";
-  }, [sessionUser]);
-
   useEffect(() => {
-    // Lê os dados gravados no navegador para determinar se há sessão ativa.
+    // Lê o estado da sessão no browser para decidir qual ação apresentar no cabeçalho.
     const storedSession = localStorage.getItem(sessionStorageKey);
     const storedUser = localStorage.getItem(userStorageKey);
 
@@ -54,36 +39,33 @@ export default function HeaderActions() {
       }
 
       setSessionUser(parsedUser);
-    } catch (error) {
+    } catch {
       setSessionUser(null);
     }
   }, []);
 
-  return (
-    <div className="flex w-full items-center justify-start gap-4 md:w-auto md:justify-end">
-      {!sessionUser && (
+  if (!sessionUser) {
+    return (
+      <div className="flex items-center justify-end">
+        {/* Aplica o botão primário arredondado para replicar o destaque visual da imagem de referência. */}
         <Link
-          className="button-size-login border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:border-slate-300"
+          className="inline-flex items-center justify-center rounded-full bg-[color:var(--primary)] px-8 py-2 text-sm font-semibold text-white transition hover:brightness-95"
           href="/login"
         >
-          Login
+          Sign up
         </Link>
-      )}
-      {sessionUser && (
-        <Link
-          className="flex max-w-full items-center gap-3 rounded-full bg-[color:var(--surface)] px-4 py-2 shadow-sm"
-          href={profileHref}
-        >
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-dashed border-[color:var(--primary)] text-[10px] font-semibold text-[color:var(--primary)]">
-            {profileInitials}
-          </div>
-          {/* Limita o bloco textual no mobile para impedir que nomes longos quebrem o cabeçalho. */}
-          <div className="min-w-0 text-sm">
-            <p className="truncate font-medium text-slate-900">{sessionUser.fullName}</p>
-            {sessionUser.isAdmin && <p className="text-xs text-[color:var(--primary)]">Admin</p>}
-          </div>
-        </Link>
-      )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-center justify-end">
+      <Link
+        className="inline-flex items-center justify-center rounded-full border border-[color:var(--primary)] px-6 py-2 text-sm font-semibold text-[color:var(--primary)] transition hover:bg-[color:var(--primary-soft)]"
+        href={profileHref}
+      >
+        Dashboard
+      </Link>
     </div>
   );
 }
