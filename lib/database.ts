@@ -6,8 +6,11 @@ if (!databaseUrl) {
   throw new Error("DATABASE_URL não está definida nas variáveis de ambiente.");
 }
 
-// Decide se deve usar SSL com base no parâmetro sslmode do URL.
-const shouldUseSsl = databaseUrl.includes("sslmode=require");
+// Lê o parâmetro sslmode para respeitar configurações explícitas na connection string.
+const sslMode = new URL(databaseUrl).searchParams.get("sslmode")?.toLowerCase();
+
+// Ativa SSL por omissão em ambientes remotos e desativa apenas quando sslmode=disable.
+const shouldUseSsl = sslMode !== "disable";
 
 // Cria um pool de ligações para reutilizar conexões com a base de dados.
 const pool = new Pool({
