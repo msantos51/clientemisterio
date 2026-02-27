@@ -16,13 +16,9 @@ export default function HeaderActions() {
   const [sessionUser, setSessionUser] = useState<SessionUser | null>(null);
 
   const profileHref = useMemo(() => {
-    // Encaminha administradores diretamente para a área de gestão.
-    if (sessionUser?.isAdmin) {
-      return "/admin/polls";
-    }
-
+    // Direciona utilizadores autenticados para o dashboard principal.
     return "/dashboard";
-  }, [sessionUser]);
+  }, []);
 
   const profileInitials = useMemo(() => {
     if (!sessionUser?.fullName) {

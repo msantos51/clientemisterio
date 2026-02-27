@@ -1,6 +1,6 @@
-# VozPublica
+# Cliente Mistério
 
-Plataforma web para participação cívica e votação pública, construída com Next.js (App Router) e PostgreSQL.
+Plataforma web para gestão de conta, autenticação e contacto, construída com Next.js (App Router) e PostgreSQL.
 
 ## Requisitos
 
@@ -40,8 +40,7 @@ npm run lint
 Para evitar o erro `No runtime configured` mostrado nos logs, confirme estes pontos:
 
 1. **Repositório correto**
-   - O serviço no Render tem de apontar para este repositório (`vozpublica`).
-   - Se os logs mostrarem `Cloning from .../ClienteMisterio`, o Render está ligado ao projeto errado.
+   - O serviço no Render tem de apontar para este repositório.
 
 2. **Build command**
 
@@ -67,39 +66,6 @@ npm run start
    - `RESEND_API_KEY`
    - `RESEND_FROM`
    - `APP_BASE_URL`
-
-## Acesso de administrador (polls)
-
-Para aceder ao painel `/admin/polls`, é necessário ter uma conta com permissão de admin.
-
-### 1) Configurar o e-mail admin
-
-Defina a variável de ambiente `ADMIN_EMAIL` com o e-mail que deve ser administrador:
-
-```bash
-ADMIN_EMAIL=admin@vozpublica.pt
-```
-
-### 2) Criar conta com esse e-mail
-
-No registo (`/account`), crie a conta com exatamente o mesmo e-mail definido em `ADMIN_EMAIL`.
-
-### 3) Iniciar sessão
-
-Faça login com essa conta em `/login`. O sistema devolve `isAdmin: true` para essa sessão.
-
-### 4) Abrir o painel admin
-
-Aceda a:
-
-```text
-/admin/polls
-```
-
-No painel é possível:
-- criar polls;
-- definir datas de abertura e fecho;
-- alterar estado (`draft`, `open`, `closed`).
 
 ## Configuração de envio de e-mail com Resend
 
