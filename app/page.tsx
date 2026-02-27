@@ -2,9 +2,29 @@ import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <section className="hero-background grid min-h-[calc(100vh-120px)] gap-8 bg-no-repeat px-4 lg:grid-cols-[88px_1fr] lg:bg-[length:min(46vw,620px)_auto] lg:bg-[position:right_bottom]">
+    <section className="relative grid min-h-[calc(100vh-120px)] gap-8 overflow-hidden px-4 lg:grid-cols-[88px_1fr]">
+      {/* Cria uma camada visual fixa do lado direito para garantir que a imagem aparece sempre no hero. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 right-0 hidden w-[min(46vw,620px)] bg-contain bg-right-bottom bg-no-repeat lg:block"
+        style={{
+          backgroundImage:
+            "linear-gradient(to left, rgba(244, 244, 244, 0.15) 0%, rgba(244, 244, 244, 0.45) 24%, rgba(244, 244, 244, 0.88) 100%), url('/images/hero-illustration.png')",
+        }}
+      />
+
+      {/* Adiciona uma versão mobile da imagem de fundo para manter destaque visual em ecrãs pequenos. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[46vh] bg-contain bg-center bg-no-repeat lg:hidden"
+        style={{
+          backgroundImage:
+            "linear-gradient(to top, rgba(244, 244, 244, 0.72) 18%, rgba(244, 244, 244, 0.92) 100%), url('/images/hero-illustration.png')",
+        }}
+      />
+
       {/* Constrói a coluna lateral com texto vertical e marcadores sociais para aproximar o layout original. */}
-      <aside className="hidden border-r border-[color:var(--line)] py-8 lg:flex lg:flex-col lg:items-center lg:justify-between">
+      <aside className="relative z-10 hidden border-r border-[color:var(--line)] py-8 lg:flex lg:flex-col lg:items-center lg:justify-between">
         <p className="vertical-text text-[10px] font-semibold uppercase tracking-[0.35em] text-[color:var(--foreground)]">
           Bad Co.
         </p>
@@ -16,9 +36,9 @@ export default function HomePage() {
         </div>
       </aside>
 
-      {/* Mantém o conteúdo textual em destaque e deixa a imagem como fundo no lado direito. */}
-      <div className="grid items-center gap-10 pb-8">
-        <article className="relative z-10 max-w-md bg-white/75 p-4 backdrop-blur-[1px] sm:p-5 lg:ml-6 lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
+      {/* Mantém o conteúdo textual em primeiro plano para legibilidade sobre a imagem de fundo. */}
+      <div className="relative z-10 grid items-center gap-10 pb-8">
+        <article className="max-w-md bg-white/80 p-4 backdrop-blur-[1px] sm:p-5 lg:ml-6 lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
           <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[color:var(--accent)]">
             Novo Curso
           </p>
