@@ -485,11 +485,6 @@ export default function DashboardPage() {
         <header className="rounded-[32px] bg-[color:var(--surface)] p-8 shadow-[0_20px_50px_rgba(31,41,55,0.08)]">
           <h1 className="page-title">Olá, {profile.firstName}</h1>
           <p className="mt-3 text-sm text-slate-600">Faça a gestão da sua conta e segurança.</p>
-          {profile.isAdmin && (
-            <a className="mt-3 inline-block text-sm font-semibold text-[color:var(--primary)]" href="/admin/polls">
-              Ir para painel de administração de polls
-            </a>
-          )}
         </header>
 
         <article className="rounded-[32px] bg-white p-8 shadow-[0_20px_50px_rgba(31,41,55,0.08)]">

@@ -50,33 +50,6 @@ const initializeDatabase = async (): Promise<void> => {
       `);
 
       await pool.query(`
-        create table if not exists polls (
-          id uuid primary key default gen_random_uuid(),
-          title text not null,
-          description text not null,
-          prompt text not null,
-          options jsonb not null,
-          status text not null default 'draft',
-          starts_at timestamptz,
-          ends_at timestamptz,
-          created_by uuid references users(id),
-          created_at timestamptz not null default now(),
-          updated_at timestamptz not null default now()
-        )
-      `);
-
-      await pool.query(`
-        create table if not exists poll_votes (
-          id uuid primary key default gen_random_uuid(),
-          poll_id uuid not null references polls(id) on delete cascade,
-          user_id uuid not null references users(id) on delete cascade,
-          option_text text not null,
-          created_at timestamptz not null default now(),
-          unique (poll_id, user_id)
-        )
-      `);
-
-      await pool.query(`
         create table if not exists contact_messages (
           id uuid primary key default gen_random_uuid(),
           name text not null,
@@ -110,40 +83,11 @@ const initializeDatabase = async (): Promise<void> => {
         "alter table users add column if not exists is_admin boolean not null default false"
       );
 
-      await pool.query("alter table polls add column if not exists title text");
-      await pool.query("alter table polls add column if not exists description text");
-      await pool.query("alter table polls add column if not exists prompt text");
-      await pool.query("alter table polls add column if not exists options jsonb");
-      await pool.query("alter table polls add column if not exists status text not null default 'draft'");
-      await pool.query("alter table polls add column if not exists starts_at timestamptz");
-      await pool.query("alter table polls add column if not exists ends_at timestamptz");
-      await pool.query("alter table polls add column if not exists created_by uuid");
-      await pool.query(
-        "alter table polls add column if not exists created_at timestamptz not null default now()"
-      );
-      await pool.query(
-        "alter table polls add column if not exists updated_at timestamptz not null default now()"
-      );
-
       // Garante unicidade por NIF hash mesmo em bases de dados antigas.
       await pool.query(
         "create unique index if not exists users_national_id_hash_unique on users (national_id_hash) where national_id_hash is not null"
       );
 
-      await pool.query(
-        "create index if not exists polls_status_starts_at_idx on polls(status, starts_at)"
-      );
-
-      await pool.query("alter table poll_votes add column if not exists poll_id uuid");
-      await pool.query("alter table poll_votes add column if not exists user_id uuid");
-      await pool.query("alter table poll_votes add column if not exists option_text text");
-      await pool.query(
-        "alter table poll_votes add column if not exists created_at timestamptz not null default now()"
-      );
-      await pool.query(
-        "create unique index if not exists poll_votes_poll_user_unique on poll_votes(poll_id, user_id)"
-      );
-      await pool.query("create index if not exists poll_votes_poll_id_idx on poll_votes(poll_id)");
       await pool.query(
         "create index if not exists contact_messages_created_at_idx on contact_messages(created_at desc)"
       );
