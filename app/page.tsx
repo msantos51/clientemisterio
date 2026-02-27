@@ -2,6 +2,9 @@ import Link from "next/link";
 
 import { query } from "@/lib/database";
 
+// Força renderização dinâmica para evitar acesso à base de dados durante o processo de build.
+export const dynamic = "force-dynamic";
+
 type ClosedPollRow = {
   id: string;
   title: string;
