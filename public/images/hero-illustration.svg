@@ -1,0 +1,42 @@
+<svg width="760" height="980" viewBox="0 0 760 980" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="heroTitle heroDesc">
+  <title id="heroTitle">Fashion portrait illustration</title>
+  <desc id="heroDesc">Stylized portrait of a woman for hero section background.</desc>
+  <defs>
+    <linearGradient id="bgGlow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F0EFEF"/>
+      <stop offset="1" stop-color="#E1DEDE"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F7D8BE"/>
+      <stop offset="1" stop-color="#DFAE8B"/>
+    </linearGradient>
+    <linearGradient id="shirt" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#E7E7E7"/>
+    </linearGradient>
+    <radialGradient id="shadow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(344 430) rotate(88) scale(440 280)">
+      <stop stop-color="#000000" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="760" height="980" fill="url(#bgGlow)"/>
+  <ellipse cx="365" cy="460" rx="250" ry="310" fill="url(#shadow)"/>
+
+  <path d="M520 184C486 115 421 74 355 78C276 82 205 151 190 252C176 345 210 438 278 486C338 529 418 529 477 483C543 431 573 332 549 251C542 228 532 204 520 184Z" fill="#232129"/>
+
+  <path d="M244 378C244 285 298 203 370 203C441 203 495 285 495 378V451C495 542 441 617 370 617C298 617 244 542 244 451V378Z" fill="url(#skin)"/>
+
+  <path d="M258 366C255 306 283 247 328 215C360 192 402 189 438 207C467 223 490 251 503 286C515 319 516 358 500 387C487 410 465 428 442 433C439 390 424 350 394 325C354 292 300 305 258 366Z" fill="#1C1A20"/>
+
+  <path d="M210 912C217 760 257 652 334 622H408C494 655 548 758 560 912H210Z" fill="url(#shirt)"/>
+  <path d="M334 622C332 672 352 703 384 703C415 703 434 672 432 622H334Z" fill="#E6B895"/>
+
+  <path d="M288 454C307 454 323 438 323 418C323 399 307 383 288 383C269 383 253 399 253 418C253 438 269 454 288 454Z" fill="white" fill-opacity="0.18"/>
+  <path d="M452 454C471 454 487 438 487 418C487 399 471 383 452 383C433 383 417 399 417 418C417 438 433 454 452 454Z" fill="white" fill-opacity="0.18"/>
+
+  <path d="M335 506C344 521 359 529 373 529C387 529 402 521 411 506" stroke="#B77959" stroke-width="9" stroke-linecap="round"/>
+  <path d="M323 567C344 585 401 585 422 567" stroke="#A45F42" stroke-width="8" stroke-linecap="round"/>
+
+  <path d="M287 913H484L463 980H309L287 913Z" fill="#F3F3F3"/>
+</svg>

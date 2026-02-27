@@ -9,7 +9,7 @@ export default function HomePage() {
         className="pointer-events-none absolute inset-y-0 right-0 hidden w-[min(46vw,620px)] bg-contain bg-right-bottom bg-no-repeat lg:block"
         style={{
           backgroundImage:
-            "linear-gradient(to left, rgba(244, 244, 244, 0.15) 0%, rgba(244, 244, 244, 0.45) 24%, rgba(244, 244, 244, 0.88) 100%), url('/images/hero-illustration.png')",
+            "linear-gradient(to left, rgba(244, 244, 244, 0.15) 0%, rgba(244, 244, 244, 0.45) 24%, rgba(244, 244, 244, 0.88) 100%), url('/images/hero-illustration.svg')",
         }}
       />
 
@@ -19,7 +19,7 @@ export default function HomePage() {
         className="pointer-events-none absolute inset-x-0 bottom-0 h-[46vh] bg-contain bg-center bg-no-repeat lg:hidden"
         style={{
           backgroundImage:
-            "linear-gradient(to top, rgba(244, 244, 244, 0.72) 18%, rgba(244, 244, 244, 0.92) 100%), url('/images/hero-illustration.png')",
+            "linear-gradient(to top, rgba(244, 244, 244, 0.72) 18%, rgba(244, 244, 244, 0.92) 100%), url('/images/hero-illustration.svg')",
         }}
       />
 
