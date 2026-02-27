@@ -7,31 +7,24 @@ export default function HomePage() {
       <div className="grid items-center gap-14 md:grid-cols-[1fr_0.9fr]">
         <article className="max-w-xl">
           {/* Rótulo pequeno para introduzir o bloco principal da página. */}
-          <p className="section-label-uppercase text-[color:var(--primary)]">Nova plataforma</p>
+          <p className="section-label-uppercase text-[color:var(--primary)]">Novo Curso</p>
 
           {/* Mantém o conteúdo principal do site, ajustando apenas o estilo visual e hierarquia. */}
           <h1 className="mt-4 text-5xl font-extrabold leading-[1.05] tracking-tight text-[#16152b] sm:text-6xl">
-            A tua conta, dados e contacto num só lugar.
+            O único curso de cliente mistério em Portugal
           </h1>
 
           <p className="mt-6 max-w-md text-lg text-slate-500">
-            Gere informação pessoal, segurança e comunicação com a equipa através de uma experiência simples e
-            consistente.
+            Sê dos primeiros Clientes Mistério certificados!
           </p>
 
-          {/* Ações principais com botão primário e secundário conforme organização da referência. */}
+          {/* Ação principal da hero com foco em conversão para iniciar o curso. */}
           <div className="mt-9 flex flex-wrap items-center gap-4">
             <Link
               className="inline-flex items-center justify-center rounded-full bg-[color:var(--primary)] px-8 py-3 text-sm font-semibold uppercase tracking-wide text-white transition hover:brightness-95"
               href="/about"
             >
-              Saber mais
-            </Link>
-            <Link
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border-2 border-[color:var(--primary)] text-[color:var(--primary)] transition hover:bg-[color:var(--primary-soft)]"
-              href="/dashboard"
-            >
-              ▶
+              Começa Já
             </Link>
           </div>
         </article>
