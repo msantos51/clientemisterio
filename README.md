@@ -107,7 +107,7 @@ Defina estas variáveis no ambiente de execução:
 
 ```bash
 RESEND_API_KEY=<resend-api-key>
-RESEND_FROM="PubliQuestão <onboarding@resend.dev>"
+RESEND_FROM="Cliente Mistério <onboarding@resend.dev>"
 
 # Opcional: endpoint custom (útil para testes/integração interna)
 RESEND_API_URL=https://api.resend.com/emails

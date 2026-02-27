@@ -1,4 +1,4 @@
-# Launch & Success Audit — PubliQuestão
+# Launch & Success Audit — Cliente Mistério
 
 ## Objetivo
 Checklist prático do que falta para o site estar pronto para lançamento e aumentar a probabilidade de sucesso de produto.

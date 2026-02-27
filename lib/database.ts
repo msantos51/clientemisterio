@@ -156,7 +156,7 @@ const initializeDatabase = async (): Promise<void> => {
           last_name = coalesce(
             nullif(last_name, ''),
             nullif(trim(regexp_replace(full_name, '^\\S+\\s*', '')), ''),
-            'PubliQuestão'
+            'Cliente Mistério'
           ),
           full_name = trim(
             coalesce(nullif(full_name, ''), '') ||
@@ -164,10 +164,10 @@ const initializeDatabase = async (): Promise<void> => {
               when coalesce(nullif(first_name, ''), '') <> '' and coalesce(nullif(last_name, ''), '') <> ''
                 then ''
               when coalesce(nullif(first_name, ''), '') <> ''
-                then ' ' || coalesce(nullif(last_name, ''), 'PubliQuestão')
+                then ' ' || coalesce(nullif(last_name, ''), 'Cliente Mistério')
               when coalesce(nullif(last_name, ''), '') <> ''
                 then coalesce(nullif(first_name, ''), 'Utilizador') || ' '
-              else 'Utilizador PubliQuestão'
+              else 'Utilizador Cliente Mistério'
             end
           )
       `);
