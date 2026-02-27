@@ -31,6 +31,7 @@ body {
   font-family: var(--font-sans);
 }
 
+
 /* Gira texto para orientação vertical usada na barra lateral do hero. */
 .vertical-text {
   writing-mode: vertical-rl;
