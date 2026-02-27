@@ -1,0 +1,199 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f5f6fb;
+  --foreground: #1f2937;
+  --surface: #ffffff;
+  --surface-muted: #f2f3f8;
+  --primary: #b67ee8;
+  --primary-soft: #f3eafc;
+  --accent: #b67ee8;
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-primary: var(--primary);
+  --color-primary-soft: var(--primary-soft);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-poppins);
+  --font-mono: var(--font-geist-mono);
+}
+
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+
+/* Adiciona transição suave para o efeito visual de todos os botões interativos. */
+button,
+[role="button"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+/* Remove sombra no hover por padrão para evitar efeito em botões com fundo roxo. */
+button:hover,
+[role="button"]:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover {
+  box-shadow: none;
+}
+
+/* Aplica sombra no hover apenas quando o botão usa fundo branco (inclui surface). */
+button.bg-white:hover,
+button.bg-\[color\:var\(--surface\)\]:hover,
+[role="button"].bg-white:hover,
+[role="button"].bg-\[color\:var\(--surface\)\]:hover,
+input[type="button"].bg-white:hover,
+input[type="button"].bg-\[color\:var\(--surface\)\]:hover,
+input[type="submit"].bg-white:hover,
+input[type="submit"].bg-\[color\:var\(--surface\)\]:hover,
+input[type="reset"].bg-white:hover,
+input[type="reset"].bg-\[color\:var\(--surface\)\]:hover {
+  box-shadow: 0 10px 24px #fea076;
+}
+
+@layer components {
+  /* Uniformiza a dimensão de todos os botões com base no botão de login da home. */
+  .button-size-login {
+    @apply inline-flex items-center justify-center rounded-full px-5 py-2 text-sm font-semibold whitespace-nowrap;
+  }
+
+  /* Aplica tipografia consistente para texto de botões fora do estilo principal arredondado. */
+  .button-text-standard {
+    @apply text-sm font-semibold;
+  }
+
+  /* Define estilos consistentes para títulos e subtítulos em todo o site. */
+  .page-title {
+    @apply text-3xl font-semibold text-[color:var(--foreground)];
+  }
+
+  .section-title {
+    @apply text-2xl font-semibold text-[color:var(--foreground)];
+  }
+
+  /* Define o título para secções em fundos escuros mantendo a legibilidade. */
+  .section-title-inverse {
+    @apply text-2xl font-semibold text-white;
+  }
+
+  .card-title {
+    @apply text-lg font-semibold text-[color:var(--foreground)];
+  }
+
+  .subsection-title {
+    @apply text-base font-semibold text-[color:var(--foreground)];
+  }
+
+  /* Define o texto auxiliar com a cor primária para destacar secções. */
+  .section-label {
+    @apply text-sm font-semibold text-[color:var(--primary)];
+  }
+
+  /* Define o texto auxiliar em maiúsculas para chamadas de destaque. */
+  .section-label-uppercase {
+    @apply text-sm font-semibold uppercase tracking-[0.3em] text-[color:var(--primary)];
+  }
+}
+
+
+/* Mantém o fundo das secções em destaque sem gradiente. */
+.soft-section-gradient {
+  background: var(--surface);
+}
+
+/* Define o cartão principal com sombra e alinhamento central. */
+.card {
+  position: relative;
+
+  width: min(100%, 240px);
+  height: 280px;
+
+  border-radius: 14px;
+  z-index: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto;
+
+  box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+}
+
+/* Cria a camada translúcida com blur para o conteúdo do cartão. */
+.bg {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(24px);
+  border-radius: 10px;
+  overflow: hidden;
+  outline: 2px solid #ffffff;
+}
+
+/* Define a bolha com gradiente roxo e animação contínua. */
+.blob {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+
+  width: 170px;
+  height: 170px;
+
+  border-radius: 50%;
+  background: radial-gradient(circle, #b67ee8 0%, #b67ee8 70%);
+  opacity: 1;
+  filter: blur(12px);
+  animation: blob-bounce 5s infinite ease;
+}
+
+/* Garante que o conteúdo fica justificado e legível no topo das camadas. */
+.card-content {
+  position: relative;
+  z-index: 3;
+  padding: 0 20px;
+  text-align: justify;
+}
+
+/* Controla o movimento da bolha para criar o efeito orbitado. */
+@keyframes blob-bounce {
+  0% {
+    transform: translate(-100%, -100%) translate3d(0, 0, 0);
+  }
+
+  25% {
+    transform: translate(-100%, -100%) translate3d(100%, 0, 0);
+  }
+
+  50% {
+    transform: translate(-100%, -100%) translate3d(100%, 100%, 0);
+  }
+
+  75% {
+    transform: translate(-100%, -100%) translate3d(0, 100%, 0);
+  }
+
+  100% {
+    transform: translate(-100%, -100%) translate3d(0, 0, 0);
+  }
+}
