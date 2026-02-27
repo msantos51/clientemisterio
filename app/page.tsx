@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <section className="relative grid min-h-[calc(100vh-120px)] gap-8 overflow-hidden px-4 lg:grid-cols-[88px_1fr]">
+    <section className="relative grid min-h-[calc(100vh-110px)] gap-8 overflow-hidden px-1 pb-8 pt-1 sm:px-3 lg:min-h-[calc(100vh-120px)] lg:grid-cols-[88px_1fr]">
       {/* Cria uma camada visual fixa do lado direito para garantir que a nova foto aparece sempre no hero. */}
       <div
         aria-hidden
@@ -16,7 +16,7 @@ export default function HomePage() {
       {/* Adiciona uma versão mobile da foto de fundo para manter destaque visual em ecrãs pequenos. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[46vh] bg-contain bg-center bg-no-repeat lg:hidden"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[42vh] bg-contain bg-center bg-no-repeat sm:h-[46vh] lg:hidden"
         style={{
           backgroundImage:
             "linear-gradient(to top, rgba(244, 244, 244, 0.72) 18%, rgba(244, 244, 244, 0.92) 100%), url('/images/IMG_2622.png')",
@@ -38,22 +38,22 @@ export default function HomePage() {
 
       {/* Mantém o conteúdo textual em primeiro plano para legibilidade sobre a imagem de fundo. */}
       <div className="relative z-10 grid items-center gap-10 pb-8">
-        <article className="max-w-md bg-white/80 p-4 backdrop-blur-[1px] sm:p-5 lg:ml-6 lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[color:var(--accent)]">
+        <article className="max-w-md bg-white/86 p-4 backdrop-blur-[1px] sm:p-5 lg:ml-6 lg:bg-transparent lg:p-0 lg:backdrop-blur-none">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[color:var(--accent)] sm:text-[11px] sm:tracking-[0.28em]">
             Novo Curso
           </p>
 
-          <h1 className="mt-5 text-5xl font-black uppercase leading-[0.95] tracking-tight text-[color:var(--foreground)] sm:text-6xl">
+          <h1 className="mt-4 text-4xl font-black uppercase leading-[0.95] tracking-tight text-[color:var(--foreground)] sm:mt-5 sm:text-5xl lg:text-6xl">
             O único curso de <span className="text-[color:var(--accent)]">cliente mistério</span> em Portugal
           </h1>
 
-          <p className="mt-6 text-base font-medium text-[#4a4a4a]">
+          <p className="mt-5 text-sm font-medium text-[#4a4a4a] sm:mt-6 sm:text-base">
             Sê dos primeiros Clientes Mistério certificados!
           </p>
 
-          <div className="mt-8">
+          <div className="mt-7 sm:mt-8">
             <Link
-              className="inline-flex items-center justify-center border border-[color:var(--foreground)] bg-white px-8 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-[color:var(--foreground)] transition hover:bg-[color:var(--foreground)] hover:text-white"
+              className="inline-flex items-center justify-center border border-[color:var(--foreground)] bg-white px-6 py-3 text-[10px] font-bold uppercase tracking-[0.16em] text-[color:var(--foreground)] transition hover:bg-[color:var(--foreground)] hover:text-white sm:px-8 sm:text-[11px] sm:tracking-[0.18em]"
               href="/about"
             >
               Começa Já

@@ -41,9 +41,9 @@ export default function RootLayout({
         {/* Desenha o container principal com contorno fino para replicar a moldura da referência. */}
         <div className="mx-auto min-h-screen w-full max-w-[1400px] border border-[color:var(--accent)] bg-[color:var(--background)]">
           {/* Cria a faixa superior com navegação central e ações discretas à direita. */}
-          <header className="flex items-center justify-between px-6 py-6 md:px-10">
+          <header className="relative flex items-center justify-between gap-3 px-4 py-5 sm:px-6 md:px-10 md:py-6">
             <a
-              className="text-xs font-black uppercase tracking-[0.35em] text-[color:var(--foreground)]"
+              className="text-[10px] font-black uppercase tracking-[0.28em] text-[color:var(--foreground)] sm:text-xs sm:tracking-[0.35em]"
               href="/"
             >
               Cliente Mistério
@@ -53,7 +53,7 @@ export default function RootLayout({
           </header>
 
           {/* Renderiza o conteúdo da página respeitando a largura do layout editorial. */}
-          <main className="px-6 pb-10 md:px-10">{children}</main>
+          <main className="px-4 pb-10 sm:px-6 md:px-10">{children}</main>
         </div>
       </body>
     </html>

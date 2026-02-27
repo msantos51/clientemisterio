@@ -45,7 +45,7 @@ export default function HeaderActions() {
   }, []);
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-2 sm:gap-3">
       {/* Apresenta ícones minimalistas para simular a zona de utilitários do cabeçalho de moda. */}
       <span aria-hidden className="hidden text-lg text-[color:var(--foreground)] md:inline">
         ⌕
@@ -56,14 +56,14 @@ export default function HeaderActions() {
 
       {!sessionUser ? (
         <Link
-          className="inline-flex items-center justify-center border border-[color:var(--foreground)] px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.15em] text-[color:var(--foreground)] transition hover:bg-[color:var(--foreground)] hover:text-white"
+          className="inline-flex items-center justify-center border border-[color:var(--foreground)] px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-[color:var(--foreground)] transition hover:bg-[color:var(--foreground)] hover:text-white sm:px-4 sm:text-[11px] sm:tracking-[0.15em]"
           href="/login"
         >
           Sign up
         </Link>
       ) : (
         <Link
-          className="inline-flex items-center justify-center border border-[color:var(--foreground)] px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.15em] text-[color:var(--foreground)] transition hover:bg-[color:var(--foreground)] hover:text-white"
+          className="inline-flex items-center justify-center border border-[color:var(--foreground)] px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-[color:var(--foreground)] transition hover:bg-[color:var(--foreground)] hover:text-white sm:px-4 sm:text-[11px] sm:tracking-[0.15em]"
           href={profileHref}
         >
           Dashboard
