@@ -26,11 +26,19 @@ export default function TopNav() {
       <button
         aria-expanded={isMenuOpen}
         aria-label="Abrir menu principal"
-        className="site-pill-button text-[11px] uppercase tracking-[0.15em] lg:hidden"
+        className={`menu-toggle-button text-[11px] uppercase tracking-[0.15em] lg:hidden ${
+          isMenuOpen ? "is-open" : ""
+        }`}
         onClick={() => setIsMenuOpen((current) => !current)}
         type="button"
       >
-        Menu
+        <span>Menu</span>
+        <span aria-hidden="true" className="menu-toggle-arrow" />
+        <span aria-hidden="true" className="menu-toggle-bar">
+          <span className="menu-toggle-line top" />
+          <span className="menu-toggle-line middle" />
+          <span className="menu-toggle-line bottom" />
+        </span>
       </button>
 
       {/* Mantém navegação horizontal no desktop para preservar o layout editorial. */}
