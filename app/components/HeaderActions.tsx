@@ -56,14 +56,14 @@ export default function HeaderActions() {
 
       {!sessionUser ? (
         <Link
-          className="inline-flex items-center justify-center border border-[color:var(--foreground)] px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-[color:var(--foreground)] transition hover:bg-[color:var(--foreground)] hover:text-white sm:px-4 sm:text-[11px] sm:tracking-[0.15em]"
+          className="site-pill-button text-[10px] uppercase tracking-[0.14em] sm:text-[11px] sm:tracking-[0.15em]"
           href="/login"
         >
-          Sign up
+          Login
         </Link>
       ) : (
         <Link
-          className="inline-flex items-center justify-center border border-[color:var(--foreground)] px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-[color:var(--foreground)] transition hover:bg-[color:var(--foreground)] hover:text-white sm:px-4 sm:text-[11px] sm:tracking-[0.15em]"
+          className="site-pill-button text-[10px] uppercase tracking-[0.14em] sm:text-[11px] sm:tracking-[0.15em]"
           href={profileHref}
         >
           Dashboard
