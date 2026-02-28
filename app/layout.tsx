@@ -38,8 +38,8 @@ export default function RootLayout({
       <body
         className={`${montserrat.variable} ${geistSans.variable} ${geistMono.variable} bg-[color:var(--background)] text-[color:var(--foreground)] antialiased`}
       >
-        {/* Desenha o container principal com contorno fino para replicar a moldura da referência. */}
-        <div className="mx-auto min-h-screen w-full max-w-[1400px] border border-[color:var(--accent)] bg-[color:var(--background)]">
+        {/* Desenha o container principal sem moldura para remover a linha vermelha externa. */}
+        <div className="mx-auto min-h-screen w-full max-w-[1400px] bg-[color:var(--background)]">
           {/* Cria a faixa superior com navegação central e ações discretas à direita. */}
           <header className="relative flex items-center justify-between gap-3 px-4 py-5 sm:px-6 md:px-10 md:py-6">
             <a
