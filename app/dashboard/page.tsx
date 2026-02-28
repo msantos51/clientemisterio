@@ -650,26 +650,40 @@ export default function DashboardPage() {
         <aside className="rounded-[32px] bg-white p-6 shadow-[0_20px_50px_rgba(31,41,55,0.08)]">
           <h3 className="card-title">Preferências</h3>
           <div className="mt-4 space-y-3">
-            <label className="flex items-center justify-between text-sm text-slate-700">
-              Receber newsletter
-
-              <input
-                className="h-4 w-4 accent-[color:var(--primary)]"
-                type="checkbox"
-                checked={preferences.receiveNewsletter}
-                onChange={() => handlePreferenceChange("receiveNewsletter")}
-              />
-            </label>
-            <label className="flex items-center justify-between text-sm text-slate-700">
-              Notificações da comunidade
-              <input
-                className="h-4 w-4 accent-[color:var(--primary)]"
-                type="checkbox"
-                checked={preferences.allowNotifications}
-                onChange={() => handlePreferenceChange("allowNotifications")}
-              />
-
-            </label>
+            <div className="flex items-center justify-between text-sm text-slate-700">
+              <label htmlFor="receive-newsletter">Receber newsletter</label>
+              <span className="checkbox-wrapper-12">
+                <span className="cbx">
+                  <input
+                    id="receive-newsletter"
+                    type="checkbox"
+                    checked={preferences.receiveNewsletter}
+                    onChange={() => handlePreferenceChange("receiveNewsletter")}
+                  />
+                  <label htmlFor="receive-newsletter" aria-hidden="true" />
+                  <svg viewBox="0 0 15 14" fill="none" aria-hidden="true">
+                    <path d="M2 8.36364L6.23077 12L13 2" />
+                  </svg>
+                </span>
+              </span>
+            </div>
+            <div className="flex items-center justify-between text-sm text-slate-700">
+              <label htmlFor="allow-notifications">Notificações da comunidade</label>
+              <span className="checkbox-wrapper-12">
+                <span className="cbx">
+                  <input
+                    id="allow-notifications"
+                    type="checkbox"
+                    checked={preferences.allowNotifications}
+                    onChange={() => handlePreferenceChange("allowNotifications")}
+                  />
+                  <label htmlFor="allow-notifications" aria-hidden="true" />
+                  <svg viewBox="0 0 15 14" fill="none" aria-hidden="true">
+                    <path d="M2 8.36364L6.23077 12L13 2" />
+                  </svg>
+                </span>
+              </span>
+            </div>
           </div>
         </aside>
       </div>
