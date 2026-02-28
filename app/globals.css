@@ -86,24 +86,23 @@ body {
     box-shadow: none;
   }
 
-  /* Define botão quadrado com fundo branco para destacar apenas o símbolo vermelho. */
+  /* Mantém apenas a área clicável do botão, sem moldura visual. */
   .menu-toggle-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: var(--header-control-height);
     height: var(--header-control-height);
-    border: 1px solid #fecaca;
-    border-radius: 14px;
-    background-color: #ffffff;
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
     cursor: pointer;
     transition: all 0.3s ease;
   }
 
-  /* Aplica hover suave com sombra vermelha para reforçar interatividade. */
+  /* Mantém feedback no hover sem adicionar borda ou contorno extra. */
   .menu-toggle-button:hover {
-    box-shadow: 0 0 20px rgb(239 68 68 / 22%);
-    border-color: #f87171;
+    opacity: 0.85;
   }
 
   /* Organiza as barras do ícone hamburguer sem texto associado. */
