@@ -19,17 +19,12 @@ export default function HomePage() {
         />
       </div>
 
-      {/* Constrói a coluna lateral com texto vertical e marcadores sociais, sem a linha vertical preta. */}
+      {/* Constrói a coluna lateral apenas com texto vertical, sem marcadores sociais. */}
       <aside className="relative z-10 hidden py-8 lg:flex lg:flex-col lg:items-center lg:justify-between">
         <p className="vertical-text text-[10px] font-semibold uppercase tracking-[0.35em] text-[color:var(--foreground)]">
           Bad Co.
         </p>
 
-        <div className="flex flex-col items-center gap-5 text-xs text-[color:var(--foreground)]">
-          <span aria-hidden>f</span>
-          <span aria-hidden>t</span>
-          <span aria-hidden>◎</span>
-        </div>
       </aside>
 
       {/* Mantém o conteúdo textual em primeiro plano para legibilidade sobre a imagem de fundo. */}
