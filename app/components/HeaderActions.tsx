@@ -46,14 +46,6 @@ export default function HeaderActions() {
 
   return (
     <div className="flex items-center gap-2 sm:gap-3">
-      {/* Apresenta ícones minimalistas para simular a zona de utilitários do cabeçalho de moda. */}
-      <span aria-hidden className="hidden text-lg text-[color:var(--foreground)] md:inline">
-        ⌕
-      </span>
-      <span aria-hidden className="hidden text-lg text-[color:var(--foreground)] md:inline">
-        ♡
-      </span>
-
       {!sessionUser ? (
         <Link
           className="site-pill-button text-[10px] uppercase tracking-[0.14em] sm:text-[11px] sm:tracking-[0.15em]"
