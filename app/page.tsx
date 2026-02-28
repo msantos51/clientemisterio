@@ -44,7 +44,7 @@ export default function HomePage() {
 
           <div className="mt-7 sm:mt-8">
             <Link
-              className="inline-flex items-center justify-center border border-[color:var(--foreground)] bg-white px-6 py-3 text-[10px] font-bold uppercase tracking-[0.16em] text-[color:var(--foreground)] transition hover:bg-[color:var(--foreground)] hover:text-white sm:px-8 sm:text-[11px] sm:tracking-[0.18em]"
+              className="site-pill-button text-[10px] uppercase tracking-[0.16em] sm:text-[11px] sm:tracking-[0.18em]"
               href="/about"
             >
               Começa Já

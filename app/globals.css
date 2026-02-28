@@ -38,28 +38,51 @@ body {
   transform: rotate(180deg);
 }
 
-/* Adiciona transição consistente para elementos interativos de formulário. */
-button,
-[role="button"],
-input[type="button"],
-input[type="submit"],
-input[type="reset"] {
-  transition: box-shadow 0.2s ease-in-out;
-}
-
-/* Remove sombra padrão no hover para preservar visual limpo e plano. */
-button:hover,
-[role="button"]:hover,
-input[type="button"]:hover,
-input[type="submit"]:hover,
-input[type="reset"]:hover {
-  box-shadow: none;
-}
-
 @layer components {
-  /* Mantém utilitário reutilizável para tamanho de botões secundários. */
+  /* Define estilo base único para todos os botões com visual pill e destaque vermelho. */
+  .site-pill-button,
   .button-size-login {
-    @apply inline-flex items-center justify-center rounded-full px-5 py-2 text-sm font-semibold whitespace-nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 100px;
+    padding: 12.5px 30px;
+    background-color: #dc2626 !important;
+    color: #ffffff !important;
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+  }
+
+  /* Realça o botão no hover com aumento subtil e sombra difusa vermelha. */
+  .site-pill-button:hover,
+  .button-size-login:hover {
+    background-color: #ef4444 !important;
+    filter: none !important;
+    box-shadow: 0 0 20px rgb(239 68 68 / 32%);
+    transform: scale(1.1);
+  }
+
+  /* Aplica estado de clique com redução de escala para feedback tátil. */
+  .site-pill-button:active,
+  .button-size-login:active {
+    background-color: #b91c1c !important;
+    filter: none !important;
+    transition: all 0.25s;
+    -webkit-transition: all 0.25s;
+    box-shadow: none;
+    transform: scale(0.98);
+  }
+
+  /* Evita animações quando o botão está desativado para manter acessibilidade. */
+  .site-pill-button:disabled,
+  .button-size-login:disabled {
+    transform: none;
+    box-shadow: none;
   }
 
   /* Mantém estilo textual consistente para botões em páginas internas. */
