@@ -22,15 +22,19 @@ export default function TopNav() {
 
   return (
     <>
-      {/* Exibe botão de menu apenas no mobile para disponibilizar navegação principal. */}
+      {/* Exibe botão de menu apenas no mobile com ícone puro, sem texto visível. */}
       <button
         aria-expanded={isMenuOpen}
         aria-label="Abrir menu principal"
-        className="site-pill-button text-[11px] uppercase tracking-[0.15em] lg:hidden"
+        className={`menu-toggle-button lg:hidden ${isMenuOpen ? "is-open" : ""}`}
         onClick={() => setIsMenuOpen((current) => !current)}
         type="button"
       >
-        Menu
+        <span aria-hidden="true" className="menu-toggle-bar">
+          <span className="menu-toggle-line top" />
+          <span className="menu-toggle-line middle" />
+          <span className="menu-toggle-line bottom" />
+        </span>
       </button>
 
       {/* Mantém navegação horizontal no desktop para preservar o layout editorial. */}
@@ -54,20 +58,21 @@ export default function TopNav() {
         })}
       </nav>
 
-      {/* Renderiza menu em coluna no mobile com fundo sólido para legibilidade. */}
+      {/* Renderiza menu em coluna no mobile com texto vermelho e estilo do mockup. */}
       {isMenuOpen ? (
-        <nav className="absolute inset-x-4 top-[84px] z-40 flex flex-col gap-2 border border-[color:var(--line)] bg-[color:var(--surface)] p-4 shadow-sm lg:hidden">
-          {navigationItems.map((item) => {
+        <nav className="mobile-menu-container absolute inset-x-4 top-[84px] z-40 flex flex-col overflow-hidden rounded-[10px] border border-[color:var(--line)] bg-[color:var(--surface)] shadow-sm lg:hidden">
+          {navigationItems.map((item, index) => {
             const isActive = pathname === item.href;
+            const isLast = index === navigationItems.length - 1;
 
             return (
               <Link
                 key={item.href}
-                className={`border px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] transition ${
+                className={`mobile-menu-item px-5 py-4 text-[11px] font-semibold uppercase tracking-[0.18em] transition ${
                   isActive
-                    ? "border-[color:var(--accent)] text-[color:var(--accent)]"
-                    : "border-[color:var(--line)] text-[color:var(--foreground)]"
-                }`}
+                    ? "text-[#b91c1c]"
+                    : "text-[color:var(--accent)] hover:bg-red-50"
+                } ${isLast ? "border-b-0" : "border-b border-[color:var(--line)]"}`}
                 href={item.href}
                 onClick={closeMenu}
               >

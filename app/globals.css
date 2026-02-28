@@ -31,7 +31,6 @@ body {
   font-family: var(--font-sans);
 }
 
-
 /* Gira texto para orientação vertical usada na barra lateral do hero. */
 .vertical-text {
   writing-mode: vertical-rl;
@@ -83,6 +82,70 @@ body {
   .button-size-login:disabled {
     transform: none;
     box-shadow: none;
+  }
+
+  /* Define botão quadrado com fundo branco para destacar apenas o símbolo vermelho. */
+  .menu-toggle-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border: 1px solid #fecaca;
+    border-radius: 14px;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  /* Aplica hover suave com sombra vermelha para reforçar interatividade. */
+  .menu-toggle-button:hover {
+    box-shadow: 0 0 20px rgb(239 68 68 / 22%);
+    border-color: #f87171;
+  }
+
+  /* Organiza as barras do ícone hamburguer sem texto associado. */
+  .menu-toggle-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    width: 22px;
+    height: 22px;
+  }
+
+  /* Desenha cada traço do símbolo em vermelho e habilita transição para o X. */
+  .menu-toggle-line {
+    display: block;
+    width: 100%;
+    height: 3px;
+    border-radius: 999px;
+    background-color: #dc2626;
+    transition: all 0.35s ease;
+  }
+
+  /* Converte o ícone para X quando o menu abre, mantendo símbolo vermelho. */
+  .menu-toggle-button.is-open .menu-toggle-line.top {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .menu-toggle-button.is-open .menu-toggle-line.middle {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+
+  .menu-toggle-button.is-open .menu-toggle-line.bottom {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* Define o cartão do menu aberto com aparência limpa semelhante à referência visual. */
+  .mobile-menu-container {
+    border-radius: 16px;
+  }
+
+  /* Garante texto vermelho em todas as opções do menu mobile. */
+  .mobile-menu-item {
+    color: #dc2626;
   }
 
   /* Mantém estilo textual consistente para botões em páginas internas. */
