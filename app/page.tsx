@@ -4,18 +4,23 @@ import Link from "next/link";
 export default function HomePage() {
   return (
     <section className="relative grid min-h-[calc(100vh-110px)] gap-8 overflow-hidden px-1 pb-8 pt-1 sm:px-3 lg:min-h-[calc(100vh-120px)] lg:grid-cols-[88px_1fr]">
-      {/* Cria uma camada visual fixa do lado direito para garantir que a foto aparece no hero em desktop. */}
+      {/* Mostra a imagem no desktop sem gradiente para evitar qualquer transparência lateral. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 right-0 hidden w-[min(46vw,620px)] bg-contain bg-right-bottom bg-no-repeat lg:block"
-        style={{
-          backgroundImage:
-            "linear-gradient(to left, rgba(244, 244, 244, 0.15) 0%, rgba(244, 244, 244, 0.45) 24%, rgba(244, 244, 244, 0.88) 100%), url('/images/IMG_2622.png')",
-        }}
-      />
+        className="pointer-events-none absolute inset-y-0 right-0 hidden w-[min(46vw,620px)] lg:block"
+      >
+        <Image
+          alt="Cliente mistério em destaque"
+          className="object-contain object-right-bottom"
+          fill
+          priority
+          sizes="(max-width: 1024px) 0px, min(46vw, 620px)"
+          src="/images/IMG_2622.png"
+        />
+      </div>
 
-      {/* Constrói a coluna lateral com texto vertical e marcadores sociais para aproximar o layout original. */}
-      <aside className="relative z-10 hidden border-r border-[color:var(--line)] py-8 lg:flex lg:flex-col lg:items-center lg:justify-between">
+      {/* Constrói a coluna lateral com texto vertical e marcadores sociais, sem a linha vertical preta. */}
+      <aside className="relative z-10 hidden py-8 lg:flex lg:flex-col lg:items-center lg:justify-between">
         <p className="vertical-text text-[10px] font-semibold uppercase tracking-[0.35em] text-[color:var(--foreground)]">
           Bad Co.
         </p>
@@ -52,7 +57,7 @@ export default function HomePage() {
           </div>
         </article>
 
-        {/* Mostra a foto em bloco dedicado no mobile para evitar transparência e sobreposição com o texto. */}
+        {/* Mostra a foto em bloco dedicado no mobile para evitar sobreposição com o texto. */}
         <div className="relative mx-auto h-[320px] w-full max-w-[360px] lg:hidden">
           <Image
             alt="Cliente mistério em destaque"
