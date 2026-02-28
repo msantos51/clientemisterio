@@ -9,6 +9,7 @@
   --primary-soft: #f0f0f0;
   --accent: #f44336;
   --line: #d5d5d5;
+  --header-control-height: 36px;
   color-scheme: light;
 }
 
@@ -44,9 +45,10 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    height: var(--header-control-height);
     border: 0;
     border-radius: 100px;
-    padding: 12.5px 30px;
+    padding: 0 30px;
     background-color: #dc2626 !important;
     color: #ffffff !important;
     font-size: 0.875rem;
@@ -89,8 +91,8 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 56px;
-    height: 56px;
+    width: var(--header-control-height);
+    height: var(--header-control-height);
     border: 1px solid #fecaca;
     border-radius: 14px;
     background-color: #ffffff;
